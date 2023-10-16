@@ -7,18 +7,23 @@ namespace PROSPERID.Tests.Application.Services;
 
 public class BankAccountServiceTests
 {
+    private readonly Mock<IBankAccountRepository> _mockRepository;
+    public BankAccountServiceTests()
+    {
+        _mockRepository = new();
+    }
+
     [Fact]
     public async Task CreateBankAccount_InvalidInput_ShouldReturnErrorResponse()
     {
-        // Arrange
+        //Arrange
         var createBankAccountDTO = new CreateBankAccountDTO("12345", "", -100.0m);
-        var mockRepository = new Mock<IBankAccountRepository>();
-        var bankAccountService = new BankAccountService(mockRepository.Object);
+        var bankAccountService = new BankAccountService(_mockRepository.Object);
 
-        // Act
+        //Act
         var response = await bankAccountService.CreateBankAccountAsync(createBankAccountDTO);
 
-        // Assert
+        //Assert
         Assert.False(response.IsSuccess);
         Assert.Equal(400, response.Status);
         Assert.NotEmpty(response.Message);
@@ -28,18 +33,17 @@ public class BankAccountServiceTests
     [Fact]
     public async Task CreateBankAccount_ValidInput_ShouldReturnSuccessResponse()
     {
-        // Arrange
+        //Arrange
         PROSPERID.Domain.Entities.BankAccount bankAccount = new("12345", "John Doe", 1000.0m);
         var createBankAccountDTO = new CreateBankAccountDTO("12345", "John Doe", 1000.0m);
-        var mockRepository = new Mock<IBankAccountRepository>();
-        mockRepository.Setup(repo => repo.CreateBankAccountAsync(It.IsAny<PROSPERID.Domain.Entities.BankAccount>()))
+        _mockRepository.Setup(repo => repo.CreateBankAccountAsync(It.IsAny<PROSPERID.Domain.Entities.BankAccount>()))
             .ReturnsAsync(bankAccount);
-        var bankAccountService = new BankAccountService(mockRepository.Object);
+        var bankAccountService = new BankAccountService(_mockRepository.Object);
 
-        // Act
+        //Act
         var response = await bankAccountService.CreateBankAccountAsync(createBankAccountDTO);
 
-        // Assert
+        //Assert
         Assert.True(response.IsSuccess);
         Assert.Equal(200, response.Status);
         Assert.Equal("Conta bancária criada com sucesso!", response.Message);
@@ -49,17 +53,16 @@ public class BankAccountServiceTests
     [Fact]
     public async Task CreateBankAccount_DuplicateAccountNumber_ShouldReturnErrorResponse()
     {
-        // Arrange
+        //Arrange
         var createBankAccountDTO = new CreateBankAccountDTO("12345", "John Doe", 1000.0m);
-        var mockRepository = new Mock<IBankAccountRepository>();
-        mockRepository.Setup(repo => repo.VerifyIfExistsAccount(It.IsAny<string>()))
+        _mockRepository.Setup(repo => repo.VerifyIfExistsAccount(It.IsAny<string>()))
             .ReturnsAsync(true);
-        var bankAccountService = new BankAccountService(mockRepository.Object);
+        var bankAccountService = new BankAccountService(_mockRepository.Object);
 
-        // Act
+        //Act
         var response = await bankAccountService.CreateBankAccountAsync(createBankAccountDTO);
 
-        // Assert
+        //Assert
         Assert.False(response.IsSuccess);
         Assert.Equal(400, response.Status);
         Assert.NotEmpty(response.Message);
@@ -70,15 +73,14 @@ public class BankAccountServiceTests
     [Fact]
     public async Task CreateBankAccount_RepositoryThrowsException_ShouldReturnErrorResponse()
     {
-        // Arrange
+        //Arrange
         var createBankAccountDTO = new CreateBankAccountDTO("12345", "John Doe", 1000.0m);
-        var mockRepository = new Mock<IBankAccountRepository>();
-        var bankAccountService = new BankAccountService(mockRepository.Object);
+        var bankAccountService = new BankAccountService(_mockRepository.Object);
 
-        // Act
+        //Act
         var response = await bankAccountService.CreateBankAccountAsync(createBankAccountDTO);
 
-        // Assert
+        //Assert
         Assert.False(response.IsSuccess);
         Assert.Equal(500, response.Status);
         Assert.Equal("Erro interno!", response.Message);
@@ -88,16 +90,16 @@ public class BankAccountServiceTests
     [Fact]
     public async Task UpdateBankAccount_NonExistentBankAccount_ShouldReturnNotFoundResponse()
     {
-        // Arrange
-        var mockRepository = new Mock<IBankAccountRepository>();
-        var bankAccountService = new BankAccountService(mockRepository.Object);
-        mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>())).ReturnsAsync((PROSPERID.Domain.Entities.BankAccount)null!);
+        //Arrange
+        var bankAccountService = new BankAccountService(_mockRepository.Object);
+        _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync((PROSPERID.Domain.Entities.BankAccount)null!);
         var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "NotExistAccount", 100.00m);
 
-        // Act
+        //Act
         var response = await bankAccountService.UpdateAccountAsync(updateBankAccount);
 
-        // Assert
+        //Assert
         Assert.False(response.IsSuccess);
         Assert.Equal(400, response.Status);
         Assert.Equal($"Não existe a Conta Bancária {updateBankAccount.AccountNumber}", response.Message);
@@ -108,19 +110,18 @@ public class BankAccountServiceTests
     [Fact]
     public async Task UpdateBankAccount_ValidBankAccount_ShouldReturnErrorResponse()
     {
-        // Arrange
-        var mockRepository = new Mock<IBankAccountRepository>();
-        mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
+        //Arrange
+        _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
             .ReturnsAsync(new PROSPERID.Domain.Entities.BankAccount("12345", "Holder", 100.00m));
-        mockRepository.Setup(repo => repo.UpdateBankAccountAsync(It.IsAny<PROSPERID.Domain.Entities.BankAccount>()))
+        _mockRepository.Setup(repo => repo.UpdateBankAccountAsync(It.IsAny<PROSPERID.Domain.Entities.BankAccount>()))
             .ReturnsAsync(new PROSPERID.Domain.Entities.BankAccount("12345", "UpdateName", 100.00m));
-        var bankAccountService = new BankAccountService(mockRepository.Object);
+        var bankAccountService = new BankAccountService(_mockRepository.Object);
         var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "UpdateName", 100.00m);
 
-        // Act
+        //Act
         var response = await bankAccountService.UpdateAccountAsync(updateBankAccount);
 
-        // Assert
+        //Assert
         Assert.True(response.IsSuccess);
         Assert.Equal(200, response.Status);
         Assert.Equal($"Conta Bancária alterada com sucesso!", response.Message);

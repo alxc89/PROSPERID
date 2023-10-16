@@ -8,21 +8,26 @@ namespace PROSPERID.Tests.Application.Services;
 
 public class CategoryServiceTests
 {
-    [Fact]
-    public async Task CreateCategoryValidCategoryReturnsSuccessResponse()
+    private readonly Mock<ICategoryRepository> _mockRepository;
+    public CategoryServiceTests()
     {
-        // Arrange
+        _mockRepository = new();
+    }
+    [Fact]
+    public async Task CreateCategory_ValidCategory_ReturnsSuccessResponse()
+    {
+        //Arrange
         PROSPERID.Domain.Entities.Category category = new("TestCategory");
-        var mockRepository = new Mock<ICategoryRepository>();
-        mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>())).ReturnsAsync(false);
-        var categoryService = new CategoryService(mockRepository.Object);
-        mockRepository.Setup(repo => repo.CreateCategoryAsync(It.IsAny<PROSPERID.Domain.Entities.Category>())).ReturnsAsync(category);
+        _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>())).ReturnsAsync(false);
+        var categoryService = new CategoryService(_mockRepository.Object);
+        _mockRepository.Setup(repo => repo.CreateCategoryAsync(It.IsAny<PROSPERID.Domain.Entities.Category>()))
+            .ReturnsAsync(category);
         var createCategoryDTO = new CreateCategoryDTO("TestCategory");
 
-        // Act
+        //Act
         var result = await categoryService.CreateCategoryAsync(createCategoryDTO);
 
-        // Assert
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(200, result.Status);
         Assert.Equal("Categoria criada com sucesso!", result.Message);
@@ -31,18 +36,16 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async Task CreateCategoryInvalidCategoryReturnsErrorResponse()
+    public async Task CreateCategory_InvalidCategory_ReturnsErrorResponse()
     {
-        // Arrange
-        var mockRepository = new Mock<ICategoryRepository>();
+        //Arrange
+        var categoryService = new CategoryService(_mockRepository.Object);
+        var createCategoryDTO = new CreateCategoryDTO("");
 
-        var categoryService = new CategoryService(mockRepository.Object);
-        var createCategoryDTO = new CreateCategoryDTO(""); // Categoria inválida
-
-        // Act
+        //Act
         var result = await categoryService.CreateCategoryAsync(createCategoryDTO);
 
-        // Assert
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(400, result.Status);
         Assert.Contains("Requisição inválida", result.Message);
@@ -50,20 +53,21 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async Task UpdateCategoryValidCategoryReturnsSuccessResponse()
+    public async Task UpdateCategory_ValidCategory_ReturnsSuccessResponse()
     {
-        // Arrange
-        var mockRepository = new Mock<ICategoryRepository>();
-        mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>())).ReturnsAsync(false);
-        mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>())).ReturnsAsync(new PROSPERID.Domain.Entities.Category("ExistingCategory"));
+        //Arrange
+        _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>()))
+            .ReturnsAsync(false);
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(new PROSPERID.Domain.Entities.Category("ExistingCategory"));
 
-        var categoryService = new CategoryService(mockRepository.Object);
+        var categoryService = new CategoryService(_mockRepository.Object);
         var updateCategoryDTO = new UpdateCategoryDTO(Guid.NewGuid(), "UpdatedCategory");
 
-        // Act
+        //Act
         var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO);
 
-        // Assert
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(200, result.Status);
         Assert.Equal("Categoria atualizada com sucesso!", result.Message);
@@ -72,34 +76,35 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async Task UpdateCategoryIdNotFoundReturnsNotFoundResponse()
+    public async Task UpdateCategory_NotFoundCategory_ReturnsNotFoundResponse()
     {
-        var mockRepository = new Mock<ICategoryRepository>();
-        // Configurar um método personalizado para GetCategoryByIdAsync
-        mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid())).ReturnsAsync((PROSPERID.Domain.Entities.Category)null!);
-        var categoryService = new CategoryService(mockRepository.Object);
+        //Arange
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid()))
+            .ReturnsAsync((PROSPERID.Domain.Entities.Category)null!);
+        var categoryService = new CategoryService(_mockRepository.Object);
         var updateCategoryDTO = new UpdateCategoryDTO(Guid.NewGuid(), "UpdatedCategory");
 
-        //Act: Tentar excluir uma categoria com um id que não existe
+        //Act
         var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO);
-        // Assert: Verificar que o resultado é uma resposta de "Not Found"
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(404, result.Status);
         Assert.Contains("Categoria não encontrada", result.Message);
     }
 
     [Fact]
-    public async Task DeleteCategoryValidCategoryReturnsSuccessResponse()
+    public async Task DeleteCategory_ValidCategory_ReturnsSuccessResponse()
     {
-        // Arrange
-        var mockRepository = new Mock<ICategoryRepository>();
-        mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>())).ReturnsAsync(false);
-        mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>())).ReturnsAsync(new PROSPERID.Domain.Entities.Category("ExistingCategory"));
-        var categoryService = new CategoryService(mockRepository.Object);
+        //Arrange
+        _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>()))
+            .ReturnsAsync(false);
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(new PROSPERID.Domain.Entities.Category("ExistingCategory"));
+        var categoryService = new CategoryService(_mockRepository.Object);
 
         //Act
         var result = await categoryService.DeleteCategoryAsync(Guid.NewGuid());
-        // Assert
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(200, result.Status);
         Assert.Equal("Categoria deletada!", result.Message);
@@ -107,18 +112,17 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async Task DeleteCategoryIdNotFoundReturnsNotFoundResponse()
+    public async Task DeleteCategory_NotFoundCategory_ReturnsNotFoundResponse()
     {
-        var mockRepository = new Mock<ICategoryRepository>();
-        // Configurar um método personalizado para GetCategoryByIdAsync
-        mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid())).ReturnsAsync((PROSPERID.Domain.Entities.Category)null!);
-        var categoryService = new CategoryService(mockRepository.Object);
-        //Act: Tentar excluir uma categoria com um id que não existe
+        //Arrange
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid()))
+            .ReturnsAsync((PROSPERID.Domain.Entities.Category)null!);
+        var categoryService = new CategoryService(_mockRepository.Object);
+        //Act
         var result = await categoryService.DeleteCategoryAsync(Guid.NewGuid());
-        // Assert: Verificar que o resultado é uma resposta de "Not Found"
+        //Assert
         Assert.NotNull(result);
         Assert.Equal(404, result.Status);
         Assert.Contains("Categoria não encontrada", result.Message);
     }
-    // Adicione mais testes para cenários de erro e outros métodos conforme necessário.
 }

@@ -1,8 +1,5 @@
-﻿using PROSPERID.Application.Services.BankAccount;
-using PROSPERID.Application.Services.Category;
-using PROSPERID.Application.Services.DTOs.BankAccount;
+﻿using PROSPERID.Application.Services.Category;
 using PROSPERID.Application.Services.DTOs.Category;
-using PROSPERID.Application.Services.DTOs.FinancialMovement;
 
 namespace PROSPERID.Tests.Application.Services.Category;
 
@@ -11,7 +8,7 @@ public class ValidateCategoryInputTests
     [Fact]
     public void Validate_AllInputValid_ShouldReturnNull()
     {
-        //Arange
+        //Arrange
         var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
         //Act
         var validate = ValidateCategoryInput<CategoryDTO>.Validate(categoryDTO.Name);
@@ -22,7 +19,7 @@ public class ValidateCategoryInputTests
     [Fact]
     public void Validate_NameIsNullOrEmpty_ShouldReturnErrorResponse()
     {
-        //Arange
+        //Arrange
         var categoryDTO = new CategoryDTO(Guid.NewGuid(), "");
         //Act
         var validate = ValidateCategoryInput<CategoryDTO>.Validate(categoryDTO.Name);
@@ -37,7 +34,7 @@ public class ValidateCategoryInputTests
     [Fact]
     public void Validate_ShortName_ShouldReturnErrorResponse()
     {
-        //Arange
+        //Arrange
         var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Cas");
         //Act
         var validate = ValidateCategoryInput<CategoryDTO>.Validate(categoryDTO.Name);
