@@ -1,13 +1,13 @@
 ﻿namespace PROSPERID.Domain.Entities;
 public class Budget : Entity
 {
-    public Budget(string nome, DateTime dataInicio, DateTime dataFim, List<Category> categorias, List<FinancialMovement> transacoes)
+    public Budget(string nome, DateTime dataInicio, DateTime dataFim, List<Category> categorias, List<Transaction> transactions)
     {
         Nome = nome;
         DataInicio = dataInicio;
         DataFim = dataFim;
         Categorias = categorias;
-        Transacoes = transacoes;
+        Transactions = transactions;
     }
 
     // Propriedades
@@ -15,7 +15,7 @@ public class Budget : Entity
     public DateTime DataInicio { get; set; } // Data de início do período orçamentário
     public DateTime DataFim { get; set; } // Data de término do período orçamentário
     public List<Category> Categorias { get; set; } // Lista de categorias de despesas no orçamento
-    public List<FinancialMovement> Transacoes { get; set; } // Lista de transações relacionadas ao orçamento
+    public List<Transaction> Transactions { get; set; } // Lista de transações relacionadas ao orçamento
 
     // Métodos
     public decimal CalcularSaldoDisponivel()
@@ -28,10 +28,10 @@ public class Budget : Entity
         return saldo;
     }
 
-    public void AdicionarTransacao(FinancialMovement transacao)
+    public void AdicionarTransacao(Transaction transacao)
     {
         // Implemente a lógica para adicionar uma transação ao orçamento
-        Transacoes.Add(transacao);
+        Transactions.Add(transacao);
     }
 
     public void AdicionarCategoria(Category categoria)

@@ -3,7 +3,7 @@
 public class Category : Entity
 {
     public string Name { get; set; }
-    public List<FinancialMovement>? FinancialMovements { get; set; }
+    public List<Transaction>? Transactions { get; set; }
 
     public Category(string name) => Name = name;
 

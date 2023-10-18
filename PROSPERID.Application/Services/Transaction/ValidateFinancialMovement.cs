@@ -1,11 +1,11 @@
-﻿using PROSPERID.Application.DTOs.FinancialMovement;
+﻿using PROSPERID.Application.DTOs.Transaction;
 using PROSPERID.Application.Services.Shared;
 
-namespace PROSPERID.Application.Services.FinancialMovement;
+namespace PROSPERID.Application.Services.Transaction;
 
-public static class ValidateFinancialMovement<T>
+public static class ValidateTransaction<T>
 {
-    public static ServiceResponse<T> Validate(FinancialMovementDTO input)
+    public static ServiceResponse<T> Validate(TransactionDTO input)
     {
         if (string.IsNullOrEmpty(input.Description))
             return new ServiceResponse<T>("Requisição inválida, Descrição é obrigatória!", 400);
@@ -13,8 +13,8 @@ public static class ValidateFinancialMovement<T>
             return new ServiceResponse<T>("Requisição inválida, Tipo é obrigatório!", 400);
         if (string.IsNullOrEmpty(input.Amount.ToString()))
             return new ServiceResponse<T>("Requisição inválida, Valor é obrigatório!", 400);
-        if (input?.MovementDate == null)
-            return new ServiceResponse<T>("Requisição inválida, Data do Movimento é obrigatório!", 400);
+        if (input?.TransactionDate == null)
+            return new ServiceResponse<T>("Requisição inválida, Data da Transação é obrigatório!", 400);
         if (input?.DueDate == null)
             return new ServiceResponse<T>("Requisição inválida, Data de Vencimento é obrigatório!", 400);
         return null!;

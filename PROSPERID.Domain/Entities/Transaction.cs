@@ -2,16 +2,16 @@
 
 namespace PROSPERID.Domain.Entities;
 
-public class FinancialMovement : Entity
+public class Transaction : Entity
 {
-    public FinancialMovement(string description, string category, TransactionType type, 
-        decimal amount, DateTime movementDate, DateTime dueDate)
+    public Transaction(string description, string category, TransactionType type, 
+        decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         Description = description;
         Category = category;
         Type = type;
         Amount = amount;
-        MovementDate = movementDate;
+        TransactionDate = transactionDateDate;
         DueDate = dueDate;
         CreatedAt = DateTime.UtcNow;
     }
@@ -20,7 +20,7 @@ public class FinancialMovement : Entity
     public string Category { get; set; }
     public TransactionType Type { get; set; }
     public decimal Amount { get; set; }
-    public DateTime MovementDate { get; set; }
+    public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? PaymentDate { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -49,8 +49,8 @@ public class FinancialMovement : Entity
         if (Type == TransactionType.Receipt)
             return false;
         decimal reverseAmount = Amount * -1;
-        FinancialMovement reverseTransaction = new("Estorno de Pagemento", this.Category, 
-            TransactionType.Receipt, reverseAmount, MovementDate, DueDate);
+        Transaction reverseTransaction = new("Estorno de Pagemento", this.Category, 
+            TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions.Add(reverseTransaction);
         account.Deposit(reverseAmount);
         PaymentDate = null;
@@ -62,8 +62,8 @@ public class FinancialMovement : Entity
         if (Type == TransactionType.Payment)
             return false;
         decimal reverseAmount = Amount * -1;
-        FinancialMovement reverseTransaction = new("Estorno de Recebimento", Category, 
-            TransactionType.Receipt, reverseAmount, MovementDate, DueDate);
+        Transaction reverseTransaction = new("Estorno de Recebimento", Category, 
+            TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions.Add(reverseTransaction);
         account.Withdraw(Amount);
         PaymentDate = null;

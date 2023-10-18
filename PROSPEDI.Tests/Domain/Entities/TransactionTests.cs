@@ -3,7 +3,7 @@ using PROSPERID.Domain.Enums;
 
 namespace PROSPERID.Tests.Domain.Entities;
 
-public class FinancialMovementTests
+public class TransactionTests
 {
     [Fact]
     public void ExecutePaymentShouldDecreaseBalanceWhenSuccessful()
@@ -12,11 +12,11 @@ public class FinancialMovementTests
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
 
-        FinancialMovement financialMovement =
+        Transaction transaction =
             new("Payment", "Category", TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now);
 
         // Act
-        bool result = financialMovement.ExecutePayment(account, DateTime.Now);
+        bool result = transaction.ExecutePayment(account, DateTime.Now);
 
         // Assert
         Assert.True(result);
@@ -30,11 +30,11 @@ public class FinancialMovementTests
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
 
-        FinancialMovement financialMovement =
+        Transaction transaction =
             new("Payment", "Category", TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now.AddDays(-2));
-        financialMovement.ExecutePayment(account, DateTime.Now);
+        transaction.ExecutePayment(account, DateTime.Now);
         // Act
-        bool result = financialMovement.ExecutePaymentCancellation(account);
+        bool result = transaction.ExecutePaymentCancellation(account);
 
         // Assert
         Assert.True(result);
@@ -48,9 +48,9 @@ public class FinancialMovementTests
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
 
-        FinancialMovement financialMovement =
+        Transaction transaction =
             new("Receipt", "Category", TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
-        var result = financialMovement.ExecuteReceipt(account, DateTime.Now);
+        var result = transaction.ExecuteReceipt(account, DateTime.Now);
 
         //Assert
         Assert.True(result);
@@ -64,11 +64,11 @@ public class FinancialMovementTests
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
 
-        FinancialMovement financialMovement =
+        Transaction transaction =
             new("Receipt", "Category", TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
-        financialMovement.ExecuteReceipt(account, DateTime.Now);
+        transaction.ExecuteReceipt(account, DateTime.Now);
         // Act
-        bool result = financialMovement.ExecuteReceiptCancellation(account);
+        bool result = transaction.ExecuteReceiptCancellation(account);
 
         // Assert
         Assert.True(result);

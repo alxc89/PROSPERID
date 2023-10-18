@@ -1,5 +1,5 @@
 ﻿using PROSPERID.Application.DTOs.BankAccount;
-using PROSPERID.Application.DTOs.FinancialMovement;
+using PROSPERID.Application.DTOs.Transaction;
 using PROSPERID.Application.Services.BankAccount;
 
 namespace PROSPERID.Tests.Application.Services.BankAccount;
@@ -10,7 +10,7 @@ public class ValidateBankAccountInputTests
     public void Validate_AllInputValid_ShouldReturnNull()
     {
         //Arrange
-        var bankAccountDTO = new BankAccountDTO("123456", "HolderTest", 0, new List<FinancialMovementDTO>());
+        var bankAccountDTO = new BankAccountDTO("123456", "HolderTest", 0, new List<TransactionDTO>());
         //Act
         var validate = ValidateBankAccountInput<BankAccountDTO>.Validate(bankAccountDTO.AccountNumber, bankAccountDTO.AccountHolder, bankAccountDTO.Balance);
         //Assert
@@ -21,7 +21,7 @@ public class ValidateBankAccountInputTests
     public void Validate_AccountNumberIsNullOrEmpty_ShouldReturnErrorResponse()
     {
         //Arrange
-        var bankAccountDTO = new BankAccountDTO("", "HolderTest", 0, new List<FinancialMovementDTO>());
+        var bankAccountDTO = new BankAccountDTO("", "HolderTest", 0, new List<TransactionDTO>());
         //Act
         var validate = ValidateBankAccountInput<BankAccountDTO>.Validate(bankAccountDTO.AccountNumber, bankAccountDTO.AccountHolder, bankAccountDTO.Balance);
         //Assert
@@ -36,7 +36,7 @@ public class ValidateBankAccountInputTests
     public void Validate_AccountHolderIsNullOrEmpty_ShouldReturnErrorResponse()
     {
         //Arrange
-        var bankAccountDTO = new BankAccountDTO("123456", "", 0, new List<FinancialMovementDTO>());
+        var bankAccountDTO = new BankAccountDTO("123456", "", 0, new List<TransactionDTO>());
         //Act
         var validate = ValidateBankAccountInput<BankAccountDTO>.Validate(bankAccountDTO.AccountNumber, bankAccountDTO.AccountHolder, bankAccountDTO.Balance);
         //Assert
@@ -51,7 +51,7 @@ public class ValidateBankAccountInputTests
     public void Validate_ShortAccountNumber_ShouldReturnErrorResponse()
     {
         //Arrange
-        var bankAccountDTO = new BankAccountDTO("12", "HolderTest", 0, new List<FinancialMovementDTO>());
+        var bankAccountDTO = new BankAccountDTO("12", "HolderTest", 0, new List<TransactionDTO>());
         //Act
         var validate = ValidateBankAccountInput<BankAccountDTO>.Validate(bankAccountDTO.AccountNumber, bankAccountDTO.AccountHolder, bankAccountDTO.Balance);
         //Assert
@@ -66,7 +66,7 @@ public class ValidateBankAccountInputTests
     public void Validate_ShortAccountHolder_ShouldReturnErrorResponse()
     {
         //Arrange
-        var bankAccountDTO = new BankAccountDTO("123456", "Ho", 0, new List<FinancialMovementDTO>());
+        var bankAccountDTO = new BankAccountDTO("123456", "Ho", 0, new List<TransactionDTO>());
         //Act
         var validate = ValidateBankAccountInput<BankAccountDTO>.Validate(bankAccountDTO.AccountNumber, bankAccountDTO.AccountHolder, bankAccountDTO.Balance);
         //Assert
@@ -81,7 +81,7 @@ public class ValidateBankAccountInputTests
     public void Validate_NegativeBalance_ShouldReturnValidationError()
     {
         //Arrange
-        var bankAccountDTO = new BankAccountDTO("123456", "HolderTest", -100.00m, new List<FinancialMovementDTO>());
+        var bankAccountDTO = new BankAccountDTO("123456", "HolderTest", -100.00m, new List<TransactionDTO>());
         //Act
         var validate = ValidateBankAccountInput<BankAccountDTO>.Validate(bankAccountDTO.AccountNumber, bankAccountDTO.AccountHolder, bankAccountDTO.Balance);
         //Assert
