@@ -1,4 +1,4 @@
-﻿using PROSPERID.Application.Services.DTOs.Category;
+﻿using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.Services.Shared;
 
 namespace PROSPERID.Application.Services.Category;

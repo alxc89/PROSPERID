@@ -1,6 +1,6 @@
-﻿using PROSPERID.Application.Services.BankAccount;
-using PROSPERID.Application.Services.DTOs.BankAccount;
-using PROSPERID.Application.Services.DTOs.FinancialMovement;
+﻿using PROSPERID.Application.DTOs.BankAccount;
+using PROSPERID.Application.DTOs.FinancialMovement;
+using PROSPERID.Application.Services.BankAccount;
 
 namespace PROSPERID.Tests.Application.Services.BankAccount;
 

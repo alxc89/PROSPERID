@@ -1,6 +1,6 @@
-﻿using PROSPERID.Application.Services.DTOs.FinancialMovement;
+﻿using PROSPERID.Application.DTOs.FinancialMovement;
 
-namespace PROSPERID.Application.Services.DTOs.BankAccount;
+namespace PROSPERID.Application.DTOs.BankAccount;
 
 public class BankAccountDTO
 {

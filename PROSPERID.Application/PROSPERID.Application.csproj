@@ -11,8 +11,4 @@
     <ProjectReference Include="..\PROSPERID.Infra\PROSPERID.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Interfaces\" />
-  </ItemGroup>
-
 </Project>

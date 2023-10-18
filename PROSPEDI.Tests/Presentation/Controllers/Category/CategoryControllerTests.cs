@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
+using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.Services.Category;
-using PROSPERID.Application.Services.DTOs.Category;
 using PROSPERID.Application.Services.Shared;
 using PROSPERID.Presentation.Controllers.Category;
 

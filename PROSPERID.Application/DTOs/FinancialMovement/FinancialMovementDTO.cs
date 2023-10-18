@@ -1,6 +1,6 @@
 ﻿using PROSPERID.Domain.Enums;
 
-namespace PROSPERID.Application.Services.DTOs.FinancialMovement;
+namespace PROSPERID.Application.DTOs.FinancialMovement;
 
 public class FinancialMovementDTO
 {

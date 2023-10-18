@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.Services.Category;
-using PROSPERID.Application.Services.DTOs.Category;
 
 namespace PROSPERID.Presentation.Controllers.Category;
 

@@ -1,5 +1,5 @@
-﻿using PROSPERID.Application.Services.Category;
-using PROSPERID.Application.Services.DTOs.Category;
+﻿using PROSPERID.Application.DTOs.Category;
+using PROSPERID.Application.Services.Category;
 
 namespace PROSPERID.Tests.Application.Services.Category;
 

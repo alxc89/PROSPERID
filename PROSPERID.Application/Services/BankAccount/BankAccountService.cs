@@ -1,4 +1,4 @@
-﻿using PROSPERID.Application.Services.DTOs.BankAccount;
+﻿using PROSPERID.Application.DTOs.BankAccount;
 using PROSPERID.Application.Services.Shared;
 using PROSPERID.Domain.Interface.Repositories;
 
