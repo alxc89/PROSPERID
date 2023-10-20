@@ -4,7 +4,7 @@ namespace PROSPERID.Domain.Entities;
 
 public class Transaction : Entity
 {
-    public Transaction(string description, string category, TransactionType type, 
+    public Transaction(string description, string category, TransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         Description = description;
@@ -25,6 +25,17 @@ public class Transaction : Entity
     public DateTime? PaymentDate { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+
+    public void Update(string description, string category, TransactionType type,
+        decimal amount, DateTime transactionDateDate, DateTime dueDate)
+    {
+        Description = description;
+        Category = category;
+        Type = type;
+        Amount = amount;
+        TransactionDate = transactionDateDate;
+        DueDate = dueDate;
+    }
 
     public bool ExecutePayment(BankAccount account, DateTime datePayment)
     {
@@ -49,7 +60,7 @@ public class Transaction : Entity
         if (Type == TransactionType.Receipt)
             return false;
         decimal reverseAmount = Amount * -1;
-        Transaction reverseTransaction = new("Estorno de Pagemento", this.Category, 
+        Transaction reverseTransaction = new("Estorno de Pagemento", this.Category,
             TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions.Add(reverseTransaction);
         account.Deposit(reverseAmount);
@@ -62,7 +73,7 @@ public class Transaction : Entity
         if (Type == TransactionType.Payment)
             return false;
         decimal reverseAmount = Amount * -1;
-        Transaction reverseTransaction = new("Estorno de Recebimento", Category, 
+        Transaction reverseTransaction = new("Estorno de Recebimento", Category,
             TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions.Add(reverseTransaction);
         account.Withdraw(Amount);
