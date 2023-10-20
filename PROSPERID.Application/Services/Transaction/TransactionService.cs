@@ -10,6 +10,36 @@ public class TransactionService : ITransactionService
     public TransactionService(ITransactionRepository transactionRepository)
         => _repository = transactionRepository;
 
+    public async Task<ServiceResponse<TransactionDTO>> GetTransactionByIdAsync(Guid id)
+    {
+        try
+        {
+            TransactionDTO transactionDTO = await _repository.GetTransactionByIdAsync(id);
+            if (transactionDTO == null)
+                return ServiceResponseHelper.Error<TransactionDTO>(404, "Transação não foi localizada");
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", transactionDTO);
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<TransactionDTO>(500, "Erro interno!");
+        }
+    }
+
+    public async Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsAsync()
+    {
+        try
+        {
+            IEnumerable<TransactionDTO> transactionDTO = (IEnumerable<TransactionDTO>)await _repository.GetTransactionsAsync();
+            if (!transactionDTO.Any())
+                return ServiceResponseHelper.Error<IEnumerable<TransactionDTO>>(404, "Transação não foi localizada");
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", transactionDTO);
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<IEnumerable<TransactionDTO>>(500, "Erro interno!");
+        }
+    }
+
     public async Task<ServiceResponse<TransactionDTO>> CreateTransactionAsync(CreateTransactionDTO createTransaction)
     {
         var validate = ValidateTransaction<CreateTransactionDTO>
@@ -33,23 +63,41 @@ public class TransactionService : ITransactionService
         }
     }
 
-    public Task<ServiceResponse<TransactionDTO>> DeleteTransactionAsync(Guid id)
+    public async Task<ServiceResponse<TransactionDTO>> UpdateTransactionAsync(UpdateTransactionDTO updateTransactionDTO)
     {
-        throw new NotImplementedException();
+        var validate = ValidateTransaction<UpdateTransactionDTO>
+             .Validate(updateTransactionDTO);
+        if (validate != null)
+            return ServiceResponseHelper.Error<TransactionDTO>(validate.Status, validate.Message);
+        Domain.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(updateTransactionDTO.Id);
+        transaction.Update(updateTransactionDTO.Description, updateTransactionDTO.Category, updateTransactionDTO.Type,
+            updateTransactionDTO.Amount, updateTransactionDTO.TransactionDate, updateTransactionDTO.DueDate);
+        try
+        {
+            TransactionDTO result = await _repository.UpdateTransactionAsync(transaction);
+            return ServiceResponseHelper.Success(200, "Movimento criado com sucesso!", result);
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<TransactionDTO>(500, "Erro interno!");
+        }
     }
 
-    public Task<ServiceResponse<IEnumerable<TransactionDTO>>> GetTransactionsAsync()
+    public async Task<ServiceResponse<TransactionDTO>> DeleteTransactionAsync(Guid id)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<ServiceResponse<TransactionDTO>> GetTransactionByIdAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<ServiceResponse<TransactionDTO>> UpdateTransactionAsync(UpdateTransactionDTO updateTransactionDTO)
-    {
-        throw new NotImplementedException();
+        Domain.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(id);
+        if (transaction == null)
+            return ServiceResponseHelper.Error<TransactionDTO>(404, "Transação não foi localizada");
+        if (transaction.PaymentDate is not null)
+            return ServiceResponseHelper.Error<TransactionDTO>(400, "Transação está paga, não pode ser deletada!");
+        try
+        {
+            var transactionDeleted = await _repository.DeleteTransactionAsync(id);
+            return ServiceResponseHelper.Success<TransactionDTO>(200, "Transação deletada!");
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<TransactionDTO>(500, "Erro interno!");
+        }
     }
 }

@@ -10,6 +10,36 @@ public class BankAccountService : IBankAccountService
     public BankAccountService(IBankAccountRepository bankAccountRepository)
         => _bankAccountRepository = bankAccountRepository;
 
+    public async Task<ServiceResponse<BankAccountDTO>> GetBankAccountByIdAsync(Guid id)
+    {
+        try
+        {
+            BankAccountDTO bankAccount = await _bankAccountRepository.GetBankAccountByIdAsync(id);
+            if (bankAccount == null)
+                return ServiceResponseHelper.Error<BankAccountDTO>(404, "Conta Bancária Não foi localizada!");
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", bankAccount);
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<BankAccountDTO>(500, "Erro interno!");
+        }
+    }
+
+    public async Task<ServiceResponse<IEnumerable<BankAccountDTO>>> GetBankAccountsAsync()
+    {
+        try
+        {
+            IEnumerable<BankAccountDTO> bankAccount = (IEnumerable<BankAccountDTO>)await _bankAccountRepository.GetBankAccountsAsync();
+            if (bankAccount == null)
+                return ServiceResponseHelper.Error<IEnumerable<BankAccountDTO>>(404, "Conta Bancária Não foi localizada!");
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", bankAccount);
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<IEnumerable<BankAccountDTO>>(500, "Erro interno!");
+        }
+    }
+
     public async Task<ServiceResponse<BankAccountDTO>> CreateBankAccountAsync(CreateBankAccountDTO createBankAccountDTO)
     {
         var validate = ValidateBankAccountInput<BankAccountDTO>
@@ -57,37 +87,7 @@ public class BankAccountService : IBankAccountService
             return ServiceResponseHelper.Error<BankAccountDTO>(500, "Erro interno!");
         }
     }
-
-    public async Task<ServiceResponse<BankAccountDTO>> GetBankAccountByIdAsync(Guid id)
-    {
-        try
-        {
-            BankAccountDTO bankAccount = await _bankAccountRepository.GetBankAccountByIdAsync(id);
-            if (bankAccount == null)
-                return ServiceResponseHelper.Error<BankAccountDTO>(404, "Conta Bancária Não foi localizada!");
-            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", bankAccount);
-        }
-        catch
-        {
-            return ServiceResponseHelper.Error<BankAccountDTO>(500, "Erro interno!");
-        }
-    }
-
-    public async Task<ServiceResponse<IEnumerable<BankAccountDTO>>> GetBankAccountsAsync()
-    {
-        try
-        {
-            IEnumerable<BankAccountDTO> bankAccount = (IEnumerable<BankAccountDTO>)await _bankAccountRepository.GetBankAccountsAsync();
-            if (bankAccount == null)
-                return ServiceResponseHelper.Error<IEnumerable<BankAccountDTO>>(404, "Conta Bancária Não foi localizada!");
-            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", bankAccount);
-        }
-        catch
-        {
-            return ServiceResponseHelper.Error<IEnumerable<BankAccountDTO>>(500, "Erro interno!");
-        }
-    }
-
+    
     public async Task<ServiceResponse<BankAccountDTO>> DeleteBankAccountAsync(Guid id)
     {
         try
