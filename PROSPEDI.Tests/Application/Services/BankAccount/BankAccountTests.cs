@@ -108,7 +108,7 @@ public class BankAccountServiceTests
     }
 
     [Fact]
-    public async Task UpdateBankAccount_ValidBankAccount_ShouldReturnErrorResponse()
+    public async Task UpdateBankAccount_ValidBankAccount_ShouldReturnSuccessResponse()
     {
         //Arrange
         _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
