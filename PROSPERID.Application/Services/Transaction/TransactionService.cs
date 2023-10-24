@@ -70,12 +70,14 @@ public class TransactionService : ITransactionService
         if (validate != null)
             return ServiceResponseHelper.Error<TransactionDTO>(validate.Status, validate.Message);
         Domain.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(updateTransactionDTO.Id);
+        if (transaction == null)
+            return ServiceResponseHelper.Error<TransactionDTO>(404, "Requisição inválida, Transação não encontrada");
         transaction.Update(updateTransactionDTO.Description, updateTransactionDTO.Category, updateTransactionDTO.Type,
             updateTransactionDTO.Amount, updateTransactionDTO.TransactionDate, updateTransactionDTO.DueDate);
         try
         {
             TransactionDTO result = await _repository.UpdateTransactionAsync(transaction);
-            return ServiceResponseHelper.Success(200, "Movimento criado com sucesso!", result);
+            return ServiceResponseHelper.Success(200, "Transação alterada com sucesso!", result);
         }
         catch
         {
