@@ -29,6 +29,8 @@ public class Transaction : Entity
     public void Update(string description, string category, TransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
+        //if (PaymentDate.HasValue)
+        //    throw new Exception("Transação paga, não é possível alterar!");
         Description = description;
         Category = category;
         Type = type;
