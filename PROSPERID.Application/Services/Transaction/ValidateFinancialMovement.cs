@@ -11,7 +11,7 @@ public static class ValidateTransaction<T>
             return new ServiceResponse<T>("Requisição inválida, Descrição é obrigatória!", 400);
         if (string.IsNullOrEmpty(input.Type.ToString()))
             return new ServiceResponse<T>("Requisição inválida, Tipo é obrigatório!", 400);
-        if (string.IsNullOrEmpty(input.Amount.ToString()))
+        if (input?.Amount is null)
             return new ServiceResponse<T>("Requisição inválida, Valor é obrigatório!", 400);
         if (input?.TransactionDate == null)
             return new ServiceResponse<T>("Requisição inválida, Data da Transação é obrigatório!", 400);
