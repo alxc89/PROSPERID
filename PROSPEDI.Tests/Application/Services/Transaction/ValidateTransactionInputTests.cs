@@ -25,7 +25,8 @@ public class ValidateTransactionInputTests
     public void Validate_DescriptionEmpty_ShouldReturnErrorResponse()
     {
         //Arrange
-        var transactionDTO = new TransactionDTO("", "Carro",
+        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Carro");
+        var transactionDTO = new TransactionDTO("", categoryDTO,
             TransactionType.Payment, -850.00m, DateTime.Now,
             DateTime.Now.AddDays(2));
         //Act

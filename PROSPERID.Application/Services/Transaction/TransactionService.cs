@@ -46,8 +46,9 @@ public class TransactionService : ITransactionService
             .Validate(createTransaction);
         if (validate != null)
             return ServiceResponseHelper.Error<TransactionDTO>(validate.Status, validate.Message);
+        Domain.Entities.Category category = new(createTransaction.Category.Name);
         var transaction = new Domain.Entities.Transaction(createTransaction.Description,
-            createTransaction.Category, createTransaction.Type, createTransaction.Amount,
+            category, createTransaction.Type, createTransaction.Amount,
             createTransaction.TransactionDate, createTransaction.DueDate);
         if (await _repository.ExistsTransaction(transaction))
             return ServiceResponseHelper.Error<TransactionDTO>(400, "Já existe Movimento cadastrado com as mesmas informações!");
@@ -72,7 +73,8 @@ public class TransactionService : ITransactionService
         Domain.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(updateTransactionDTO.Id);
         if (transaction == null)
             return ServiceResponseHelper.Error<TransactionDTO>(404, "Requisição inválida, Transação não encontrada");
-        transaction.Update(updateTransactionDTO.Description, updateTransactionDTO.Category, updateTransactionDTO.Type,
+
+        transaction.Update(updateTransactionDTO.Description, updateTransactionDTO.Category.Id, updateTransactionDTO.Type,
             updateTransactionDTO.Amount, updateTransactionDTO.TransactionDate, updateTransactionDTO.DueDate);
         try
         {

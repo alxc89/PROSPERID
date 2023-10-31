@@ -4,7 +4,7 @@ namespace PROSPERID.Domain.Entities;
 
 public class Transaction : Entity
 {
-    public Transaction(string description, string category, TransactionType type,
+    public Transaction(string description, Category category, TransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         Description = description;
@@ -17,22 +17,23 @@ public class Transaction : Entity
     }
 
     public string Description { get; set; }
-    public string Category { get; set; }
     public TransactionType Type { get; set; }
     public decimal Amount { get; set; }
     public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? PaymentDate { get; set; }
+    public Guid IdCategory { get; set; }
+    public Category Category { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
-    public void Update(string description, string category, TransactionType type,
+    public void Update(string description, Guid idCategory, TransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         //if (PaymentDate.HasValue)
         //    throw new Exception("Transação paga, não é possível alterar!");
         Description = description;
-        Category = category;
+        IdCategory = idCategory;
         Type = type;
         Amount = amount;
         TransactionDate = transactionDateDate;
