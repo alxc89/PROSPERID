@@ -16,13 +16,18 @@ public class Transaction : Entity
         CreatedAt = DateTime.UtcNow;
     }
 
+    public Transaction()
+    {
+        
+    }
+
     public string Description { get; set; }
     public TransactionType Type { get; set; }
     public decimal Amount { get; set; }
     public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? PaymentDate { get; set; }
-    public Guid IdCategory { get; set; }
+    public Guid CategoryId { get; set; }
     public Category Category { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
@@ -33,7 +38,7 @@ public class Transaction : Entity
         //if (PaymentDate.HasValue)
         //    throw new Exception("Transação paga, não é possível alterar!");
         Description = description;
-        IdCategory = idCategory;
+        CategoryId = idCategory;
         Type = type;
         Amount = amount;
         TransactionDate = transactionDateDate;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PROSPERID.Domain.Entities;
 using PROSPERID.Infra.Configuration;
+using PROSPERID.Infra.ExtensionsMethods;
 
 namespace PROSPERID.Infra.Context;
 
@@ -17,5 +18,6 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ConfigureOwnedTypeNavigationsAsRequired();
     }
 }

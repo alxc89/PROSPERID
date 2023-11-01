@@ -19,6 +19,6 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         builder.HasMany(c => c.Transactions)
              .WithOne(c => c.Category)
-             .HasForeignKey(c => c.Id);
+             .HasForeignKey(c => c.CategoryId);
     }
 }
