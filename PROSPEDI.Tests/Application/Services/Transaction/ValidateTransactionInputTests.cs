@@ -12,7 +12,8 @@ public class ValidateTransactionInputTests
     public void Validate_AllInputValid_ShouldReturnNull()
     {
         //Arrange
-        var transactionDTO = new TransactionDTO("Pagamento Carro", "Carro",
+        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Carro");
+        var transactionDTO = new TransactionDTO("Pagamento Carro", categoryDTO,
             TransactionType.Payment, -850.00m, DateTime.Now,
             DateTime.Now.AddDays(2));
         //Act
@@ -42,7 +43,8 @@ public class ValidateTransactionInputTests
     public void Validate_DescriptionNull_ShouldReturnErrorResponse()
     {
         //Arrange
-        var transactionDTO = new TransactionDTO(null!, "Carro",
+        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Carro");
+        var transactionDTO = new TransactionDTO(null!, categoryDTO,
             TransactionType.Payment, -850.00m, DateTime.Now,
             DateTime.Now.AddDays(2));
         //Act

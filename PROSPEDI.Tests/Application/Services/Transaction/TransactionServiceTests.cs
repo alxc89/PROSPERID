@@ -157,7 +157,7 @@ public class TransactionServiceTests
 
         //Assert
         Assert.NotNull(result);
-        Assert.Equal(400, result.Status);
+        Assert.Equal(404, result.Status);
         Assert.NotEmpty(result.Message);
         Assert.Null(result.Data);
     }

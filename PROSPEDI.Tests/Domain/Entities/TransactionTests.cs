@@ -11,9 +11,9 @@ public class TransactionTests
         // Arrange
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
-
+        Category category = new("Category");
         Transaction transaction =
-            new("Payment", "Category", TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now);
+            new("Payment", category, TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now);
 
         // Act
         bool result = transaction.ExecutePayment(account, DateTime.Now);
@@ -29,9 +29,9 @@ public class TransactionTests
         // Arrange
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
-
+        Category category = new("Category");
         Transaction transaction =
-            new("Payment", "Category", TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now.AddDays(-2));
+            new("Payment", category, TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now.AddDays(-2));
         transaction.ExecutePayment(account, DateTime.Now);
         // Act
         bool result = transaction.ExecutePaymentCancellation(account);
@@ -47,9 +47,9 @@ public class TransactionTests
         // Arrange
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
-
+        Category category = new("Category");
         Transaction transaction =
-            new("Receipt", "Category", TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
+            new("Receipt", category, TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
         var result = transaction.ExecuteReceipt(account, DateTime.Now);
 
         //Assert
@@ -63,9 +63,9 @@ public class TransactionTests
         // Arrange
         decimal initialBalance = 100.00m;
         BankAccount account = new("123456", "Alex", initialBalance);
-
+        Category category = new("Category");
         Transaction transaction =
-            new("Receipt", "Category", TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
+            new("Receipt", category, TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
         transaction.ExecuteReceipt(account, DateTime.Now);
         // Act
         bool result = transaction.ExecuteReceiptCancellation(account);
