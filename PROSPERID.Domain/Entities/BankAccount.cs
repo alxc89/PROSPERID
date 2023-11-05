@@ -7,7 +7,7 @@ public class BankAccount : Entity
     public string AccountNumber { get; set; } // Número da conta bancária
     public string AccountHolder { get; set; } // Nome do titular da conta
     public decimal Balance { get; set; } // Saldo da conta
-    public List<Transaction> Transactions { get; set; } // Lista de transações relacionadas à conta bancária
+    public List<Transaction>? Transactions { get; set; } // Lista de transações relacionadas à conta bancária
 
     // Construtor
     public BankAccount(string accountNumber, string accountHolder, decimal initialValue)
@@ -16,6 +16,11 @@ public class BankAccount : Entity
         AccountHolder = accountHolder;
         Deposit(initialValue);
         Transactions = new List<Transaction>();
+    }
+
+    protected BankAccount()
+    {
+        
     }
 
     public void Update(string accountNumber, string accountHolder, decimal balance)

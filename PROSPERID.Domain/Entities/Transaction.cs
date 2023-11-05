@@ -13,12 +13,12 @@ public class Transaction : Entity
         Amount = amount;
         TransactionDate = transactionDateDate;
         DueDate = dueDate;
-        CreatedAt = DateTime.UtcNow;
+        BankAccounts = new List<BankAccount>();
     }
 
-    public Transaction()
+    protected Transaction()
     {
-        
+
     }
 
     public string Description { get; set; }
@@ -29,8 +29,7 @@ public class Transaction : Entity
     public DateTime? PaymentDate { get; set; }
     public Guid CategoryId { get; set; }
     public Category Category { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public ICollection<BankAccount> BankAccounts { get; set; }
 
     public void Update(string description, Guid idCategory, TransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
@@ -43,6 +42,7 @@ public class Transaction : Entity
         Amount = amount;
         TransactionDate = transactionDateDate;
         DueDate = dueDate;
+        UpdatedAt = DateTime.Now;
     }
 
     public bool ExecutePayment(BankAccount account, DateTime datePayment)

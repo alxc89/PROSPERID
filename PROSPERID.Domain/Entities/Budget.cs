@@ -8,6 +8,7 @@ public class Budget : Entity
         DataFim = dataFim;
         Categorias = categorias;
         Transactions = transactions;
+        CreatedAt = DateTime.Now;
     }
 
     // Propriedades
