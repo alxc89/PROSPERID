@@ -22,7 +22,7 @@ public class CategoryControllerTests
         var controller = new CategoryController(categoryServiceMock.Object);
 
         // Act
-        var result = await controller.CreateAsync(createCategoryDTO) as ObjectResult;
+        var result = await controller.Post(createCategoryDTO) as ObjectResult;
 
         // Assert
         Assert.NotNull(result);
