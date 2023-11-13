@@ -81,4 +81,15 @@ public class CategoryService : ICategoryService
 
         return ServiceResponseHelper.Success(200, "Retornado com sucesso", new CategoryDTO(category.Id, category.Name));
     }
+
+    public async Task<ServiceResponse<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+    {
+        var categories = await _repository.GetCategoryAsync();
+        List<CategoryDTO> categoriesDTO = new();
+        if (!categories.Any())
+            return ServiceResponseHelper.Error<IEnumerable<CategoryDTO>>(404, "Requisição inválida, Nenhuma Categoria não encontrada!");
+        foreach (var category in categories)
+            categoriesDTO.Add(category);
+        return ServiceResponseHelper.Success(200, "Retornado com sucesso", (IEnumerable<CategoryDTO>)categoriesDTO);
+    }
 }
