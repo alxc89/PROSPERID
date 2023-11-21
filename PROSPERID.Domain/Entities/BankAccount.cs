@@ -30,6 +30,7 @@ public class BankAccount : Entity
         if (balance < 0)
             throw new NegativeBalanceException();
         Balance = balance;
+        UpdatedAt = DateTime.Now;
     }
 
     public void Deposit(decimal amount)
