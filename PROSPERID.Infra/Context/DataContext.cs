@@ -13,6 +13,8 @@ public class DataContext : DbContext
     }
 
     public DbSet<Category> Categories { get; set; }
+    public DbSet<BankAccount> BankAccounts { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
