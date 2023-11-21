@@ -14,10 +14,10 @@ public class BankAccountService : IBankAccountService
     {
         try
         {
-            BankAccountDTO bankAccount = await _bankAccountRepository.GetBankAccountByIdAsync(id);
+            var bankAccount = await _bankAccountRepository.GetBankAccountByIdAsync(id);
             if (bankAccount == null)
                 return ServiceResponseHelper.Error<BankAccountDTO>(404, "Conta Bancária Não foi localizada!");
-            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", bankAccount);
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", (BankAccountDTO)bankAccount);
         }
         catch
         {
@@ -29,10 +29,13 @@ public class BankAccountService : IBankAccountService
     {
         try
         {
-            IEnumerable<BankAccountDTO> bankAccount = (IEnumerable<BankAccountDTO>)await _bankAccountRepository.GetBankAccountsAsync();
-            if (bankAccount == null)
+            var bankAccounts = await _bankAccountRepository.GetBankAccountsAsync();
+            List<BankAccountDTO> bankAccountsDTO = new();
+            if (!bankAccounts.Any())
                 return ServiceResponseHelper.Error<IEnumerable<BankAccountDTO>>(404, "Conta Bancária Não foi localizada!");
-            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", bankAccount);
+            foreach (var bankAccount in bankAccounts)
+                bankAccountsDTO.Add(bankAccount);
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", (IEnumerable<BankAccountDTO>)bankAccountsDTO);
         }
         catch
         {
@@ -64,7 +67,7 @@ public class BankAccountService : IBankAccountService
         }
     }
 
-    public async Task<ServiceResponse<BankAccountDTO>> UpdateAccountAsync(UpdateBankAccountDTO updateBankAccountDTO)
+    public async Task<ServiceResponse<BankAccountDTO>> UpdateBankAccountAsync(UpdateBankAccountDTO updateBankAccountDTO)
     {
         var validate = ValidateBankAccountInput<BankAccountDTO>
             .Validate(updateBankAccountDTO.AccountNumber, updateBankAccountDTO.AccountHolder, updateBankAccountDTO.Balance);
@@ -87,7 +90,7 @@ public class BankAccountService : IBankAccountService
             return ServiceResponseHelper.Error<BankAccountDTO>(500, "Erro interno!");
         }
     }
-    
+
     public async Task<ServiceResponse<BankAccountDTO>> DeleteBankAccountAsync(Guid id)
     {
         try
