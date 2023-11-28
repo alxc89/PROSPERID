@@ -5,11 +5,10 @@ namespace PROSPERID.Application.DTOs.Transaction;
 
 public class UpdateTransactionDTO : TransactionDTO
 {
-    public UpdateTransactionDTO(Guid id, string description, CategoryDTO category, TransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate)
-        : base(description, category, type, amount, transactionDate, dueDate)
+    public UpdateTransactionDTO(Guid id, string description, TransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate, CategoryDTO category)
+        : base(description, type, amount, transactionDate, dueDate, category)
     {
         Id = id;
     }
-
     public Guid Id { get; set; }
 }

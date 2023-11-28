@@ -1,5 +1,6 @@
 ﻿using PROSPERID.Application.Services.BankAccount;
 using PROSPERID.Application.Services.Category;
+using PROSPERID.Application.Services.Transaction;
 using PROSPERID.Domain.Interface.Repositories;
 using PROSPERID.Infra.Repositories;
 
@@ -13,5 +14,7 @@ public static class DependecyInjectionConfig
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IBankAccountRepository, BankAccountRepository>();
         services.AddScoped<IBankAccountService, BankAccountService>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<ITransactionService, TransactionService>();
     }
 }

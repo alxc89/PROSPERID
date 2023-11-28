@@ -97,7 +97,7 @@ public class BankAccountServiceTests
         var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "NotExistAccount", 100.00m);
 
         //Act
-        var response = await bankAccountService.UpdateAccountAsync(updateBankAccount);
+        var response = await bankAccountService.UpdateBankAccountAsync(updateBankAccount);
 
         //Assert
         Assert.False(response.IsSuccess);
@@ -119,7 +119,7 @@ public class BankAccountServiceTests
         var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "UpdateName", 100.00m);
 
         //Act
-        var response = await bankAccountService.UpdateAccountAsync(updateBankAccount);
+        var response = await bankAccountService.UpdateBankAccountAsync(updateBankAccount);
 
         //Assert
         Assert.True(response.IsSuccess);

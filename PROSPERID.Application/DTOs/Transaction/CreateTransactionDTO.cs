@@ -5,9 +5,9 @@ namespace PROSPERID.Application.DTOs.Transaction;
 
 public class CreateTransactionDTO : TransactionDTO
 {
-    public CreateTransactionDTO(string description, CategoryDTO category, TransactionType type, 
-        decimal amount, DateTime transactionDate, DateTime dueDate) 
-        : base(description, category, type, amount, transactionDate, dueDate)
+    public CreateTransactionDTO(string description, TransactionType type,
+        decimal amount, DateTime transactionDate, DateTime dueDate, CategoryDTO categoryDTO)
+        : base(description, type, amount, transactionDate, dueDate, categoryDTO)
     {
     }
 }

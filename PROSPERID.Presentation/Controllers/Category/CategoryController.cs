@@ -53,9 +53,9 @@ public class CategoryController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var updateCategory = await _categoryService.DeleteCategoryAsync(id);
-        if (!updateCategory.IsSuccess)
-            return BadRequest(updateCategory?.Message);
-        return Ok(updateCategory.Message);
+        var deleteCategory = await _categoryService.DeleteCategoryAsync(id);
+        if (!deleteCategory.IsSuccess)
+            return BadRequest(deleteCategory?.Message);
+        return Ok(deleteCategory.Message);
     }
 }
