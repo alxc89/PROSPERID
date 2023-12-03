@@ -2,6 +2,7 @@
 using PROSPERID.Application.ModelViews;
 using PROSPERID.Application.Services.Shared;
 using PROSPERID.Domain.Interface.Repositories;
+using System.Collections.Generic;
 
 namespace PROSPERID.Application.Services.Transaction;
 
@@ -19,10 +20,10 @@ public class TransactionService : ITransactionService
     {
         try
         {
-            TransactionDTO transactionDTO = await _repository.GetTransactionByIdAsync(id);
-            if (transactionDTO == null)
+            TransactionView transactionView = await _repository.GetTransactionByIdAsync(id);
+            if (transactionView == null)
                 return ServiceResponseHelper.Error<TransactionView>(404, "Transação não foi localizada");
-            return ServiceResponseHelper.Success<TransactionView>(200, "Busca realizada com sucesso!", transactionDTO);
+            return ServiceResponseHelper.Success<TransactionView>(200, "Busca realizada com sucesso!", transactionView);
         }
         catch
         {
@@ -34,10 +35,13 @@ public class TransactionService : ITransactionService
     {
         try
         {
-            IEnumerable<TransactionView> transactionDTO = (IEnumerable<TransactionView>)await _repository.GetTransactionsAsync();
-            if (!transactionDTO.Any())
+            var transaction = await _repository.GetTransactionsAsync();
+            if (!transaction.Any())
                 return ServiceResponseHelper.Error<IEnumerable<TransactionView>>(404, "Transação não foi localizada");
-            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", transactionDTO);
+            List<TransactionView> transactionViews = new();
+            foreach (var item in transaction)
+                transactionViews.Add(item);
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", (IEnumerable<TransactionView>)transactionViews);
         }
         catch
         {

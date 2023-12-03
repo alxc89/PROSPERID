@@ -47,14 +47,36 @@ public class TransactionRepository : ITransactionRepository
         }
     }
 
-    public Task<Transaction> GetTransactionByIdAsync(Guid id)
+    public async Task<Transaction?> GetTransactionByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var transaction = _context.Transactions;
+            var result = await transaction
+                .Include(c => c.Category)
+                .SingleOrDefaultAsync(t => t.Id == id);
+            return result;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Erro interno!");
+        }
     }
 
-    public Task<IEnumerable<Transaction>> GetTransactionsAsync()
+    public async Task<IEnumerable<Transaction>> GetTransactionsAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var transactions = await _context
+                .Transactions
+                .Include(c => c.Category)
+                .ToListAsync();
+            return transactions;
+        }
+        catch
+        {
+            throw new Exception("Erro interno!");
+        }
     }
 
     public Task<Transaction> UpdateTransactionAsync(Transaction transaction)

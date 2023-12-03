@@ -1,5 +1,6 @@
 ﻿using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.DTOs.Transaction;
+using PROSPERID.Domain.Entities;
 using PROSPERID.Domain.Enums;
 
 namespace PROSPERID.Application.ModelViews;
@@ -28,15 +29,21 @@ public class TransactionView
 
     public Guid Id { get; set; }
     public string Description { get; set; }
-    public CategoryDTO Category { get; set; }
     public TransactionType Type { get; set; }
     public decimal Amount { get; set; }
     public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
+    public CategoryDTO Category { get; set; }
 
     public static implicit operator TransactionView(UpdateTransactionDTO transaction)
     {
         return new TransactionView(transaction.Id, transaction.Description, transaction.CategoryDTO, transaction.Type,
+            transaction.Amount, transaction.TransactionDate, transaction.DueDate);
+    }
+
+    public static implicit operator TransactionView(Transaction transaction)
+    {
+        return new TransactionView(transaction.Id, transaction.Description, transaction.Category, transaction.Type,
             transaction.Amount, transaction.TransactionDate, transaction.DueDate);
     }
 
