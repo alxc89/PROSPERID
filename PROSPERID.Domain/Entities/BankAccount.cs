@@ -4,8 +4,8 @@ namespace PROSPERID.Domain.Entities;
 
 public class BankAccount : Entity
 {
-    public string AccountNumber { get; set; } // Número da conta bancária
-    public string AccountHolder { get; set; } // Nome do titular da conta
+    public string AccountNumber { get; set; } = null!; // Número da conta bancária
+    public string AccountHolder { get; set; } = null!; // Nome do titular da conta
     public decimal Balance { get; set; } // Saldo da conta
     public List<Transaction>? Transactions { get; set; } // Lista de transações relacionadas à conta bancária
 
@@ -15,12 +15,12 @@ public class BankAccount : Entity
         AccountNumber = accountNumber;
         AccountHolder = accountHolder;
         Deposit(initialValue);
-        Transactions = new List<Transaction>();
+        Transactions = [];
     }
 
     protected BankAccount()
     {
-        
+
     }
 
     public void Update(string accountNumber, string accountHolder, decimal balance)

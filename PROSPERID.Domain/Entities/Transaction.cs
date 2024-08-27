@@ -13,7 +13,7 @@ public class Transaction : Entity
         Amount = amount;
         TransactionDate = transactionDateDate;
         DueDate = dueDate;
-        BankAccounts = new List<BankAccount>();
+        BankAccounts = [];
     }
 
     protected Transaction()
@@ -21,15 +21,15 @@ public class Transaction : Entity
 
     }
 
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
     public TransactionType Type { get; set; }
     public decimal Amount { get; set; }
     public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? PaymentDate { get; set; }
     public Guid CategoryId { get; set; }
-    public Category Category { get; set; }
-    public ICollection<BankAccount> BankAccounts { get; set; }
+    public Category Category { get; set; } = null!;
+    public ICollection<BankAccount> BankAccounts { get; set; } = null!;
 
     public void Update(string description, Guid idCategory, TransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
@@ -63,27 +63,27 @@ public class Transaction : Entity
         return true;
     }
 
-    public bool ExecutePaymentCancellation(BankAccount account)
+    public bool CancelPayment(BankAccount account)
     {
         if (Type == TransactionType.Receipt)
             return false;
         decimal reverseAmount = Amount * -1;
         Transaction reverseTransaction = new("Estorno de Pagemento", this.Category,
             TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
-        account.Transactions.Add(reverseTransaction);
+        account.Transactions?.Add(reverseTransaction);
         account.Deposit(reverseAmount);
         PaymentDate = null;
         return true;
     }
 
-    public bool ExecuteReceiptCancellation(BankAccount account)
+    public bool CancelReceipt(BankAccount account)
     {
         if (Type == TransactionType.Payment)
             return false;
         decimal reverseAmount = Amount * -1;
         Transaction reverseTransaction = new("Estorno de Recebimento", Category,
             TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
-        account.Transactions.Add(reverseTransaction);
+        account.Transactions?.Add(reverseTransaction);
         account.Withdraw(Amount);
         PaymentDate = null;
         return true;

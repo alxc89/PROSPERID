@@ -34,7 +34,7 @@ public class TransactionTests
             new("Payment", category, TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now.AddDays(-2));
         transaction.ExecutePayment(account, DateTime.Now);
         // Act
-        bool result = transaction.ExecutePaymentCancellation(account);
+        bool result = transaction.CancelReceipt(account);
 
         // Assert
         Assert.True(result);
@@ -68,7 +68,7 @@ public class TransactionTests
             new("Receipt", category, TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
         transaction.ExecuteReceipt(account, DateTime.Now);
         // Act
-        bool result = transaction.ExecuteReceiptCancellation(account);
+        bool result = transaction.CancelReceipt(account);
 
         // Assert
         Assert.True(result);
