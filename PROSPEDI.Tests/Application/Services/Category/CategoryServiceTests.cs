@@ -1,8 +1,7 @@
-﻿using PROSPERID.Application.Services.Category;
+﻿using Moq;
 using PROSPERID.Application.DTOs.Category;
-using PROSPERID.Domain.Interface.Repositories;
-using Moq;
-using PROSPERID.Domain.Entities;
+using PROSPERID.Application.Services.Category;
+using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Tests.Application.Services;
 
@@ -17,10 +16,10 @@ public class CategoryServiceTests
     public async Task CreateCategory_ValidCategory_ReturnsSuccessResponse()
     {
         //Arrange
-        PROSPERID.Domain.Entities.Category category = new("TestCategory");
+        Core.Entities.Category category = new("TestCategory");
         _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>())).ReturnsAsync(false);
         var categoryService = new CategoryService(_mockRepository.Object);
-        _mockRepository.Setup(repo => repo.CreateCategoryAsync(It.IsAny<PROSPERID.Domain.Entities.Category>()))
+        _mockRepository.Setup(repo => repo.CreateCategoryAsync(It.IsAny<Core.Entities.Category>()))
             .ReturnsAsync(category);
         var createCategoryDTO = new CreateCategoryDTO("TestCategory");
 
@@ -59,7 +58,7 @@ public class CategoryServiceTests
         _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
         _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(new PROSPERID.Domain.Entities.Category("ExistingCategory"));
+            .ReturnsAsync(new Core.Entities.Category("ExistingCategory"));
 
         var categoryService = new CategoryService(_mockRepository.Object);
         var updateCategoryDTO = new UpdateCategoryDTO(Guid.NewGuid(), "UpdatedCategory");
@@ -80,7 +79,7 @@ public class CategoryServiceTests
     {
         //Arange
         _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid()))
-            .ReturnsAsync((PROSPERID.Domain.Entities.Category)null!);
+            .ReturnsAsync((Core.Entities.Category)null!);
         var categoryService = new CategoryService(_mockRepository.Object);
         var updateCategoryDTO = new UpdateCategoryDTO(Guid.NewGuid(), "UpdatedCategory");
 
@@ -99,7 +98,7 @@ public class CategoryServiceTests
         _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
         _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(new PROSPERID.Domain.Entities.Category("ExistingCategory"));
+            .ReturnsAsync(new Core.Entities.Category("ExistingCategory"));
         var categoryService = new CategoryService(_mockRepository.Object);
 
         //Act
@@ -116,7 +115,7 @@ public class CategoryServiceTests
     {
         //Arrange
         _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid()))
-            .ReturnsAsync((PROSPERID.Domain.Entities.Category)null!);
+            .ReturnsAsync((Core.Entities.Category)null!);
         var categoryService = new CategoryService(_mockRepository.Object);
         //Act
         var result = await categoryService.DeleteCategoryAsync(Guid.NewGuid());

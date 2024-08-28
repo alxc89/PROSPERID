@@ -1,5 +1,5 @@
-﻿using PROSPERID.Domain.Entities;
-using PROSPERID.Domain.Enums;
+﻿using PROSPERID.Core.Entities;
+using PROSPERID.Core.Enums;
 
 namespace PROSPERID.Tests.Domain.Entities;
 

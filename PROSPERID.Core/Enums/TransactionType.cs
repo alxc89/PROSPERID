@@ -1,4 +1,4 @@
-﻿namespace PROSPERID.Domain.Enums;
+﻿namespace PROSPERID.Core.Enums;
 
 public enum TransactionType
 {

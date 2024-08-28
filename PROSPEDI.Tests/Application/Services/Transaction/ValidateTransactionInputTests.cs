@@ -1,10 +1,4 @@
-﻿using PROSPERID.Application.DTOs.Category;
-using PROSPERID.Application.DTOs.Transaction;
-using PROSPERID.Application.Services.Category;
-using PROSPERID.Application.Services.Transaction;
-using PROSPERID.Domain.Enums;
-
-namespace PROSPERID.Tests.Application.Services.Transaction;
+﻿namespace PROSPERID.Tests.Application.Services.Transaction;
 
 public class ValidateTransactionInputTests
 {

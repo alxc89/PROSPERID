@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PROSPERID.Domain.Entities;
-using PROSPERID.Domain.Interface.Repositories;
+using PROSPERID.Core.Entities;
+using PROSPERID.Core.Interface.Repositories;
 using PROSPERID.Infra.Context;
 
 namespace PROSPERID.Infra.Repositories;

@@ -1,6 +1,4 @@
-﻿using PROSPERID.Application.DTOs.Transaction;
-
-namespace PROSPERID.Application.DTOs.Category;
+﻿namespace PROSPERID.Application.DTOs.Category;
 public class CategoryDTO
 {
     public CategoryDTO(Guid id, string name)
@@ -11,7 +9,7 @@ public class CategoryDTO
     public Guid Id { get; set; }
     public string Name { get; set; }
 
-    public static implicit operator CategoryDTO(Domain.Entities.Category category)
+    public static implicit operator CategoryDTO(Core.Entities.Category category)
     {
         return new CategoryDTO(category.Id, category.Name);
     }

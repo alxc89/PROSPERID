@@ -1,6 +1,4 @@
-﻿using PROSPERID.Application.DTOs.Transaction;
-
-namespace PROSPERID.Application.DTOs.BankAccount;
+﻿namespace PROSPERID.Application.DTOs.BankAccount;
 
 public class BankAccountDTO
 {
@@ -17,7 +15,7 @@ public class BankAccountDTO
     public string AccountHolder { get; set; }
     public decimal Balance { get; set; }
 
-    public static implicit operator BankAccountDTO(Domain.Entities.BankAccount bankAccount)
+    public static implicit operator BankAccountDTO(Core.Entities.BankAccount bankAccount)
     {
         return new BankAccountDTO(bankAccount.Id, bankAccount.AccountNumber, bankAccount.AccountHolder, bankAccount.Balance);
     }

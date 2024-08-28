@@ -1,4 +1,4 @@
-﻿namespace PROSPERID.Domain.Entities;
+﻿namespace PROSPERID.Core.Entities;
 
 public class Category : Entity
 {

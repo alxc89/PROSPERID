@@ -1,8 +1,7 @@
 ﻿using PROSPERID.Application.DTOs.Transaction;
 using PROSPERID.Application.ModelViews;
 using PROSPERID.Application.Services.Shared;
-using PROSPERID.Domain.Interface.Repositories;
-using System.Collections.Generic;
+using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Application.Services.Transaction;
 
@@ -58,7 +57,7 @@ public class TransactionService : ITransactionService
         var category = await _categoryRepository.GetCategoryByIdAsync(createTransaction.CategoryDTO.Id);
         if (category == null)
             return ServiceResponseHelper.Error<TransactionView>(400, "Não foi Encontrado a Categoria Vinculada a Transação!");
-        var transaction = new Domain.Entities.Transaction(createTransaction.Description,
+        var transaction = new Core.Entities.Transaction(createTransaction.Description,
             category, createTransaction.Type, createTransaction.Amount,
             createTransaction.TransactionDate, createTransaction.DueDate);
         if (await _repository.ExistsTransaction(transaction))
@@ -82,7 +81,7 @@ public class TransactionService : ITransactionService
              .Validate(updateTransactionDTO);
         if (validate != null)
             return ServiceResponseHelper.Error<TransactionView>(validate.Status, validate.Message);
-        Domain.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(updateTransactionDTO.Id);
+        Core.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(updateTransactionDTO.Id);
         if (transaction == null)
             return ServiceResponseHelper.Error<TransactionView>(404, "Requisição inválida, Transação não encontrada");
 
@@ -102,7 +101,7 @@ public class TransactionService : ITransactionService
 
     public async Task<ServiceResponse<TransactionView>> DeleteTransactionAsync(Guid id)
     {
-        Domain.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(id);
+        Core.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(id);
         if (transaction == null)
             return ServiceResponseHelper.Error<TransactionView>(404, "Transação não foi localizada");
         if (transaction.PaymentDate is not null)

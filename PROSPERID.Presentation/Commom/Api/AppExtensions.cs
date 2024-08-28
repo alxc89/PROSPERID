@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PROSPERID.Infra.Context;
 
-namespace PROSPERID.Presentation.Configuration;
+namespace PROSPERID.Presentation.Commom.Api;
 
-public static class DataBaseConfig
+public static class AppExtensions
 {
-    public static void AddDataBaseConfiguration(this IServiceCollection services, IConfiguration configuration)
+    public static void AddConfigurationDevEnvironment(this WebApplication app)
     {
-        services.AddDbContext<DataContext>(options =>
-        {
-            options.UseSqlServer(configuration.GetConnectionString("Default"), x => x.MigrationsAssembly("PROSPERID.Infra"));
-        });
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
 
     public static void UseDataBaseConfiguration(this IApplicationBuilder app)

@@ -1,4 +1,4 @@
-﻿namespace PROSPERID.Domain.Entities;
+﻿namespace PROSPERID.Core.Entities;
 public class Budget : Entity
 {
     public Budget(string nome, DateTime dataInicio, DateTime dataFim, List<Category> categorias, List<Transaction> transactions)

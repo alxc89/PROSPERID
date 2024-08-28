@@ -1,6 +1,6 @@
-﻿using PROSPERID.Domain.Entities;
+﻿using PROSPERID.Core.Entities;
 
-namespace PROSPERID.Domain.Interface.Repositories;
+namespace PROSPERID.Core.Interface.Repositories;
 
 public interface ICategoryRepository
 {

@@ -1,7 +1,7 @@
 ﻿using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.DTOs.Transaction;
-using PROSPERID.Domain.Entities;
-using PROSPERID.Domain.Enums;
+using PROSPERID.Core.Entities;
+using PROSPERID.Core.Enums;
 
 namespace PROSPERID.Application.ModelViews;
 public class TransactionView

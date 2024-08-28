@@ -1,46 +1,20 @@
-using PROSPERID.Presentation.Configuration;
+using PROSPERID.Presentation.Commom.Api;
 
-internal class Program
-{
-    private static void Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+builder.AddConfiguration();
+builder.AddDataContexts();
+builder.AddDocumentation();
+builder.AddDependecyInjectionConfiguration();
 
-        // Add services to the container
-        var configuration = GetConfiguration();
-        builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddDataBaseConfiguration(configuration);
-        builder.Services.AddDependecyInjectionConfiguration();
-        builder.Services.AddSwaggerGen();
+var app = builder.Build();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+    app.AddConfigurationDevEnvironment();
 
-        var app = builder.Build();
+app.UseDataBaseConfiguration();
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-        app.MapControllers();
-
-        app.Run();
-    }
-
-    private static IConfiguration GetConfiguration()
-    {
-        string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-        var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{environment}.json", optional: true)
-                .Build();
-        return configuration;
-    }
-}
+app.Run();

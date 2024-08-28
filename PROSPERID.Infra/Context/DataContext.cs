@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PROSPERID.Domain.Entities;
+using PROSPERID.Core.Entities;
 using PROSPERID.Infra.Configuration;
 using PROSPERID.Infra.ExtensionsMethods;
 

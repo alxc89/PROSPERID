@@ -1,8 +1,4 @@
-﻿using PROSPERID.Application.DTOs.BankAccount;
-using PROSPERID.Application.DTOs.Transaction;
-using PROSPERID.Application.Services.BankAccount;
-
-namespace PROSPERID.Tests.Application.Services.BankAccount;
+﻿namespace PROSPERID.Tests.Application.Services.BankAccount;
 
 public class ValidateBankAccountInputTests
 {

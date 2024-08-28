@@ -1,7 +1,7 @@
 ﻿using Moq;
 using PROSPERID.Application.DTOs.BankAccount;
-using PROSPERID.Domain.Interface.Repositories;
 using PROSPERID.Application.Services.BankAccount;
+using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Tests.Application.Services;
 
@@ -34,9 +34,9 @@ public class BankAccountServiceTests
     public async Task CreateBankAccount_ValidInput_ShouldReturnSuccessResponse()
     {
         //Arrange
-        PROSPERID.Domain.Entities.BankAccount bankAccount = new("12345", "John Doe", 1000.0m);
+        Core.Entities.BankAccount bankAccount = new("12345", "John Doe", 1000.0m);
         var createBankAccountDTO = new CreateBankAccountDTO("12345", "John Doe", 1000.0m);
-        _mockRepository.Setup(repo => repo.CreateBankAccountAsync(It.IsAny<PROSPERID.Domain.Entities.BankAccount>()))
+        _mockRepository.Setup(repo => repo.CreateBankAccountAsync(It.IsAny<Core.Entities.BankAccount>()))
             .ReturnsAsync(bankAccount);
         var bankAccountService = new BankAccountService(_mockRepository.Object);
 
@@ -93,7 +93,7 @@ public class BankAccountServiceTests
         //Arrange
         var bankAccountService = new BankAccountService(_mockRepository.Object);
         _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync((PROSPERID.Domain.Entities.BankAccount)null!);
+            .ReturnsAsync((Core.Entities.BankAccount)null!);
         var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "NotExistAccount", 100.00m);
 
         //Act
@@ -112,9 +112,9 @@ public class BankAccountServiceTests
     {
         //Arrange
         _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
-            .ReturnsAsync(new PROSPERID.Domain.Entities.BankAccount("12345", "Holder", 100.00m));
-        _mockRepository.Setup(repo => repo.UpdateBankAccountAsync(It.IsAny<PROSPERID.Domain.Entities.BankAccount>()))
-            .ReturnsAsync(new PROSPERID.Domain.Entities.BankAccount("12345", "UpdateName", 100.00m));
+            .ReturnsAsync(new Core.Entities.BankAccount("12345", "Holder", 100.00m));
+        _mockRepository.Setup(repo => repo.UpdateBankAccountAsync(It.IsAny<Core.Entities.BankAccount>()))
+            .ReturnsAsync(new Core.Entities.BankAccount("12345", "UpdateName", 100.00m));
         var bankAccountService = new BankAccountService(_mockRepository.Object);
         var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "UpdateName", 100.00m);
 

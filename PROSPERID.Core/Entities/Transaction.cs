@@ -1,6 +1,6 @@
-﻿using PROSPERID.Domain.Enums;
+﻿using PROSPERID.Core.Enums;
 
-namespace PROSPERID.Domain.Entities;
+namespace PROSPERID.Core.Entities;
 
 public class Transaction : Entity
 {

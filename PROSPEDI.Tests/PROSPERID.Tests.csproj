@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PROSPERID.Application\PROSPERID.Application.csproj" />
-    <ProjectReference Include="..\PROSPERID.Domain\PROSPERID.Domain.csproj" />
+    <ProjectReference Include="..\PROSPERID.Core\PROSPERID.Core.csproj" />
     <ProjectReference Include="..\PROSPERID.Presentation\PROSPERID.Presentation.csproj" />
   </ItemGroup>
 

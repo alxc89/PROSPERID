@@ -1,6 +1,6 @@
 ﻿using PROSPERID.Application.DTOs.BankAccount;
 using PROSPERID.Application.Services.Shared;
-using PROSPERID.Domain.Interface.Repositories;
+using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Application.Services.BankAccount;
 
@@ -52,7 +52,7 @@ public class BankAccountService : IBankAccountService
         if (await _bankAccountRepository.VerifyIfExistsAccount(createBankAccountDTO.AccountNumber))
             return new ServiceResponse<BankAccountDTO>
                 ($"Requisição inválida, Conta Bancária com o Número {createBankAccountDTO.AccountNumber} já existente", 400);
-        var bankcAccount = new Domain.Entities.BankAccount(createBankAccountDTO.AccountNumber,
+        var bankcAccount = new Core.Entities.BankAccount(createBankAccountDTO.AccountNumber,
             createBankAccountDTO.AccountHolder, createBankAccountDTO.Balance);
 
         try
@@ -73,7 +73,7 @@ public class BankAccountService : IBankAccountService
             .Validate(updateBankAccountDTO.AccountNumber, updateBankAccountDTO.AccountHolder, updateBankAccountDTO.Balance);
         if (validate != null)
             return ServiceResponseHelper.Error<BankAccountDTO>(validate.Status, validate.Message);
-        Domain.Entities.BankAccount bankAccount =
+        Core.Entities.BankAccount? bankAccount =
             await _bankAccountRepository.GetBankAccountByIdAsync(updateBankAccountDTO.Id);
         if (bankAccount == null)
             return ServiceResponseHelper
@@ -82,7 +82,7 @@ public class BankAccountService : IBankAccountService
         bankAccount.Update(updateBankAccountDTO.AccountNumber, updateBankAccountDTO.AccountHolder, updateBankAccountDTO.Balance);
         try
         {
-            BankAccountDTO result = await _bankAccountRepository.UpdateBankAccountAsync(bankAccount);
+            var result = await _bankAccountRepository.UpdateBankAccountAsync(bankAccount);
             return ServiceResponseHelper.Success<BankAccountDTO>(200, "Conta Bancária alterada com sucesso!", bankAccount);
         }
         catch
@@ -95,7 +95,7 @@ public class BankAccountService : IBankAccountService
     {
         try
         {
-            BankAccountDTO bankAccount = await _bankAccountRepository.GetBankAccountByIdAsync(id);
+            var bankAccount = await _bankAccountRepository.GetBankAccountByIdAsync(id);
             if (bankAccount == null)
                 return ServiceResponseHelper.Error<BankAccountDTO>(404, "Conta Bancária Não foi localizada!");
             if (await _bankAccountRepository.AnyMovementInAccount(bankAccount.AccountNumber))

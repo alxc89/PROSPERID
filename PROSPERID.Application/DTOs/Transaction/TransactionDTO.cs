@@ -1,5 +1,5 @@
 ﻿using PROSPERID.Application.DTOs.Category;
-using PROSPERID.Domain.Enums;
+using PROSPERID.Core.Enums;
 
 namespace PROSPERID.Application.DTOs.Transaction;
 
@@ -23,7 +23,7 @@ public class TransactionDTO
     public DateTime DueDate { get; set; }
     public CategoryDTO CategoryDTO { get; set; }
 
-    public static implicit operator TransactionDTO(Domain.Entities.Transaction transaction)
+    public static implicit operator TransactionDTO(Core.Entities.Transaction transaction)
     {
         return new TransactionDTO(transaction.Description, transaction.Type,
             transaction.Amount, transaction.TransactionDate, transaction.DueDate, transaction.Category);

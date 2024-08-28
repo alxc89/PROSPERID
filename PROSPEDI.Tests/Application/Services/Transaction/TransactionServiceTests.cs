@@ -2,8 +2,8 @@
 using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.DTOs.Transaction;
 using PROSPERID.Application.Services.Transaction;
-using PROSPERID.Domain.Enums;
-using PROSPERID.Domain.Interface.Repositories;
+using PROSPERID.Core.Enums;
+using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Tests.Application.Services;
 
@@ -25,7 +25,7 @@ public class TransactionServiceTests
     {
         //Arrange
         CategoryDTO categoryDTO = new(Guid.NewGuid(), "Casa");
-        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now, 
+        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO);
 
         //Act
@@ -60,9 +60,9 @@ public class TransactionServiceTests
     public async Task CreateTransaction_DuplicateTransaction_ShouldReturnErrorResponse()
     {
         //Arrange
-        _transactionRepositoryMock.Setup(repo => repo.ExistsTransaction(It.IsAny<PROSPERID.Domain.Entities.Transaction>()))
+        _transactionRepositoryMock.Setup(repo => repo.ExistsTransaction(It.IsAny<Core.Entities.Transaction>()))
                 .ReturnsAsync(true);
-        
+
         var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
         var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO);
@@ -81,15 +81,15 @@ public class TransactionServiceTests
     public async Task UpdateTransaction_ValidTransaction_ShouldReturnSuccessResponse()
     {
         //Arrange
-        var category = new PROSPERID.Domain.Entities.Category("Casa");
-        PROSPERID.Domain.Entities.Transaction transaction = new("transactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
+        var category = new Core.Entities.Category("Casa");
+        Core.Entities.Transaction transaction = new("transactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
         _transactionRepositoryMock.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(transaction);
-        PROSPERID.Domain.Entities.Transaction transactionUpdate = new("updateTransactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
-        _transactionRepositoryMock.Setup(repo => repo.UpdateTransactionAsync(It.IsAny<PROSPERID.Domain.Entities.Transaction>()))
+        Core.Entities.Transaction transactionUpdate = new("updateTransactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
+        _transactionRepositoryMock.Setup(repo => repo.UpdateTransactionAsync(It.IsAny<Core.Entities.Transaction>()))
                 .ReturnsAsync(transactionUpdate);
         var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
-        var updateTransactionDTO = new UpdateTransactionDTO(Guid.NewGuid(), "updateTransactionTeste", 
+        var updateTransactionDTO = new UpdateTransactionDTO(Guid.NewGuid(), "updateTransactionTeste",
             TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO);
 
         //Act
@@ -106,9 +106,9 @@ public class TransactionServiceTests
     {
         //Arrange
         _transactionRepositoryMock.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((PROSPERID.Domain.Entities.Transaction)null!);
+                .ReturnsAsync((Core.Entities.Transaction)null!);
         var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
-        var updateTransactionDTO = new UpdateTransactionDTO(Guid.NewGuid(), "UpdateTeste", 
+        var updateTransactionDTO = new UpdateTransactionDTO(Guid.NewGuid(), "UpdateTeste",
             TransactionType.Payment, 100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO);
 
         //Act

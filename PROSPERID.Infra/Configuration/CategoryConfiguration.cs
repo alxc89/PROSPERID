@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PROSPERID.Domain.Entities;
+using PROSPERID.Core.Entities;
+
 
 namespace PROSPERID.Infra.Configuration;
 

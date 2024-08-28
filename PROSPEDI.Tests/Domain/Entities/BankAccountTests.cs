@@ -1,5 +1,5 @@
-﻿using PROSPERID.Domain.Entities;
-using PROSPERID.Domain.Exceptions;
+﻿using PROSPERID.Core.Entities;
+using PROSPERID.Core.Exceptions;
 
 namespace PROSPERID.Tests.Domain.Entities;
 
@@ -66,7 +66,7 @@ public class BankAccountTests
         var initialBalance = 100.00m;
         BankAccount bankAccount = new("123456", "Alex", initialBalance);
         BankAccount accountUpdated = new("123456", "Alex", initialBalance);
-        
+
         var exception = Record.Exception(() => bankAccount.Update(accountUpdated.AccountNumber, accountUpdated.AccountHolder, accountUpdated.Balance));
         Assert.Null(exception);
     }

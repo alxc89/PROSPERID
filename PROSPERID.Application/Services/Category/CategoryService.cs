@@ -1,6 +1,6 @@
 ﻿using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.Services.Shared;
-using PROSPERID.Domain.Interface.Repositories;
+using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Application.Services.Category;
 
@@ -20,7 +20,7 @@ public class CategoryService : ICategoryService
             return ServiceResponseHelper.Error<CategoryDTO>(validate.Status, validate.Message);
         if (await _repository.AnyCategoryAsync(createCategoryDTO.Name))
             return ServiceResponseHelper.Error<CategoryDTO>(400, "Requisição inválida, Categoria já existente");
-        var category = new Domain.Entities.Category(createCategoryDTO.Name);
+        var category = new Core.Entities.Category(createCategoryDTO.Name);
 
         try
         {
@@ -40,7 +40,7 @@ public class CategoryService : ICategoryService
         if (validate != null)
             return ServiceResponseHelper.Error<UpdateCategoryDTO>(validate.Status, validate.Message);
 
-        Domain.Entities.Category category = await _repository.GetCategoryByIdAsync(updateCategoryDTO.Id);
+        Core.Entities.Category category = await _repository.GetCategoryByIdAsync(updateCategoryDTO.Id);
         if (category is null)
             return ServiceResponseHelper.Error<UpdateCategoryDTO>(404, "Requisição inválida, Categoria não encontrada");
 

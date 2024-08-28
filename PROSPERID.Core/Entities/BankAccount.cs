@@ -1,6 +1,6 @@
-﻿using PROSPERID.Domain.Exceptions;
+﻿using PROSPERID.Core.Exceptions;
 
-namespace PROSPERID.Domain.Entities;
+namespace PROSPERID.Core.Entities;
 
 public class BankAccount : Entity
 {

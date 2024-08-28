@@ -1,4 +1,4 @@
-﻿namespace PROSPERID.Domain.Exceptions;
+﻿namespace PROSPERID.Core.Exceptions;
 
 public class NegativeBalanceException : Exception
 {
