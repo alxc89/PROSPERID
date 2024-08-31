@@ -40,7 +40,7 @@ public class CategoryService : ICategoryService
         if (validate != null)
             return ServiceResponseHelper.Error<UpdateCategoryDTO>(validate.Status, validate.Message);
 
-        Core.Entities.Category category = await _repository.GetCategoryByIdAsync(updateCategoryDTO.Id);
+        Core.Entities.Category? category = await _repository.GetCategoryByIdAsync(updateCategoryDTO.Id);
         if (category is null)
             return ServiceResponseHelper.Error<UpdateCategoryDTO>(404, "Requisição inválida, Categoria não encontrada");
 
@@ -57,7 +57,7 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public async Task<ServiceResponse<CategoryDTO>> DeleteCategoryAsync(Guid id)
+    public async Task<ServiceResponse<CategoryDTO>> DeleteCategoryAsync(long id)
     {
         var category = await _repository.GetCategoryByIdAsync(id);
         if (category is null)
@@ -73,7 +73,7 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public async Task<ServiceResponse<CategoryDTO>> GetCategoryByIdAsync(Guid id)
+    public async Task<ServiceResponse<CategoryDTO>> GetCategoryByIdAsync(long id)
     {
         var category = await _repository.GetCategoryByIdAsync(id);
         if (category is null)

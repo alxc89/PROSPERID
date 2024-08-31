@@ -11,7 +11,7 @@ public class CategoryRepository : ICategoryRepository
     public CategoryRepository(DataContext context)
         => _context = context;
 
-    public async Task<Category?> GetCategoryByIdAsync(Guid id)
+    public async Task<Category?> GetCategoryByIdAsync(long id)
     {
         var category = _context.Categories;
         var result = await category.SingleOrDefaultAsync(c => c.Id == id);
@@ -54,7 +54,7 @@ public class CategoryRepository : ICategoryRepository
         }
     }
 
-    public async Task DeleteCategoryAsync(Guid id)
+    public async Task DeleteCategoryAsync(long id)
     {
         var categoryDeleted = await _context.Categories.SingleOrDefaultAsync(c => c.Id == id);
         if (categoryDeleted == null) return;

@@ -7,7 +7,7 @@ public interface IBankAccountService
 {
     Task<ServiceResponse<BankAccountDTO>> CreateBankAccountAsync(CreateBankAccountDTO createCategoryDTO);
     Task<ServiceResponse<BankAccountDTO>> UpdateBankAccountAsync(UpdateBankAccountDTO updateBankAccountDTO);
-    Task<ServiceResponse<BankAccountDTO>> GetBankAccountByIdAsync(Guid id);
+    Task<ServiceResponse<BankAccountDTO>> GetBankAccountByIdAsync(long id);
     Task<ServiceResponse<IEnumerable<BankAccountDTO>>> GetBankAccountsAsync();
-    Task<ServiceResponse<BankAccountDTO>> DeleteBankAccountAsync(Guid id);
+    Task<ServiceResponse<BankAccountDTO>> DeleteBankAccountAsync(long id);
 }

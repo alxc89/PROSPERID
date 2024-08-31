@@ -9,10 +9,10 @@ using PROSPERID.Infra.Context;
 
 #nullable disable
 
-namespace PROSPERID.Infra.Migrations
+namespace PROSPERID.Presentation.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231104222059_Initial")]
+    [Migration("20240829021143_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,17 +25,21 @@ namespace PROSPERID.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PROSPERID.Domain.Entities.BankAccount", b =>
+            modelBuilder.Entity("PROSPERID.Core.Entities.BankAccount", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("AccountNumber")
-                        .HasColumnType("varchar(20)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("AccountHolder")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(10,2)");
@@ -46,16 +50,21 @@ namespace PROSPERID.Infra.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id", "AccountNumber");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountNumber")
+                        .IsUnique();
 
                     b.ToTable("BankAccount", (string)null);
                 });
 
-            modelBuilder.Entity("PROSPERID.Domain.Entities.Category", b =>
+            modelBuilder.Entity("PROSPERID.Core.Entities.Category", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -74,17 +83,22 @@ namespace PROSPERID.Infra.Migrations
                     b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("PROSPERID.Domain.Entities.Transaction", b =>
+            modelBuilder.Entity("PROSPERID.Core.Entities.Transaction", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10, 2)");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long?>("BankAccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
@@ -113,56 +127,37 @@ namespace PROSPERID.Infra.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BankAccountId");
+
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Transaction", (string)null);
                 });
 
-            modelBuilder.Entity("TransactionAccount", b =>
+            modelBuilder.Entity("PROSPERID.Core.Entities.Transaction", b =>
                 {
-                    b.Property<Guid>("BankAccountId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("PROSPERID.Core.Entities.BankAccount", "BankAccount")
+                        .WithMany("Transactions")
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BankAccountId", "TransactionId");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("TransactionAccount");
-                });
-
-            modelBuilder.Entity("PROSPERID.Domain.Entities.Transaction", b =>
-                {
-                    b.HasOne("PROSPERID.Domain.Entities.Category", "Category")
+                    b.HasOne("PROSPERID.Core.Entities.Category", "Category")
                         .WithMany("Transactions")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("BankAccount");
+
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("TransactionAccount", b =>
+            modelBuilder.Entity("PROSPERID.Core.Entities.BankAccount", b =>
                 {
-                    b.HasOne("PROSPERID.Domain.Entities.BankAccount", null)
-                        .WithMany()
-                        .HasForeignKey("BankAccountId")
-                        .HasPrincipalKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_TransaciontAccount_BancAccountId");
-
-                    b.HasOne("PROSPERID.Domain.Entities.Transaction", null)
-                        .WithMany()
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_TransaciontAccount_TransactionId");
+                    b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("PROSPERID.Domain.Entities.Category", b =>
+            modelBuilder.Entity("PROSPERID.Core.Entities.Category", b =>
                 {
                     b.Navigation("Transactions");
                 });

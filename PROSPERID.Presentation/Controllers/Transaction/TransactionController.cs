@@ -24,7 +24,7 @@ public class TransactionController : ControllerBase
 
     // GET api/<TransactionController>/5
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(Guid id)
+    public async Task<IActionResult> Get(long id)
     {
         var transaction = await _transactionService.GetTransactionByIdAsync(id);
         if (transaction.Data == null)
@@ -54,7 +54,7 @@ public class TransactionController : ControllerBase
 
     // DELETE api/<TransactionController>/5
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(long id)
     {
         var deleteTransaction = await _transactionService.DeleteTransactionAsync(id);
         if (!deleteTransaction.IsSuccess)

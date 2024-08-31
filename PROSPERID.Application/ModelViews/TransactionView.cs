@@ -6,7 +6,7 @@ using PROSPERID.Core.Enums;
 namespace PROSPERID.Application.ModelViews;
 public class TransactionView
 {
-    public TransactionView(Guid id, string description, CategoryDTO category, TransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate)
+    public TransactionView(long id, string description, CategoryDTO category, TransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate)
     {
         Id = id;
         Description = description;
@@ -27,7 +27,7 @@ public class TransactionView
         DueDate = dueDate;
     }
 
-    public Guid Id { get; set; }
+    public long Id { get; set; }
     public string Description { get; set; }
     public TransactionType Type { get; set; }
     public decimal Amount { get; set; }

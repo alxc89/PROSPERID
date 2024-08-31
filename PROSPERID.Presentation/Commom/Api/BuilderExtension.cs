@@ -6,6 +6,7 @@ using PROSPERID.Application.Services.Transaction;
 using PROSPERID.Core.Interface.Repositories;
 using PROSPERID.Infra.Context;
 using PROSPERID.Infra.Repositories;
+using PROSPERID.Presentation.Commom.Api.Documentation;
 
 namespace PROSPERID.Presentation.Commom.Api;
 
@@ -24,6 +25,7 @@ public static class BuilderExtension
         builder.Services.AddSwaggerGen(x =>
         {
             x.CustomSchemaIds(n => n.FullName);
+            x.SchemaFilter<CustomSchemaFilter>();
         });
     }
 

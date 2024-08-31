@@ -6,8 +6,8 @@ public interface ITransactionRepository
 {
     Task<Transaction> CreateTransactionAsync(Transaction transaction);
     Task<IEnumerable<Transaction>> GetTransactionsAsync();
-    Task<Transaction?> GetTransactionByIdAsync(Guid id);
+    Task<Transaction?> GetTransactionByIdAsync(long id);
     Task<Transaction> UpdateTransactionAsync(Transaction transaction);
-    Task<Transaction> DeleteTransactionAsync(Guid id);
+    Task<Transaction> DeleteTransactionAsync(long id);
     Task<bool> ExistsTransaction(Transaction transaction);
 }

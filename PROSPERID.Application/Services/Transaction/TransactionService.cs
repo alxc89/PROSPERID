@@ -15,11 +15,11 @@ public class TransactionService : ITransactionService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<ServiceResponse<TransactionView>> GetTransactionByIdAsync(Guid id)
+    public async Task<ServiceResponse<TransactionView>> GetTransactionByIdAsync(long id)
     {
         try
         {
-            TransactionView transactionView = await _repository.GetTransactionByIdAsync(id);
+            TransactionView? transactionView = await _repository.GetTransactionByIdAsync(id);
             if (transactionView == null)
                 return ServiceResponseHelper.Error<TransactionView>(404, "Transação não foi localizada");
             return ServiceResponseHelper.Success<TransactionView>(200, "Busca realizada com sucesso!", transactionView);
@@ -99,7 +99,7 @@ public class TransactionService : ITransactionService
         }
     }
 
-    public async Task<ServiceResponse<TransactionView>> DeleteTransactionAsync(Guid id)
+    public async Task<ServiceResponse<TransactionView>> DeleteTransactionAsync(long id)
     {
         Core.Entities.Transaction transaction = await _repository.GetTransactionByIdAsync(id);
         if (transaction == null)

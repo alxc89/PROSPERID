@@ -1,13 +1,9 @@
 ﻿namespace PROSPERID.Application.DTOs.Category;
-public class CategoryDTO
+
+public class CategoryDTO(long id, string name)
 {
-    public CategoryDTO(Guid id, string name)
-    {
-        Id = id;
-        Name = name;
-    }
-    public Guid Id { get; set; }
-    public string Name { get; set; }
+    public long Id { get; set; } = id;
+    public string Name { get; set; } = name;
 
     public static implicit operator CategoryDTO(Core.Entities.Category category)
     {

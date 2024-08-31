@@ -9,7 +9,7 @@ public class ValidateCategoryInputTests
     public void Validate_AllInputValid_ShouldReturnNull()
     {
         //Arrange
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
+        var categoryDTO = new CategoryDTO(10, "Casa");
         //Act
         var validate = ValidateCategoryInput<CategoryDTO>.Validate(categoryDTO.Name);
         //Assert
@@ -20,7 +20,7 @@ public class ValidateCategoryInputTests
     public void Validate_NameIsNullOrEmpty_ShouldReturnErrorResponse()
     {
         //Arrange
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "");
+        var categoryDTO = new CategoryDTO(10, "");
         //Act
         var validate = ValidateCategoryInput<CategoryDTO>.Validate(categoryDTO.Name);
         //Assert
@@ -35,7 +35,7 @@ public class ValidateCategoryInputTests
     public void Validate_ShortName_ShouldReturnErrorResponse()
     {
         //Arrange
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Cas");
+        var categoryDTO = new CategoryDTO(10, "Casa");
         //Act
         var validate = ValidateCategoryInput<CategoryDTO>.Validate(categoryDTO.Name);
         //Assert

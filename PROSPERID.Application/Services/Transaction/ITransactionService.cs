@@ -8,7 +8,7 @@ public interface ITransactionService
 {
     Task<ServiceResponse<TransactionView>> CreateTransactionAsync(CreateTransactionDTO createTransactionDTO);
     Task<ServiceResponse<TransactionView>> UpdateTransactionAsync(UpdateTransactionDTO updateTransactionDTO);
-    Task<ServiceResponse<TransactionView>> GetTransactionByIdAsync(Guid id);
+    Task<ServiceResponse<TransactionView>> GetTransactionByIdAsync(long id);
     Task<ServiceResponse<IEnumerable<TransactionView>>> GetTransactionsAsync();
-    Task<ServiceResponse<TransactionView>> DeleteTransactionAsync(Guid id);
+    Task<ServiceResponse<TransactionView>> DeleteTransactionAsync(long id);
 }

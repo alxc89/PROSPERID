@@ -1,3 +1,3 @@
 ﻿namespace PROSPERID.Application.DTOs.Category;
 
-public record UpdateCategoryDTO(Guid Id, string Name);
+public record UpdateCategoryDTO(long Id, string Name);

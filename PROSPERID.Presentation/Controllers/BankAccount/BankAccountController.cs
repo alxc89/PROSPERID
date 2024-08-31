@@ -12,7 +12,7 @@ public class BankAccountController : ControllerBase
     public BankAccountController(IBankAccountService bankAccountService)
         => _bankAccountService = bankAccountService;
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(Guid id)
+    public async Task<IActionResult> Get(long id)
     {
         var bankAccount = await _bankAccountService.GetBankAccountByIdAsync(id);
         if (bankAccount.Data == null)
@@ -48,7 +48,7 @@ public class BankAccountController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(long id)
     {
         var updatebankAccount = await _bankAccountService.DeleteBankAccountAsync(id);
         if (!updatebankAccount.IsSuccess)

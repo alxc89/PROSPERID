@@ -13,7 +13,6 @@ public class Transaction : Entity
         Amount = amount;
         TransactionDate = transactionDateDate;
         DueDate = dueDate;
-        BankAccounts = [];
     }
 
     protected Transaction()
@@ -27,11 +26,12 @@ public class Transaction : Entity
     public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? PaymentDate { get; set; }
-    public Guid CategoryId { get; set; }
+    public long CategoryId { get; set; }
     public Category Category { get; set; } = null!;
-    public ICollection<BankAccount> BankAccounts { get; set; } = null!;
+    public BankAccount? BankAccount { get; set; } = null;
+    public long? BankAccountId { get; set; }
 
-    public void Update(string description, Guid idCategory, TransactionType type,
+    public void Update(string description, long idCategory, TransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         //if (PaymentDate.HasValue)

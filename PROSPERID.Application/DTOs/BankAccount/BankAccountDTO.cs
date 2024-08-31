@@ -1,19 +1,11 @@
 ﻿namespace PROSPERID.Application.DTOs.BankAccount;
 
-public class BankAccountDTO
+public class BankAccountDTO(long id, string accountNumber, string accountHolder, decimal balance)
 {
-    public BankAccountDTO(Guid id, string accountNumber, string accountHolder, decimal balance)
-    {
-        Id = id;
-        AccountNumber = accountNumber;
-        AccountHolder = accountHolder;
-        Balance = balance;
-    }
-
-    public Guid Id { get; set; }
-    public string AccountNumber { get; set; }
-    public string AccountHolder { get; set; }
-    public decimal Balance { get; set; }
+    public long Id { get; set; } = id;
+    public string AccountNumber { get; set; } = accountNumber;
+    public string AccountHolder { get; set; } = accountHolder;
+    public decimal Balance { get; set; } = balance;
 
     public static implicit operator BankAccountDTO(Core.Entities.BankAccount bankAccount)
     {

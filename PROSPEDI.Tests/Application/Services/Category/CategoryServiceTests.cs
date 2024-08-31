@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Identity.Client;
+using Moq;
 using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.Services.Category;
 using PROSPERID.Core.Interface.Repositories;
@@ -57,11 +58,11 @@ public class CategoryServiceTests
         //Arrange
         _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
-        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>()))
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<long>()))
             .ReturnsAsync(new Core.Entities.Category("ExistingCategory"));
 
         var categoryService = new CategoryService(_mockRepository.Object);
-        var updateCategoryDTO = new UpdateCategoryDTO(Guid.NewGuid(), "UpdatedCategory");
+        var updateCategoryDTO = new UpdateCategoryDTO(10, "UpdatedCategory");
 
         //Act
         var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO);
@@ -78,10 +79,10 @@ public class CategoryServiceTests
     public async Task UpdateCategory_NotFoundCategory_ReturnsNotFoundResponse()
     {
         //Arange
-        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid()))
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(10))
             .ReturnsAsync((Core.Entities.Category)null!);
         var categoryService = new CategoryService(_mockRepository.Object);
-        var updateCategoryDTO = new UpdateCategoryDTO(Guid.NewGuid(), "UpdatedCategory");
+        var updateCategoryDTO = new UpdateCategoryDTO(10, "UpdatedCategory");
 
         //Act
         var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO);
@@ -97,12 +98,12 @@ public class CategoryServiceTests
         //Arrange
         _mockRepository.Setup(repo => repo.AnyCategoryAsync(It.IsAny<string>()))
             .ReturnsAsync(false);
-        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<Guid>()))
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(It.IsAny<long>()))
             .ReturnsAsync(new Core.Entities.Category("ExistingCategory"));
         var categoryService = new CategoryService(_mockRepository.Object);
 
         //Act
-        var result = await categoryService.DeleteCategoryAsync(Guid.NewGuid());
+        var result = await categoryService.DeleteCategoryAsync(10);
         //Assert
         Assert.NotNull(result);
         Assert.Equal(200, result.Status);
@@ -114,11 +115,11 @@ public class CategoryServiceTests
     public async Task DeleteCategory_NotFoundCategory_ReturnsNotFoundResponse()
     {
         //Arrange
-        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(Guid.NewGuid()))
+        _mockRepository.Setup(repo => repo.GetCategoryByIdAsync(10))
             .ReturnsAsync((Core.Entities.Category)null!);
         var categoryService = new CategoryService(_mockRepository.Object);
         //Act
-        var result = await categoryService.DeleteCategoryAsync(Guid.NewGuid());
+        var result = await categoryService.DeleteCategoryAsync(10);
         //Assert
         Assert.NotNull(result);
         Assert.Equal(404, result.Status);

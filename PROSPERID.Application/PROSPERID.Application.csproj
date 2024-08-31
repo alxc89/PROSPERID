@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PROSPERID.Core\PROSPERID.Core.csproj" />
     <ProjectReference Include="..\PROSPERID.Infra\PROSPERID.Infra.csproj" />
   </ItemGroup>

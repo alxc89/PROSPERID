@@ -26,7 +26,7 @@ public class TransactionRepository : ITransactionRepository
         }
     }
 
-    public Task<Transaction> DeleteTransactionAsync(Guid id)
+    public Task<Transaction> DeleteTransactionAsync(long id)
     {
         throw new NotImplementedException();
     }
@@ -47,7 +47,7 @@ public class TransactionRepository : ITransactionRepository
         }
     }
 
-    public async Task<Transaction?> GetTransactionByIdAsync(Guid id)
+    public async Task<Transaction?> GetTransactionByIdAsync(long id)
     {
         try
         {

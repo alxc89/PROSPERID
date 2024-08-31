@@ -14,7 +14,7 @@ public class CategoryControllerTests
     {
         // Arrange
         var createCategoryDTO = new CreateCategoryDTO("Test Category");
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Test Category");
+        var categoryDTO = new CategoryDTO(10, "Test Category");
         ServiceResponse<CategoryDTO> serviceResponse = ServiceResponseHelper
             .Success(200, "Categoria criada com sucesso!", categoryDTO);
         var categoryServiceMock = new Mock<ICategoryService>();

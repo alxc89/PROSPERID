@@ -33,7 +33,7 @@ public class BankAccountRepository : IBankAccountRepository
             .AsNoTracking()
             .ToListAsync();
     }
-    public async Task<BankAccount?> GetBankAccountByIdAsync(Guid id)
+    public async Task<BankAccount?> GetBankAccountByIdAsync(long id)
     {
         var bankAccount = await _context
             .BankAccounts
@@ -67,7 +67,7 @@ public class BankAccountRepository : IBankAccountRepository
             throw new Exception("Erro interno!");
         }
     }
-    public async Task DeleteBankAccountAsync(Guid id)
+    public async Task DeleteBankAccountAsync(long id)
     {
         var bankAccountDeleted = await _context
             .BankAccounts
@@ -90,7 +90,9 @@ public class BankAccountRepository : IBankAccountRepository
             .Include(t => t.Transactions)
                 .Where(t => t.AccountNumber == accountNumber)
             .SingleOrDefaultAsync();
-        if (!bankAccount.Transactions.Any()) return false;
+        
+        if (bankAccount.Transactions.Count == 0) return false;
+        
         return true;
     }
     public async Task<bool> VerifyIfExistsAccount(string accountNumber)

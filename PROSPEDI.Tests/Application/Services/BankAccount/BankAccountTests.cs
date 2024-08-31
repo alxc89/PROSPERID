@@ -92,9 +92,9 @@ public class BankAccountServiceTests
     {
         //Arrange
         var bankAccountService = new BankAccountService(_mockRepository.Object);
-        _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
+        _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<long>()))
             .ReturnsAsync((Core.Entities.BankAccount)null!);
-        var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "NotExistAccount", 100.00m);
+        var updateBankAccount = new UpdateBankAccountDTO(10, "12345", "NotExistAccount", 100.00m);
 
         //Act
         var response = await bankAccountService.UpdateBankAccountAsync(updateBankAccount);
@@ -111,12 +111,12 @@ public class BankAccountServiceTests
     public async Task UpdateBankAccount_ValidBankAccount_ShouldReturnSuccessResponse()
     {
         //Arrange
-        _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<Guid>()))
+        _mockRepository.Setup(repo => repo.GetBankAccountByIdAsync(It.IsAny<long>()))
             .ReturnsAsync(new Core.Entities.BankAccount("12345", "Holder", 100.00m));
         _mockRepository.Setup(repo => repo.UpdateBankAccountAsync(It.IsAny<Core.Entities.BankAccount>()))
             .ReturnsAsync(new Core.Entities.BankAccount("12345", "UpdateName", 100.00m));
         var bankAccountService = new BankAccountService(_mockRepository.Object);
-        var updateBankAccount = new UpdateBankAccountDTO(Guid.NewGuid(), "12345", "UpdateName", 100.00m);
+        var updateBankAccount = new UpdateBankAccountDTO(10, "12345", "UpdateName", 100.00m);
 
         //Act
         var response = await bankAccountService.UpdateBankAccountAsync(updateBankAccount);

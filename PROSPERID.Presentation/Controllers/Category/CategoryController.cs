@@ -6,16 +6,12 @@ namespace PROSPERID.Presentation.Controllers.Category;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CategoryController : ControllerBase
+public class CategoryController(ICategoryService categoryService) : ControllerBase
 {
-    private readonly ICategoryService _categoryService;
-    public CategoryController(ICategoryService categoryService)
-    {
-        _categoryService = categoryService;
-    }
+    private readonly ICategoryService _categoryService = categoryService;
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(Guid id)
+    public async Task<IActionResult> Get(long id)
     {
         var category = await _categoryService.GetCategoryByIdAsync(id);
         if (category.Data == null)
@@ -51,7 +47,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(long id)
     {
         var deleteCategory = await _categoryService.DeleteCategoryAsync(id);
         if (!deleteCategory.IsSuccess)

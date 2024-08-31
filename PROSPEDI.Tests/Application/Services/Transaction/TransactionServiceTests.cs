@@ -24,7 +24,7 @@ public class TransactionServiceTests
     public async Task CreateTransaction_ValidTransactionPayment_ReturnsSuccessResponse()
     {
         //Arrange
-        CategoryDTO categoryDTO = new(Guid.NewGuid(), "Casa");
+        CategoryDTO categoryDTO = new(10, "Casa");
         var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO);
 
@@ -42,7 +42,7 @@ public class TransactionServiceTests
     public async Task CreateTransaction_ValidTransactionReceipt_ReturnsSuccessResponse()
     {
         //Arrange
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
+        var categoryDTO = new CategoryDTO(10, "Casa");
         var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO);
 
@@ -63,7 +63,7 @@ public class TransactionServiceTests
         _transactionRepositoryMock.Setup(repo => repo.ExistsTransaction(It.IsAny<Core.Entities.Transaction>()))
                 .ReturnsAsync(true);
 
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
+        var categoryDTO = new CategoryDTO(10, "Casa");
         var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO);
 
@@ -83,13 +83,13 @@ public class TransactionServiceTests
         //Arrange
         var category = new Core.Entities.Category("Casa");
         Core.Entities.Transaction transaction = new("transactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
-        _transactionRepositoryMock.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<Guid>()))
+        _transactionRepositoryMock.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<long>()))
                 .ReturnsAsync(transaction);
         Core.Entities.Transaction transactionUpdate = new("updateTransactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
         _transactionRepositoryMock.Setup(repo => repo.UpdateTransactionAsync(It.IsAny<Core.Entities.Transaction>()))
                 .ReturnsAsync(transactionUpdate);
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
-        var updateTransactionDTO = new UpdateTransactionDTO(Guid.NewGuid(), "updateTransactionTeste",
+        var categoryDTO = new CategoryDTO(10, "Casa");
+        var updateTransactionDTO = new UpdateTransactionDTO(10, "updateTransactionTeste",
             TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO);
 
         //Act
@@ -105,10 +105,10 @@ public class TransactionServiceTests
     public async Task UpdateTransaction_NonExistentTransaction_ShouldReturnNotFoundResponse()
     {
         //Arrange
-        _transactionRepositoryMock.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<Guid>()))
+        _transactionRepositoryMock.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<long>()))
                 .ReturnsAsync((Core.Entities.Transaction)null!);
-        var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Casa");
-        var updateTransactionDTO = new UpdateTransactionDTO(Guid.NewGuid(), "UpdateTeste",
+        var categoryDTO = new CategoryDTO(10, "Casa");
+        var updateTransactionDTO = new UpdateTransactionDTO(10, "UpdateTeste",
             TransactionType.Payment, 100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO);
 
         //Act

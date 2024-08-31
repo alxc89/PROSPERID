@@ -4,13 +4,11 @@ using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Application.Services.BankAccount;
 
-public class BankAccountService : IBankAccountService
+public class BankAccountService(IBankAccountRepository bankAccountRepository) : IBankAccountService
 {
-    private readonly IBankAccountRepository _bankAccountRepository;
-    public BankAccountService(IBankAccountRepository bankAccountRepository)
-        => _bankAccountRepository = bankAccountRepository;
+    private readonly IBankAccountRepository _bankAccountRepository = bankAccountRepository;
 
-    public async Task<ServiceResponse<BankAccountDTO>> GetBankAccountByIdAsync(Guid id)
+    public async Task<ServiceResponse<BankAccountDTO>> GetBankAccountByIdAsync(long id)
     {
         try
         {
@@ -30,7 +28,7 @@ public class BankAccountService : IBankAccountService
         try
         {
             var bankAccounts = await _bankAccountRepository.GetBankAccountsAsync();
-            List<BankAccountDTO> bankAccountsDTO = new();
+            List<BankAccountDTO> bankAccountsDTO = [];
             if (!bankAccounts.Any())
                 return ServiceResponseHelper.Error<IEnumerable<BankAccountDTO>>(404, "Conta Bancária Não foi localizada!");
             foreach (var bankAccount in bankAccounts)
@@ -91,7 +89,7 @@ public class BankAccountService : IBankAccountService
         }
     }
 
-    public async Task<ServiceResponse<BankAccountDTO>> DeleteBankAccountAsync(Guid id)
+    public async Task<ServiceResponse<BankAccountDTO>> DeleteBankAccountAsync(long id)
     {
         try
         {
