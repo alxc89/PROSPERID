@@ -6,11 +6,15 @@ namespace PROSPERID.Presentation.Controllers.BankAccount;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BankAccountController : ControllerBase
+public class BankAccountController(IBankAccountService bankAccountService) : ControllerBase
 {
-    private readonly IBankAccountService _bankAccountService;
-    public BankAccountController(IBankAccountService bankAccountService)
-        => _bankAccountService = bankAccountService;
+    private readonly IBankAccountService _bankAccountService = bankAccountService;
+
+    /// <summary>
+    /// Buscar uma Conta Bancária
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(long id)
     {
@@ -20,6 +24,10 @@ public class BankAccountController : ControllerBase
         return Ok(bankAccount);
     }
 
+    /// <summary>
+    /// Buscar uma lista de Contas Bancárias.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet()]
     public async Task<IActionResult> Get()
     {
@@ -29,6 +37,11 @@ public class BankAccountController : ControllerBase
         return Ok(bankAccount);
     }
 
+    /// <summary>
+    /// Criação de uma Conta Bancária
+    /// </summary>
+    /// <param name="createbankAccountDTO"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Post(CreateBankAccountDTO createbankAccountDTO)
     {
@@ -38,6 +51,11 @@ public class BankAccountController : ControllerBase
         return CreatedAtAction("Get", new { id = newbankAccount.Data?.Id }, newbankAccount.Data);
     }
 
+    /// <summary>
+    /// Alteração de uma Conta Bancária
+    /// </summary>
+    /// <param name="updatebankAccountDTO"></param>
+    /// <returns></returns>
     [HttpPut()]
     public async Task<IActionResult> Put(UpdateBankAccountDTO updatebankAccountDTO)
     {
@@ -47,6 +65,11 @@ public class BankAccountController : ControllerBase
         return Ok(updatebankAccount);
     }
 
+    /// <summary>
+    /// Deletar uma Conta Bancária
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(long id)
     {

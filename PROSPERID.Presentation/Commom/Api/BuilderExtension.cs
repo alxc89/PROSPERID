@@ -6,7 +6,6 @@ using PROSPERID.Application.Services.Transaction;
 using PROSPERID.Core.Interface.Repositories;
 using PROSPERID.Infra.Context;
 using PROSPERID.Infra.Repositories;
-using PROSPERID.Presentation.Commom.Api.Documentation;
 
 namespace PROSPERID.Presentation.Commom.Api;
 
@@ -17,16 +16,6 @@ public static class BuilderExtension
         Configuration.ConnectionString = builder
             .Configuration
             .GetConnectionString("DefaultConnection") ?? string.Empty;
-    }
-
-    public static void AddDocumentation(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(x =>
-        {
-            x.CustomSchemaIds(n => n.FullName);
-            x.SchemaFilter<CustomSchemaFilter>();
-        });
     }
 
     public static void AddSecurity(this WebApplicationBuilder builder)

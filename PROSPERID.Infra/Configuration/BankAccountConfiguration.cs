@@ -16,6 +16,7 @@ public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
 
         builder.Property(b => b.AccountNumber)
             .HasColumnType("varchar(20)")
+            .HasMaxLength(20)
             .IsRequired();
 
         builder.HasMany(c => c.Transactions)

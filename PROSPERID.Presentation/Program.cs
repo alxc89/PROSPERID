@@ -1,4 +1,5 @@
 using PROSPERID.Presentation.Commom.Api;
+using PROSPERID.Presentation.Commom.Api.Documentation;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
