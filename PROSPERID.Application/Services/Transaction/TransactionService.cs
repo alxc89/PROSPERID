@@ -1,5 +1,5 @@
 ﻿using PROSPERID.Application.DTOs.Transaction;
-using PROSPERID.Application.ModelViews;
+using PROSPERID.Application.ModelViews.Transaction;
 using PROSPERID.Application.Services.Shared;
 using PROSPERID.Core.Interface.Repositories;
 
