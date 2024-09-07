@@ -1,9 +1,9 @@
 ﻿using PROSPERID.Application.DTOs.Category;
 using PROSPERID.Application.DTOs.Transaction;
-using PROSPERID.Core.Entities;
+using Entities = PROSPERID.Core.Entities;
 using PROSPERID.Core.Enums;
 
-namespace PROSPERID.Application.ModelViews;
+namespace PROSPERID.Application.ModelViews.Transaction;
 public class TransactionView
 {
     public long Id { get; set; }
@@ -41,7 +41,7 @@ public class TransactionView
             transaction.Amount, transaction.TransactionDate, transaction.DueDate);
     }
 
-    public static implicit operator TransactionView(Transaction transaction)
+    public static implicit operator TransactionView(Entities.Transaction transaction)
     {
         return new TransactionView(transaction.Id, transaction.Description, transaction.Category, transaction.Type,
             transaction.Amount, transaction.TransactionDate, transaction.DueDate);
