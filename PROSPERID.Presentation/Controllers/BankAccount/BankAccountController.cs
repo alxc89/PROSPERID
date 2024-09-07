@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using PROSPERID.Application.DTOs.BankAccount;
+using PROSPERID.Application.ModelViews.BankAccount;
 using PROSPERID.Application.Services.BankAccount;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
@@ -19,7 +20,7 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// <param name="id"></param>
     [HttpGet("{id}")]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BankAccountView), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(long id)
@@ -35,7 +36,7 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// </summary>
     [HttpGet()]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BankAccountView), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get()
@@ -52,7 +53,7 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// <param name="createbankAccountDTO"></param>
     [HttpPost]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(BankAccountView), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(CreateBankAccountDTO createbankAccountDTO)
     {
@@ -68,7 +69,7 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// <param name="updatebankAccountDTO"></param>
     [HttpPut()]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BankAccountView), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Put(UpdateBankAccountDTO updatebankAccountDTO)
