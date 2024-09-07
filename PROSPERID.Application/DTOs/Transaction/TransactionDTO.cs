@@ -5,6 +5,13 @@ namespace PROSPERID.Application.DTOs.Transaction;
 
 public class TransactionDTO
 {
+    public string Description { get; set; }
+    public TransactionType Type { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime TransactionDate { get; set; }
+    public DateTime DueDate { get; set; }
+    public CategoryDTO CategoryDTO { get; set; }
+
     public TransactionDTO(string description, TransactionType type,
         decimal amount, DateTime transactionDate, DateTime dueDate, CategoryDTO categoryDTO)
     {
@@ -15,13 +22,6 @@ public class TransactionDTO
         DueDate = dueDate;
         CategoryDTO = categoryDTO;
     }
-
-    public string Description { get; set; }
-    public TransactionType Type { get; set; }
-    public decimal Amount { get; set; }
-    public DateTime TransactionDate { get; set; }
-    public DateTime DueDate { get; set; }
-    public CategoryDTO CategoryDTO { get; set; }
 
     public static implicit operator TransactionDTO(Core.Entities.Transaction transaction)
     {

@@ -3,11 +3,8 @@ using PROSPERID.Core.Enums;
 
 namespace PROSPERID.Application.DTOs.Transaction;
 
-public class CreateTransactionDTO : TransactionDTO
+public class CreateTransactionDTO(string description, TransactionType type,
+    decimal amount, DateTime transactionDate, DateTime dueDate, CategoryDTO categoryDTO) 
+    : TransactionDTO(description, type, amount, transactionDate, dueDate, categoryDTO)
 {
-    public CreateTransactionDTO(string description, TransactionType type,
-        decimal amount, DateTime transactionDate, DateTime dueDate, CategoryDTO categoryDTO)
-        : base(description, type, amount, transactionDate, dueDate, categoryDTO)
-    {
-    }
 }
