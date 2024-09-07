@@ -17,7 +17,12 @@ public class BankAccountServiceTests
     public async Task CreateBankAccount_InvalidInput_ShouldReturnErrorResponse()
     {
         //Arrange
-        var createBankAccountDTO = new CreateBankAccountDTO("12345", "", -100.0m);
+        var createBankAccountDTO = new CreateBankAccountDTO
+        {
+            AccountHolder = "",
+            AccountNumber = "12345",
+            Balance = -100.0m
+        };
         var bankAccountService = new BankAccountService(_mockRepository.Object);
 
         //Act
@@ -35,7 +40,12 @@ public class BankAccountServiceTests
     {
         //Arrange
         Core.Entities.BankAccount bankAccount = new("12345", "John Doe", 1000.0m);
-        var createBankAccountDTO = new CreateBankAccountDTO("12345", "John Doe", 1000.0m);
+        var createBankAccountDTO = new CreateBankAccountDTO
+        {
+            AccountHolder = "John Doe",
+            AccountNumber = "12345",
+            Balance = 1000.0m
+        };
         _mockRepository.Setup(repo => repo.CreateBankAccountAsync(It.IsAny<Core.Entities.BankAccount>()))
             .ReturnsAsync(bankAccount);
         var bankAccountService = new BankAccountService(_mockRepository.Object);
@@ -54,7 +64,12 @@ public class BankAccountServiceTests
     public async Task CreateBankAccount_DuplicateAccountNumber_ShouldReturnErrorResponse()
     {
         //Arrange
-        var createBankAccountDTO = new CreateBankAccountDTO("12345", "John Doe", 1000.0m);
+        var createBankAccountDTO = new CreateBankAccountDTO
+        {
+            AccountHolder = "John Doe",
+            AccountNumber = "12345",
+            Balance = 1000.0m
+        };
         _mockRepository.Setup(repo => repo.VerifyIfExistsAccount(It.IsAny<string>()))
             .ReturnsAsync(true);
         var bankAccountService = new BankAccountService(_mockRepository.Object);
@@ -74,7 +89,12 @@ public class BankAccountServiceTests
     public async Task CreateBankAccount_RepositoryThrowsException_ShouldReturnErrorResponse()
     {
         //Arrange
-        var createBankAccountDTO = new CreateBankAccountDTO("12345", "John Doe", 1000.0m);
+        var createBankAccountDTO = new CreateBankAccountDTO
+        {
+            AccountHolder = "John Doe",
+            AccountNumber = "12345",
+            Balance = 1000.0m
+        };
         var bankAccountService = new BankAccountService(_mockRepository.Object);
 
         //Act
