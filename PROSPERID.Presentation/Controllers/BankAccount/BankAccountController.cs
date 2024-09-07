@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Mvc;
 using PROSPERID.Application.DTOs.BankAccount;
 using PROSPERID.Application.Services.BankAccount;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 namespace PROSPERID.Presentation.Controllers.BankAccount;
 
@@ -14,8 +17,11 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// Buscar uma Conta Bancária
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
     [HttpGet("{id}")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(long id)
     {
         var bankAccount = await _bankAccountService.GetBankAccountByIdAsync(id);
@@ -27,8 +33,11 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// <summary>
     /// Buscar uma lista de Contas Bancárias.
     /// </summary>
-    /// <returns></returns>
     [HttpGet()]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get()
     {
         var bankAccount = await _bankAccountService.GetBankAccountsAsync();
@@ -41,8 +50,10 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// Criação de uma Conta Bancária
     /// </summary>
     /// <param name="createbankAccountDTO"></param>
-    /// <returns></returns>
     [HttpPost]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(CreateBankAccountDTO createbankAccountDTO)
     {
         var newbankAccount = await _bankAccountService.CreateBankAccountAsync(createbankAccountDTO);
@@ -55,8 +66,11 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// Alteração de uma Conta Bancária
     /// </summary>
     /// <param name="updatebankAccountDTO"></param>
-    /// <returns></returns>
     [HttpPut()]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(BankAccountDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Put(UpdateBankAccountDTO updatebankAccountDTO)
     {
         var updatebankAccount = await _bankAccountService.UpdateBankAccountAsync(updatebankAccountDTO);
@@ -69,8 +83,11 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     /// Deletar uma Conta Bancária
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
     [HttpDelete("{id}")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(long id)
     {
         var updatebankAccount = await _bankAccountService.DeleteBankAccountAsync(id);
