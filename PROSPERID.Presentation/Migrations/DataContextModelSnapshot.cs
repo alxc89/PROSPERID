@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PROSPERID.Infra.Context;
 
@@ -12,11 +11,9 @@ using PROSPERID.Infra.Context;
 namespace PROSPERID.Presentation.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240829021143_Initial")]
-    partial class Initial
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +36,7 @@ namespace PROSPERID.Presentation.Migrations
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
+                        .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
                     b.Property<decimal>("Balance")
@@ -117,10 +115,8 @@ namespace PROSPERID.Presentation.Migrations
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("varchar");
+                    b.Property<short>("Type")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime");

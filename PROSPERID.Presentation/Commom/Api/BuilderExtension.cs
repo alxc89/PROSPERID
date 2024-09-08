@@ -33,7 +33,7 @@ public static class BuilderExtension
             .AddDbContext<DataContext>(x =>
             {
                 x.UseSqlServer(Configuration.ConnectionString,
-                x => x.MigrationsAssembly("PROSPERID.Infra"));
+                x => x.MigrationsAssembly("PROSPERID.Presentation"));
             });
     }
 

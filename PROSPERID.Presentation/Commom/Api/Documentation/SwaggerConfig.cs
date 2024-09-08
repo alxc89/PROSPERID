@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using PROSPERID.Core.Enums;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace PROSPERID.Presentation.Commom.Api.Documentation;
@@ -8,7 +10,8 @@ public static class SwaggerConfig
     private static readonly string[] _namespaces =
     {
         "PROSPERID.Presentation",
-        "PROSPERID.Application"
+        "PROSPERID.Application",
+        "PROSPERID.Core"
     };
 
     public static void AddDocumentation(this WebApplicationBuilder builder)

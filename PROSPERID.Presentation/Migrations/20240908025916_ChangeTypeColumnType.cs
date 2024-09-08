@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PROSPERID.Presentation.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class ChangeTypeColumnType : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace PROSPERID.Presentation.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountNumber = table.Column<string>(type: "varchar(20)", nullable: false),
+                    AccountNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
                     AccountHolder = table.Column<string>(type: "varchar(100)", nullable: false),
                     Balance = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -50,7 +50,7 @@ namespace PROSPERID.Presentation.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    Type = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: false),
+                    Type = table.Column<short>(type: "SMALLINT", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime", nullable: false),

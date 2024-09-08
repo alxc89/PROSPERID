@@ -26,7 +26,7 @@ public class TransactionServiceTests
         //Arrange
         CategoryDTO categoryDTO = new(10, "Casa");
         var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
-            DateTime.Now.AddMonths(1), categoryDTO);
+            DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
         var result = await _transactionService.CreateTransactionAsync(createTransactionDTO);
@@ -44,7 +44,7 @@ public class TransactionServiceTests
         //Arrange
         var categoryDTO = new CategoryDTO(10, "Casa");
         var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
-            DateTime.Now.AddMonths(1), categoryDTO);
+            DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
         var result = await _transactionService.CreateTransactionAsync(createTransactionDTO);
@@ -65,7 +65,7 @@ public class TransactionServiceTests
 
         var categoryDTO = new CategoryDTO(10, "Casa");
         var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
-            DateTime.Now.AddMonths(1), categoryDTO);
+            DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
         var result = await _transactionService.CreateTransactionAsync(createTransactionDTO);
@@ -90,7 +90,7 @@ public class TransactionServiceTests
                 .ReturnsAsync(transactionUpdate);
         var categoryDTO = new CategoryDTO(10, "Casa");
         var updateTransactionDTO = new UpdateTransactionDTO(10, "updateTransactionTeste",
-            TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO);
+            TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
         var result = await _transactionService.UpdateTransactionAsync(updateTransactionDTO);
@@ -109,7 +109,7 @@ public class TransactionServiceTests
                 .ReturnsAsync((Core.Entities.Transaction)null!);
         var categoryDTO = new CategoryDTO(10, "Casa");
         var updateTransactionDTO = new UpdateTransactionDTO(10, "UpdateTeste",
-            TransactionType.Payment, 100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO);
+            TransactionType.Payment, 100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
         var result = await _transactionService.UpdateTransactionAsync(updateTransactionDTO);

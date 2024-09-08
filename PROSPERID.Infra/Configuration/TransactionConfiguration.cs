@@ -19,12 +19,8 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .IsRequired();
 
         builder.Property(t => t.Type)
-            .HasColumnType("varchar")
-            .HasMaxLength(5)
-            .HasConversion(
-                t => t.ToString(),
-                t => (TransactionType)Enum.Parse(typeof(TransactionType), t))
-            .IsRequired();
+            .IsRequired()
+            .HasColumnType("SMALLINT");
 
         builder.Property(t => t.Amount)
             .HasColumnType("decimal(10, 2)")

@@ -15,7 +15,7 @@ public class BankAccountController(IBankAccountService bankAccountService) : Con
     private readonly IBankAccountService _bankAccountService = bankAccountService;
 
     /// <summary>
-    /// Buscar uma Conta Bancária
+    /// Retorna uma Conta Bancária
     /// </summary>
     /// <param name="id"></param>
     [HttpGet("{id}")]
