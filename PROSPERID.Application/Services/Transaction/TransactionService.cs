@@ -71,13 +71,13 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         }
     }
 
-    public async Task<ServiceResponse<TransactionView>> UpdateTransactionAsync(UpdateTransactionDTO updateTransactionDTO)
+    public async Task<ServiceResponse<TransactionView>> UpdateTransactionAsync(long id, UpdateTransactionDTO updateTransactionDTO)
     {
         var validate = ValidateTransaction<UpdateTransactionDTO>
              .Validate(updateTransactionDTO);
         if (validate != null)
             return ServiceResponseHelper.Error<TransactionView>(validate.Status, validate.Message);
-        var transaction = await _repository.GetTransactionByIdAsync(updateTransactionDTO.Id);
+        var transaction = await _repository.GetTransactionByIdAsync(id);
         if (transaction == null)
             return ServiceResponseHelper.Error<TransactionView>(404, "Requisição inválida, Transação não encontrada");
 

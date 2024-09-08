@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROSPERID.Application.DTOs.Transaction;
-using PROSPERID.Application.ModelViews.BankAccount;
 using PROSPERID.Application.ModelViews.Transaction;
 using PROSPERID.Application.Services.Transaction;
 using System.Net.Mime;
@@ -73,7 +72,7 @@ public class TransactionController(ITransactionService transactionService) : Con
     [ProducesResponseType(typeof(TransactionView), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Put(UpdateTransactionDTO updateTransactionDTO)
+    public async Task<IActionResult> Put(string id, UpdateTransactionDTO updateTransactionDTO)
     {
         var updateTransaction = await _transactionService.UpdateTransactionAsync(updateTransactionDTO);
         if (!updateTransaction.IsSuccess)
