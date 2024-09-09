@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using PROSPERID.Application.DTOs.Category;
+using PROSPERID.Application.ModelViews.Category;
 using PROSPERID.Application.Services.Category;
 using PROSPERID.Application.Services.Shared;
 using PROSPERID.Presentation.Controllers.Category;
@@ -14,11 +15,15 @@ public class CategoryControllerTests
     {
         // Arrange
         var createCategoryDTO = new CreateCategoryDTO("Test Category");
-        var categoryDTO = new CategoryDTO(10, "Test Category");
-        ServiceResponse<CategoryDTO> serviceResponse = ServiceResponseHelper
-            .Success(200, "Categoria criada com sucesso!", categoryDTO);
+        var categoryView = new CategoryView(10, "Test Category");
+        ServiceResponse<CategoryView> serviceResponse = ServiceResponseHelper
+            .Success(200, "Categoria criada com sucesso!", categoryView);
         var categoryServiceMock = new Mock<ICategoryService>();
-        categoryServiceMock.Setup(serv => serv.CreateCategoryAsync(It.IsAny<CreateCategoryDTO>())).ReturnsAsync(serviceResponse);
+
+        categoryServiceMock
+            .Setup(serv => serv.CreateCategoryAsync(It.IsAny<CreateCategoryDTO>()))
+            .ReturnsAsync(serviceResponse); // Aqui você está retornando a variável serviceResponse
+
         var controller = new CategoryController(categoryServiceMock.Object);
 
         // Act

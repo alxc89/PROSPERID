@@ -1,3 +1,10 @@
 ﻿namespace PROSPERID.Application.DTOs.Category;
 
-public record CreateCategoryDTO(string Name);
+public class CreateCategoryDTO(string name)
+{
+    /// <summary>
+    /// Nome da Categoria
+    /// </summary>
+    /// <example>Educação</example>
+    public string Name { get; set; } = name;
+}

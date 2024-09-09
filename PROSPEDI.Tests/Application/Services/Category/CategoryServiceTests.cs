@@ -65,7 +65,7 @@ public class CategoryServiceTests
         var updateCategoryDTO = new UpdateCategoryDTO(10, "UpdatedCategory");
 
         //Act
-        var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO);
+        var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO.Id, updateCategoryDTO);
 
         //Assert
         Assert.NotNull(result);
@@ -85,7 +85,7 @@ public class CategoryServiceTests
         var updateCategoryDTO = new UpdateCategoryDTO(10, "UpdatedCategory");
 
         //Act
-        var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO);
+        var result = await categoryService.UpdateCategoryAsync(updateCategoryDTO.Id, updateCategoryDTO);
         //Assert
         Assert.NotNull(result);
         Assert.Equal(404, result.Status);

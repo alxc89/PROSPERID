@@ -1,3 +1,5 @@
 ﻿namespace PROSPERID.Application.DTOs.Category;
 
-public record UpdateCategoryDTO(long Id, string Name);
+public class UpdateCategoryDTO(long id, string name) : CategoryDTO(id, name)
+{
+}
