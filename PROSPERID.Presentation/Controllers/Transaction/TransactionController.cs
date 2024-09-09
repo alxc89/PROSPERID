@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROSPERID.Application.DTOs.Transaction;
 using PROSPERID.Application.ModelViews.Transaction;
+using PROSPERID.Application.Services.Shared;
 using PROSPERID.Application.Services.Transaction;
 using System.Net.Mime;
 
@@ -13,13 +14,13 @@ public class TransactionController(ITransactionService transactionService) : Con
     private readonly ITransactionService _transactionService = transactionService;
 
     /// <summary>
-    /// Retorna uma lista de Transações
+    /// Retorna uma lista de Transações.
     /// </summary>
     [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(TransactionView), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ServiceResponse<TransactionView>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get()
     {
         var transactions = await _transactionService.GetTransactionsAsync();
@@ -29,14 +30,14 @@ public class TransactionController(ITransactionService transactionService) : Con
     }
 
     /// <summary>
-    /// Retorna uma Transação
+    /// Retorna uma Transação.
     /// </summary>
     /// <param name="id"></param>
     [HttpGet("{id}")]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(TransactionView), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ServiceResponse<TransactionView>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(long id)
     {
         var transaction = await _transactionService.GetTransactionByIdAsync(id);
@@ -52,8 +53,8 @@ public class TransactionController(ITransactionService transactionService) : Con
     /// <returns></returns>
     [HttpPost]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(TransactionView), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ServiceResponse<TransactionView>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(CreateTransactionDTO createTransactionDTO)
     {
         var newTransaction = await _transactionService.CreateTransactionAsync(createTransactionDTO);
@@ -63,18 +64,19 @@ public class TransactionController(ITransactionService transactionService) : Con
     }
 
     /// <summary>
-    /// Alteração de uma transação
+    /// Alteração de uma Transação.
     /// </summary>
+    /// <param name="id"></param>
     /// <param name="updateTransactionDTO"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(TransactionView), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Put(string id, UpdateTransactionDTO updateTransactionDTO)
+    [ProducesResponseType(typeof(ServiceResponse<TransactionView>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Put(long id, UpdateTransactionDTO updateTransactionDTO)
     {
-        var updateTransaction = await _transactionService.UpdateTransactionAsync(updateTransactionDTO);
+        var updateTransaction = await _transactionService.UpdateTransactionAsync(id, updateTransactionDTO);
         if (!updateTransaction.IsSuccess)
             return BadRequest(updateTransaction.Message);
         return Ok(updateTransaction);
@@ -87,9 +89,9 @@ public class TransactionController(ITransactionService transactionService) : Con
     /// <returns></returns>
     [HttpDelete("{id}")]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(TransactionView), StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ServiceResponse<TransactionView>), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Delete(long id)
     {
         var deleteTransaction = await _transactionService.DeleteTransactionAsync(id);

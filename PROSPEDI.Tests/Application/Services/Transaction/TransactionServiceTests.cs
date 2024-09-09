@@ -93,7 +93,7 @@ public class TransactionServiceTests
             TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
-        var result = await _transactionService.UpdateTransactionAsync(updateTransactionDTO);
+        var result = await _transactionService.UpdateTransactionAsync(categoryDTO.Id, updateTransactionDTO);
 
         //Assert
         Assert.Equal(200, result.Status);
@@ -112,7 +112,7 @@ public class TransactionServiceTests
             TransactionType.Payment, 100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
-        var result = await _transactionService.UpdateTransactionAsync(updateTransactionDTO);
+        var result = await _transactionService.UpdateTransactionAsync(categoryDTO.Id, updateTransactionDTO);
 
         //Assert
         Assert.NotNull(result);

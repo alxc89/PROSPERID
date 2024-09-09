@@ -1,10 +1,11 @@
 ﻿namespace PROSPERID.Core.Enums;
 
 /// <summary>
-/// Tipos de transação.
-/// Utilize 0 para pagamento
-/// Utilize 1 para recebimento
+/// Tipos de transação:
+/// 0 para pagamento.
+/// 1 para recebimento.
 /// </summary>
+/// <example>["1", "2"]</example>
 public enum TransactionType 
 {
     /// <summary>

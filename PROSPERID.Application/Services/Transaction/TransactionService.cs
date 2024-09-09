@@ -32,7 +32,7 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         {
             var transaction = await _repository.GetTransactionsAsync();
             if (!transaction.Any())
-                return ServiceResponseHelper.Error<IEnumerable<TransactionView>>(404, "Transação não foi localizada");
+                return ServiceResponseHelper.Error<IEnumerable<TransactionView>>(404, "Nenhuma Transação localizada");
             List<TransactionView> transactionViews = [];
             foreach (var item in transaction)
                 transactionViews.Add(item);
