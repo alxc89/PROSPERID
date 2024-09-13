@@ -28,7 +28,7 @@ public class Transaction : Entity
     public DateTime? PaymentDate { get; set; }
     public long CategoryId { get; set; }
     public Category Category { get; set; } = null!;
-    public BankAccount? BankAccount { get; set; } = null;
+    public BankAccount BankAccount { get; set; } = null;
     public long? BankAccountId { get; set; }
 
     public void Update(string description, long idCategory, TransactionType type,
