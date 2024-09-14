@@ -8,7 +8,7 @@ public class ValidateTransactionInputTests
     //    //Arrange
     //    var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Carro");
     //    var transactionDTO = new TransactionDTO("Pagamento Carro", categoryDTO,
-    //        TransactionType.Payment, -850.00m, DateTime.Now,
+    //        ETransactionType.Payment, -850.00m, DateTime.Now,
     //        DateTime.Now.AddDays(2));
     //    //Act
     //    var validate = ValidateTransaction<TransactionDTO>.Validate(transactionDTO);
@@ -22,7 +22,7 @@ public class ValidateTransactionInputTests
     //    //Arrange
     //    var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Carro");
     //    var transactionDTO = new TransactionDTO("", categoryDTO,
-    //        TransactionType.Payment, -850.00m, DateTime.Now,
+    //        ETransactionType.Payment, -850.00m, DateTime.Now,
     //        DateTime.Now.AddDays(2));
     //    //Act
     //    var validate = ValidateTransaction<TransactionDTO>.Validate(transactionDTO);
@@ -39,7 +39,7 @@ public class ValidateTransactionInputTests
     //    //Arrange
     //    var categoryDTO = new CategoryDTO(Guid.NewGuid(), "Carro");
     //    var transactionDTO = new TransactionDTO(null!, categoryDTO,
-    //        TransactionType.Payment, -850.00m, DateTime.Now,
+    //        ETransactionType.Payment, -850.00m, DateTime.Now,
     //        DateTime.Now.AddDays(2));
     //    //Act
     //    var validate = ValidateTransaction<TransactionDTO>.Validate(transactionDTO);

@@ -2,7 +2,7 @@
 
 namespace PROSPERID.Application.DTOs.Transaction;
 
-public class TransactionDTO(string description, TransactionType type,
+public class TransactionDTO(string description, ETransactionType type,
     decimal amount, DateTime transactionDate, DateTime dueDate, long categoryId)
 {
     /// <summary>
@@ -17,7 +17,7 @@ public class TransactionDTO(string description, TransactionType type,
     /// <example>
     /// ["Pagamento", "Recebimento"]
     /// </example>
-    public TransactionType Type { get; set; } = type;
+    public ETransactionType Type { get; set; } = type;
 
     /// <summary>
     /// Valor da transação.

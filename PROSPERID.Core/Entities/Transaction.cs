@@ -4,7 +4,7 @@ namespace PROSPERID.Core.Entities;
 
 public class Transaction : Entity
 {
-    public Transaction(string description, Category category, TransactionType type,
+    public Transaction(string description, Category category, ETransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         Description = description;
@@ -21,7 +21,7 @@ public class Transaction : Entity
     }
 
     public string Description { get; set; } = null!;
-    public TransactionType Type { get; set; }
+    public ETransactionType Type { get; set; }
     public decimal Amount { get; set; }
     public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
@@ -29,9 +29,10 @@ public class Transaction : Entity
     public long CategoryId { get; set; }
     public Category Category { get; set; } = null!;
     public BankAccount BankAccount { get; set; } = null;
+    public CreditCardBill BankCardBill { get; set; } = null;
     public long? BankAccountId { get; set; }
 
-    public void Update(string description, long idCategory, TransactionType type,
+    public void Update(string description, long idCategory, ETransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         //if (PaymentDate.HasValue)
@@ -65,11 +66,11 @@ public class Transaction : Entity
 
     public bool CancelPayment(BankAccount account)
     {
-        if (Type == TransactionType.Receipt)
+        if (Type == ETransactionType.Receipt)
             return false;
         decimal reverseAmount = Amount * -1;
         Transaction reverseTransaction = new("Estorno de Pagemento", this.Category,
-            TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
+            ETransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions?.Add(reverseTransaction);
         account.Deposit(reverseAmount);
         PaymentDate = null;
@@ -78,11 +79,11 @@ public class Transaction : Entity
 
     public bool CancelReceipt(BankAccount account)
     {
-        if (Type == TransactionType.Payment)
+        if (Type == ETransactionType.Payment)
             return false;
         decimal reverseAmount = Amount * -1;
         Transaction reverseTransaction = new("Estorno de Recebimento", Category,
-            TransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
+            ETransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions?.Add(reverseTransaction);
         account.Withdraw(Amount);
         PaymentDate = null;

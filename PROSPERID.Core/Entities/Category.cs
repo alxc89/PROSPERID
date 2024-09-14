@@ -3,7 +3,7 @@
 public class Category : Entity
 {
     public string Name { get; set; } = null!;
-    public ICollection<Transaction>? Transactions { get; set; }
+    public ICollection<Transaction> Transactions { get; set; }
 
     public Category(string name)
     {

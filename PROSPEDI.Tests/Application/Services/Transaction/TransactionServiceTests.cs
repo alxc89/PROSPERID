@@ -25,7 +25,7 @@ public class TransactionServiceTests
     {
         //Arrange
         CategoryDTO categoryDTO = new(10, "Casa");
-        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
+        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", ETransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
@@ -43,7 +43,7 @@ public class TransactionServiceTests
     {
         //Arrange
         var categoryDTO = new CategoryDTO(10, "Casa");
-        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
+        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", ETransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
@@ -64,7 +64,7 @@ public class TransactionServiceTests
                 .ReturnsAsync(true);
 
         var categoryDTO = new CategoryDTO(10, "Casa");
-        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", TransactionType.Payment, -100, DateTime.Now,
+        var createTransactionDTO = new CreateTransactionDTO("transactionTeste", ETransactionType.Payment, -100, DateTime.Now,
             DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
@@ -82,15 +82,15 @@ public class TransactionServiceTests
     {
         //Arrange
         var category = new Core.Entities.Category("Casa");
-        Core.Entities.Transaction transaction = new("transactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
+        Core.Entities.Transaction transaction = new("transactionTeste", category, ETransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
         _transactionRepositoryMock.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<long>()))
                 .ReturnsAsync(transaction);
-        Core.Entities.Transaction transactionUpdate = new("updateTransactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
+        Core.Entities.Transaction transactionUpdate = new("updateTransactionTeste", category, ETransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
         _transactionRepositoryMock.Setup(repo => repo.UpdateTransactionAsync(It.IsAny<Core.Entities.Transaction>()))
                 .ReturnsAsync(transactionUpdate);
         var categoryDTO = new CategoryDTO(10, "Casa");
         var updateTransactionDTO = new UpdateTransactionDTO(10, "updateTransactionTeste",
-            TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
+            ETransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
         var result = await _transactionService.UpdateTransactionAsync(categoryDTO.Id, updateTransactionDTO);
@@ -109,7 +109,7 @@ public class TransactionServiceTests
                 .ReturnsAsync((Core.Entities.Transaction)null!);
         var categoryDTO = new CategoryDTO(10, "Casa");
         var updateTransactionDTO = new UpdateTransactionDTO(10, "UpdateTeste",
-            TransactionType.Payment, 100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
+            ETransactionType.Payment, 100, DateTime.Now, DateTime.Now.AddMonths(1), categoryDTO.Id);
 
         //Act
         var result = await _transactionService.UpdateTransactionAsync(categoryDTO.Id, updateTransactionDTO);
@@ -126,7 +126,7 @@ public class TransactionServiceTests
     //{
     //    //Arrange
     //    var category = new PROSPERID.Domain.Entities.Category("Casa");
-    //    PROSPERID.Domain.Entities.Transaction transaction = new("transactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
+    //    PROSPERID.Domain.Entities.Transaction transaction = new("transactionTeste", category, ETransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
     //    _mockRepository.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<Guid>()))
     //            .ReturnsAsync(transaction);
     //    _mockRepository.Setup(repo => repo.DeleteTransactionAsync(It.IsAny<Guid>()))
@@ -164,7 +164,7 @@ public class TransactionServiceTests
     //    //Arrange
     //    PROSPERID.Domain.Entities.Category category = new("Casa");
     //    PROSPERID.Domain.Entities.BankAccount bankAccount = new("123456", "Holder_Teste", 200);
-    //    PROSPERID.Domain.Entities.Transaction transaction = new("transactionTeste", category, TransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
+    //    PROSPERID.Domain.Entities.Transaction transaction = new("transactionTeste", category, ETransactionType.Payment, -100, DateTime.Now, DateTime.Now.AddMonths(1));
     //    transaction.ExecutePayment(bankAccount, DateTime.Now.AddMonths(1));
     //    _mockRepository.Setup(repo => repo.GetTransactionByIdAsync(It.IsAny<Guid>()))
     //            .ReturnsAsync(transaction);

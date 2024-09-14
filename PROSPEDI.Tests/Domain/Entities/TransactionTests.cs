@@ -13,7 +13,7 @@ public class TransactionTests
         BankAccount account = new("123456", "Alex", initialBalance);
         Category category = new("Category");
         Transaction transaction =
-            new("Payment", category, TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now);
+            new("Payment", category, ETransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now);
 
         // Act
         bool result = transaction.ExecutePayment(account, DateTime.Now);
@@ -31,7 +31,7 @@ public class TransactionTests
         BankAccount account = new("123456", "Alex", initialBalance);
         Category category = new("Category");
         Transaction transaction =
-            new("Payment", category, TransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now.AddDays(-2));
+            new("Payment", category, ETransactionType.Payment, -50.00m, DateTime.Now, DateTime.Now.AddDays(-2));
         transaction.ExecutePayment(account, DateTime.Now);
         // Act
         bool result = transaction.CancelReceipt(account);
@@ -49,7 +49,7 @@ public class TransactionTests
         BankAccount account = new("123456", "Alex", initialBalance);
         Category category = new("Category");
         Transaction transaction =
-            new("Receipt", category, TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
+            new("Receipt", category, ETransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
         var result = transaction.ExecuteReceipt(account, DateTime.Now);
 
         //Assert
@@ -65,7 +65,7 @@ public class TransactionTests
         BankAccount account = new("123456", "Alex", initialBalance);
         Category category = new("Category");
         Transaction transaction =
-            new("Receipt", category, TransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
+            new("Receipt", category, ETransactionType.Receipt, 150.00m, DateTime.Now, DateTime.Now.AddDays(2));
         transaction.ExecuteReceipt(account, DateTime.Now);
         // Act
         bool result = transaction.CancelReceipt(account);

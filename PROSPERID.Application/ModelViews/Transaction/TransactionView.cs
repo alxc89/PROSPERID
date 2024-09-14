@@ -23,7 +23,7 @@ public class TransactionView
     /// <example>
     /// ["Pagamento", "Recebimento"]
     /// </example>
-    public TransactionType Type { get; set; }
+    public ETransactionType Type { get; set; }
 
     /// <summary>
     /// Valor da transação.
@@ -49,7 +49,7 @@ public class TransactionView
     /// <example>1</example>
     public long CategoryId { get; set; }
 
-    public TransactionView(long id, string description, long categoryId, TransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate)
+    public TransactionView(long id, string description, long categoryId, ETransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate)
     {
         Id = id;
         Description = description;
@@ -60,7 +60,7 @@ public class TransactionView
         DueDate = dueDate;
     }
 
-    public TransactionView(string description, long categoryId, TransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate)
+    public TransactionView(string description, long categoryId, ETransactionType type, decimal amount, DateTime transactionDate, DateTime dueDate)
     {
         Description = description;
         CategoryId = categoryId;
