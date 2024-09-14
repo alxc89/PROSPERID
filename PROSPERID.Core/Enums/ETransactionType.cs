@@ -6,7 +6,7 @@
 /// 1 para recebimento.
 /// </summary>
 /// <example>["1", "2"]</example>
-public enum TransactionType 
+public enum ETransactionType 
 {
     /// <summary>
     /// Pagamento.
