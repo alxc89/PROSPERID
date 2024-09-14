@@ -15,7 +15,7 @@ public class CreditCardBill
     public Money PaidAmount { get; set; }
     public EPaymentStatus PaymentStatus { get; set; }
 
-    public virtual ICollection<CreditCardTransaction> CreditCardTransactions { get; set; }
+    public virtual ICollection<Transaction> Transactions { get; set; }
 
     private CreditCardBill()
     {
@@ -53,12 +53,6 @@ public class CreditCardBill
 
     public decimal GetRemainingAmount() => TotalAmount - PaidAmount;
 
-    private void FinalizeBill(CreditCardBill bill, DateTime closeDate)
-    {
-        bill.Status = EStatus.Close;
-        bill.CloseDate = closeDate;
-    }
-
     private void FinalizeBill(CreditCardBill bill)
     {
         bill.Status = EStatus.Close;
@@ -71,8 +65,5 @@ public class CreditCardBill
         CloseDate = DateTime.Now;
     }
 
-    private void AddTransaction(CreditCardTransaction creditCardTransaction)
-    {
-        CreditCardTransactions.Add(creditCardTransaction);
-    }
+    private void AddTransaction(Transaction transaction) => Transactions.Add(transaction);
 }
