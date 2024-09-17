@@ -3,9 +3,8 @@ using PROSPERID.Core.ValueObjects;
 
 namespace PROSPERID.Core.Entities;
 
-public class CreditCardBill
+public class CreditCardBill : Entity
 {
-    public int CreditCardId { get; set; }
     public DateTime BillDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime BillingPeriod { get; set; }
@@ -15,6 +14,8 @@ public class CreditCardBill
     public Money PaidAmount { get; set; }
     public EPaymentStatus PaymentStatus { get; set; }
 
+    public long CreditCardId { get; set; }
+    public CreditCard CreditCard { get; set; }
     public virtual ICollection<Transaction> Transactions { get; set; }
 
     private CreditCardBill()

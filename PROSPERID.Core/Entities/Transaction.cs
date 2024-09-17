@@ -4,6 +4,23 @@ namespace PROSPERID.Core.Entities;
 
 public class Transaction : Entity
 {
+    public string Description { get; set; } = null!;
+    public ETransactionType Type { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime TransactionDate { get; set; }
+    public DateTime DueDate { get; set; }
+    public DateTime? PaymentDate { get; set; }
+    public long CategoryId { get; set; }
+    public Category Category { get; set; } = null!;
+
+    public PaymentMethod PaymentMethod { get; set; } = null;
+    public BankAccount BankAccount { get; set; } = null;
+    public CreditCardBill CreditCardBill { get; set; } = null;
+    public long? BankAccountId { get; set; } //Ver se será setado pela forma de pagamento
+    public long? CreditCardBillId { get; set; } //Ver se será setado pela forma de pagamento
+    public long? PaymentMethodId { get; set; }
+
+
     public Transaction(string description, Category category, ETransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
@@ -19,18 +36,6 @@ public class Transaction : Entity
     {
 
     }
-
-    public string Description { get; set; } = null!;
-    public ETransactionType Type { get; set; }
-    public decimal Amount { get; set; }
-    public DateTime TransactionDate { get; set; }
-    public DateTime DueDate { get; set; }
-    public DateTime? PaymentDate { get; set; }
-    public long CategoryId { get; set; }
-    public Category Category { get; set; } = null!;
-    public BankAccount BankAccount { get; set; } = null;
-    public CreditCardBill BankCardBill { get; set; } = null;
-    public long? BankAccountId { get; set; }
 
     public void Update(string description, long idCategory, ETransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)

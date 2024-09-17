@@ -11,7 +11,9 @@ public class CreditCard : Entity
     public Money CurrentBalance { get; set; }
     public DateTime DueDate { get; set; }
 
-    public virtual ICollection<CreditCardBill> Bills { get; set; }
+    public virtual ICollection<CreditCardBill> CreditCardBill { get; set; }
+
+    public PaymentMethod PaymentMethod { get; set; }
 
     private CreditCard()
     {
@@ -27,7 +29,7 @@ public class CreditCard : Entity
         CreditLimit = creditLimit;
         CurrentBalance = new Money(0);
         DueDate = dueDate;
-        Bills = [];
+        CreditCardBill = [];
     }
 
     public void AddBalance(decimal amount)
@@ -38,7 +40,7 @@ public class CreditCard : Entity
         CurrentBalance = new Money(amount);
     }
 
-    public void AddBill(CreditCardBill bill) => Bills.Add(bill);
+    public void AddBill(CreditCardBill bill) => CreditCardBill.Add(bill);
 
     public bool IsExpired() => DateTime.Now > ExpirationDate;
 

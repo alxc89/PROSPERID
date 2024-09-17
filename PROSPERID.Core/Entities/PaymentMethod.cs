@@ -5,15 +5,18 @@ namespace PROSPERID.Core.Entities;
 public class PaymentMethod : Entity
 {
     public string Name { get; set; }
-    public int? BankAccountId { get => _bankAccountId; private set => _bankAccountId = value; }
-    public int? CreditCardId { get => _creditCardId; private set=> _creditCardId = value; }
+    public long? BankAccountId { get => _bankAccountId; private set => _bankAccountId = value; }
+    public long? CreditCardId { get => _creditCardId; private set => _creditCardId = value; }
     public EPaymentMethodType PaymentMethodType { get; set; }
     public bool IsActive { get; set; }
 
     public ICollection<Transaction> Transactions { get; set; }
 
-    private int? _bankAccountId;
-    private int? _creditCardId;
+    public BankAccount BankAccount { get; set; }
+    public CreditCard CreditCard { get; set; }
+
+    private long? _bankAccountId;
+    private long? _creditCardId;
 
     private PaymentMethod()
     {
