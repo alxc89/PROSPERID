@@ -15,6 +15,9 @@ public class DataContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<BankAccount> BankAccounts { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<CreditCard> CreditCarts { get; set; }
+    public DbSet<CreditCardBill> CreditCartBills { get; set; }
+    public DbSet<PaymentMethod> PaymentMethods { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,6 +25,9 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+        modelBuilder.ApplyConfiguration(new CreditCardConfiguration());
+        modelBuilder.ApplyConfiguration(new CreditCardBillConfiguration());
+        modelBuilder.ApplyConfiguration(new PaymentMethodConfiguration());
         modelBuilder.ConfigureOwnedTypeNavigationsAsRequired();
     }
 }

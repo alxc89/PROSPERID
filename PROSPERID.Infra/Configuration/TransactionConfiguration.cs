@@ -9,19 +9,26 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
+        #region table name
         builder.ToTable(nameof(Transaction));
+        #endregion
 
+        #region primary key
         builder.HasKey(t => t.Id);
+        #endregion
 
+        #region mapping properties
         builder.Property(t => t.Description)
             .HasColumnType("varchar")
             .HasMaxLength(100)
             .IsRequired();
 
+        //Fazer o mapping do enum
         builder.Property(t => t.Type)
             .IsRequired()
             .HasColumnType("SMALLINT");
 
+        //fazer o check desse e de outras propriedades
         builder.Property(t => t.Amount)
             .HasColumnType("decimal(10, 2)")
             .IsRequired();
@@ -50,9 +57,15 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .WithMany(b => b.Transactions)
             .HasForeignKey(t => t.BankAccountId)
             .OnDelete(DeleteBehavior.SetNull);
-    
+
+        builder.HasOne(t => t.PaymentMethod)
+            .WithMany(t => t.Transactions)
+            .HasForeignKey(t => t.PaymentMethodId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         builder.HasOne(x => x.Category)
             .WithMany(x => x.Transactions)
             .HasForeignKey(x => x.CategoryId);
+        #endregion
     }
 }
