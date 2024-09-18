@@ -14,7 +14,7 @@ public class CreditCardBill : Entity
     public Money PaidAmount { get; set; }
     public EPaymentStatus PaymentStatus { get; set; }
 
-    public long CreditCardId { get; set; }
+    public long? CreditCardId { get; set; }
     public CreditCard CreditCard { get; set; }
     public virtual ICollection<Transaction> Transactions { get; set; }
 

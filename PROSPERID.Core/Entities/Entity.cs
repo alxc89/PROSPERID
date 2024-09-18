@@ -7,7 +7,7 @@ public abstract class Entity
     }
 
     public long Id { get; private set; }
-    public int UserId { get; set; }
+    public long? UserId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 }

@@ -8,7 +8,7 @@ public class PaymentMethod : Entity
     public long? BankAccountId { get => _bankAccountId; private set => _bankAccountId = value; }
     public long? CreditCardId { get => _creditCardId; private set => _creditCardId = value; }
     public EPaymentMethodType PaymentMethodType { get; set; }
-    public bool IsActive { get; set; }
+    public bool? IsActive { get; set; }
 
     public ICollection<Transaction> Transactions { get; set; }
 
