@@ -20,13 +20,17 @@ public class PaymentMethodConfiguration : IEntityTypeConfiguration<PaymentMethod
         #region mapping properties
         builder.Property(p => p.Name)
             .HasColumnName("Name")
-            .HasColumnType("varchar")
+            .HasColumnType("varchar(50)")
             .IsRequired();
 
         builder.Property(p => p.PaymentMethodType)
-            .HasColumnName("PaymentMethod")
-            .HasColumnType("smallint")
-            .IsRequired();
+            .HasColumnName("PaymentMethodType")
+            .HasColumnType("varchar(15)")
+            .IsRequired()
+            .HasConversion(
+                v => v.ToString(),
+                v => (EPaymentMethodType)Enum.Parse(typeof(EPaymentMethodType), v)
+            );
 
         builder.Property(p => p.IsActive)
             .HasColumnName("IsActive")
@@ -51,7 +55,11 @@ public class PaymentMethodConfiguration : IEntityTypeConfiguration<PaymentMethod
 
         #region check constraint
         builder.ToTable(c => c.HasCheckConstraint("CK_PaymentMethodType",
-            $"PaymentMethod in ('{nameof(EPaymentMethodType.BankAccount)}', '{nameof(EPaymentMethodType.CreditCard)}', '{nameof(EPaymentMethodType.Other)}')"
+            $"PaymentMethodType in ('{nameof(EPaymentMethodType.BankAccount)}', '{nameof(EPaymentMethodType.CreditCard)}', '{nameof(EPaymentMethodType.Other)}')"
+            ));
+
+        builder.ToTable(c => c.HasCheckConstraint("CK_PaymentMethodIsActive",
+            $"IsActive in (0, 1)"
             ));
         #endregion
     }

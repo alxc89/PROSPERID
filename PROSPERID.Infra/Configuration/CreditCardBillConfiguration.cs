@@ -63,11 +63,21 @@ public class CreditCardBillConfiguration : IEntityTypeConfiguration<CreditCardBi
 
         builder.Property(c => c.PaymentStatus)
             .HasColumnName("PaymentStatus")
-            .HasColumnType("varchar(50)")
+            .HasColumnType("varchar(10)")
             .HasConversion(
                 v => v.ToString(),
                 v => (EPaymentStatus)Enum.Parse(typeof(EPaymentStatus), v)
             );
+
+        builder.Property(c => c.CreditCardId)
+            .HasColumnName("CreditCardId")
+            .HasColumnType("bigint")
+            .IsRequired(false);
+
+        builder.HasOne(c => c.CreditCard)
+            .WithMany(c => c.CreditCardBill)
+            .HasForeignKey(c => c.CreditCardId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasMany(c => c.Transactions)
             .WithOne(c => c.CreditCardBill)
