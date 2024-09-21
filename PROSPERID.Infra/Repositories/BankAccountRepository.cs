@@ -5,11 +5,9 @@ using PROSPERID.Infra.Context;
 
 namespace PROSPERID.Infra.Repositories;
 
-public class BankAccountRepository : IBankAccountRepository
+public class BankAccountRepository(DataContext context) : IBankAccountRepository
 {
-    private readonly DataContext _context;
-    public BankAccountRepository(DataContext context)
-        => _context = context;
+    private readonly DataContext _context = context;
 
     public async Task<BankAccount> CreateBankAccountAsync(BankAccount bankAccount)
     {
