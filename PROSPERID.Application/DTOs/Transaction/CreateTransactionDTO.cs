@@ -1,6 +1,4 @@
-﻿using PROSPERID.Application.DTOs.Category;
-using PROSPERID.Core.Entities;
-using PROSPERID.Core.Enums;
+﻿using PROSPERID.Core.Enums;
 
 namespace PROSPERID.Application.DTOs.Transaction;
 

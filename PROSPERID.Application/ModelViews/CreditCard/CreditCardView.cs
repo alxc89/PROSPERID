@@ -1,10 +1,10 @@
 ﻿using PROSPERID.Application.DTOs.CreditCardBill;
-using PROSPERID.Core.Entities;
+using PROSPERID.Application.ModelViews.PaymentMethod;
 using PROSPERID.Core.ValueObjects;
 
-namespace PROSPERID.Application.DTOs.CreditCard;
+namespace PROSPERID.Application.ModelViews.CreditCard;
 
-public class CreditCardDTO
+public class CreditCardView
 {
     public CardNumber Number { get; set; } = new CardNumber("");
     public string HolderName { get; set; } = string.Empty;
@@ -15,15 +15,10 @@ public class CreditCardDTO
 
     public virtual ICollection<CreditCardBillDTO>? CreditCardBillDTO { get; set; }
 
-    public PaymentMethod? PaymentMethod { get; set; }
+    public PaymentMethodView? PaymentMethodView { get; set; }
 
-    public static implicit operator CreditCardDTO(Core.Entities.CreditCard creditCard)
-    {
-        ICollection<CreditCardBillDTO> creditCardBillDTOs = [];
-        foreach (var item in creditCard.CreditCardBill)
-            creditCardBillDTOs.Add(item);
-
-        CreditCardDTO CreditCardDTO = new()
+    public static implicit operator CreditCardView(Core.Entities.CreditCard creditCard)
+        => new()
         {
             Number = creditCard.Number,
             HolderName = creditCard.HolderName,
@@ -31,9 +26,7 @@ public class CreditCardDTO
             CreditLimit = creditCard.CreditLimit,
             CurrentBalance = creditCard.CurrentBalance,
             DueDate = creditCard.DueDate,
-            CreditCardBillDTO = creditCardBillDTOs,
-            PaymentMethod = creditCard.PaymentMethod
+            CreditCardBillDTO = [],
+            PaymentMethodView = null
         };
-        return CreditCardDTO;
-    }
 }
