@@ -70,7 +70,9 @@ public class BankAccountRepository(DataContext context) : IBankAccountRepository
         var bankAccountDeleted = await _context
             .BankAccounts
             .SingleOrDefaultAsync(b => b.Id == id);
+
         if (bankAccountDeleted == null) return;
+
         try
         {
             _context.BankAccounts.Remove(bankAccountDeleted);
@@ -88,9 +90,9 @@ public class BankAccountRepository(DataContext context) : IBankAccountRepository
             .Include(t => t.Transactions)
                 .Where(t => t.AccountNumber == accountNumber)
             .SingleOrDefaultAsync();
-        
-        if (bankAccount.Transactions.Count == 0) return false;
-        
+
+        if (bankAccount?.Transactions?.Count == 0) return false;
+
         return true;
     }
     public async Task<bool> VerifyIfExistsAccount(string accountNumber)

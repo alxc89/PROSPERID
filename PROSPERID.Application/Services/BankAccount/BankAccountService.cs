@@ -97,6 +97,7 @@ public class BankAccountService(IBankAccountRepository bankAccountRepository) : 
             var bankAccount = await _bankAccountRepository.GetBankAccountByIdAsync(id);
             if (bankAccount == null)
                 return ServiceResponseHelper.Error<BankAccountView>(404, "Conta Bancária Não foi localizada!");
+            
             if (await _bankAccountRepository.AnyMovementInAccount(bankAccount.AccountNumber))
                 return ServiceResponseHelper.Error<BankAccountView>
                     (400, $"Não é possível deletar a Conta Bancária {bankAccount.AccountNumber}, está relacoinada a um Movimento Financeiro");

@@ -2,6 +2,7 @@
 using PROSPERID.Core.Entities;
 using PROSPERID.Core.Interface.Repositories;
 using PROSPERID.Infra.Context;
+using System.Linq.Expressions;
 
 namespace PROSPERID.Infra.Repositories;
 
@@ -18,6 +19,37 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
                 .AddAsync(creditCard);
             await _context.SaveChangesAsync();
             return creditCard;
+        }
+        catch
+        {
+            throw new Exception("Erro interno!");
+        }
+    }
+
+    public async Task<CreditCard?> GetCreditCardByIdAsync(long id)
+    {
+        try
+        {
+            return await _context
+                .CreditCarts
+                .SingleOrDefaultAsync(b => b.Id == id);
+        }
+        catch
+        {
+            throw new Exception("Erro interno!");
+        }
+
+    }
+
+    public async Task<CreditCard?> GetCreditCardByIdAsync(long id, params Expression<Func<CreditCard, object>>[] includes)
+    {
+        try
+        {
+            var query = _context.CreditCarts.AsQueryable();
+            foreach (var include in includes)
+                query.Include(include);
+            return await query
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
         catch
         {
@@ -42,8 +74,7 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
         }
     }
 
-    public async Task<CreditCard?> GetCreditCardByIdAsync(long id)
-        => await _context.CreditCarts.SingleOrDefaultAsync(b => b.Id == id);
+
 
     public async Task<IEnumerable<CreditCard>> GetCreditCardsAsync()
         => await _context.CreditCarts.AsNoTracking().ToListAsync();
