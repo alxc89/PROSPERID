@@ -1,32 +1,45 @@
 ﻿using PROSPERID.Application.DTOs.CreditCardBill;
 using PROSPERID.Application.ModelViews.PaymentMethod;
-using PROSPERID.Core.ValueObjects;
 
 namespace PROSPERID.Application.ModelViews.CreditCard;
 
 public class CreditCardView
 {
-    public CardNumber Number { get; set; } = new CardNumber("");
+    private DateTime _dueDate;
+    private DateTime _expirationDate;
+
+    public long Id { get; set; }
+    public string Number { get; set; } = string.Empty;
     public string HolderName { get; set; } = string.Empty;
-    public DateTime ExpirationDate { get; set; }
-    public Money CreditLimit { get; set; } = new Money(0);
-    public Money CurrentBalance { get; set; } = new Money(0);
-    public DateTime DueDate { get; set; }
+    public DateTime ExpirationDate { get => _expirationDate.Date; set => _expirationDate = value; }
+    public decimal CreditLimit { get; set; }
+    public decimal CurrentBalance { get; set; }
+    public DateTime DueDate { get => _dueDate.Date; set => _dueDate = value; }
 
     public virtual ICollection<CreditCardBillDTO>? CreditCardBillDTO { get; set; }
 
     public PaymentMethodView? PaymentMethodView { get; set; }
 
     public static implicit operator CreditCardView(Core.Entities.CreditCard creditCard)
-        => new()
+    {
+        ICollection<CreditCardBillDTO> _creditCardBillDTO = [];
+
+        if (creditCard.CreditCardBill != null)
+            foreach (var bill in creditCard.CreditCardBill)
+                _creditCardBillDTO.Add(bill);
+
+        return new()
         {
-            Number = creditCard.Number,
+            Id = creditCard.Id,
+            Number = creditCard.Number.Value,
             HolderName = creditCard.HolderName,
-            ExpirationDate = creditCard.ExpirationDate,
+            ExpirationDate = creditCard.ExpirationDate.Date,
             CreditLimit = creditCard.CreditLimit,
             CurrentBalance = creditCard.CurrentBalance,
-            DueDate = creditCard.DueDate,
-            CreditCardBillDTO = [],
+            DueDate = creditCard.DueDate.Date,
+            CreditCardBillDTO = _creditCardBillDTO,
             PaymentMethodView = null
         };
+    }
+
 }
