@@ -12,5 +12,5 @@ public record CardNumber
     }
 
     private bool IsValid(string number)
-        => number.Length > 16 && number.All(char.IsDigit);
+        => number.Length == 4 && number.All(char.IsDigit);
 }
