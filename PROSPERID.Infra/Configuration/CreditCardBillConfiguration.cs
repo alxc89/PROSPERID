@@ -20,21 +20,21 @@ public class CreditCardBillConfiguration : IEntityTypeConfiguration<CreditCardBi
         #region mapping properties
         builder.Property(c => c.BillDate)
             .HasColumnName("BillDate")
-            .HasColumnType("datetime")
+            .HasColumnType("date")
             .IsRequired(true);
 
         builder.Property(c => c.DueDate)
             .HasColumnName("DueDate")
-            .HasColumnType("datetime")
+            .HasColumnType("date")
             .IsRequired(true);
 
         builder.Property(c => c.BillingPeriod)
             .HasColumnName("BillingPeriod")
-            .HasColumnType("datetime");
+            .HasColumnType("date");
 
         builder.Property(c => c.CloseDate)
             .HasColumnName("CloseDate")
-            .HasColumnType("datetime")
+            .HasColumnType("date")
             .IsRequired();
 
         builder.Property(c => c.Status)

@@ -21,7 +21,7 @@ public class CreditCardConfiguration : IEntityTypeConfiguration<CreditCard>
         {
             nb.Property(n => n.Value)
                 .HasColumnName("Number")
-                .HasColumnType("varchar(50)")
+                .HasColumnType("varchar(5)")
                 .IsRequired();
         });
 
