@@ -15,7 +15,7 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
         try
         {
             await _context
-                .CreditCarts
+                .CreditCards
                 .AddAsync(creditCard);
             await _context.SaveChangesAsync();
             return creditCard;
@@ -31,7 +31,7 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
         try
         {
             return await _context
-                .CreditCarts
+                .CreditCards
                 .SingleOrDefaultAsync(b => b.Id == id);
         }
         catch
@@ -45,7 +45,7 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
     {
         try
         {
-            var query = _context.CreditCarts.AsQueryable();
+            var query = _context.CreditCards.AsQueryable();
             foreach (var include in includes)
                 query.Include(include);
             return await query
@@ -60,12 +60,12 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
     public async Task DeleteCreditCardAsync(long id)
     {
         var creditCardDeleted = await _context
-            .CreditCarts
+            .CreditCards
             .SingleOrDefaultAsync(b => b.Id == id);
         if (creditCardDeleted == null) return;
         try
         {
-            _context.CreditCarts.Remove(creditCardDeleted);
+            _context.CreditCards.Remove(creditCardDeleted);
             await _context.SaveChangesAsync();
         }
         catch
@@ -74,15 +74,22 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
         }
     }
 
-
-
     public async Task<IEnumerable<CreditCard>> GetCreditCardsAsync()
-        => await _context.CreditCarts.AsNoTracking().ToListAsync();
+    {
+        try
+        {
+            return await _context.CreditCards.AsNoTracking().ToListAsync();
+        }
+        catch
+        {
+            throw new Exception("Erro interno!");
+        }
+    }
 
     public async Task<CreditCard?> UpdateCreditCardAsync(CreditCard creditCard)
     {
         var creditCardUpdated = await _context
-             .CreditCarts
+             .CreditCards
              .SingleOrDefaultAsync(b => b.Id == creditCard.Id);
         if (creditCardUpdated == null)
             return null;
@@ -102,5 +109,14 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
     }
 
     public async Task<bool> AnyCartCredit(string cartNumber)
-        => await _context.CreditCarts.AnyAsync(b => b.Number.Value == cartNumber);
+    {
+        try
+        {
+            return await _context.CreditCards.AnyAsync(b => b.Number.Value == cartNumber);
+        }
+        catch
+        {
+            throw new Exception("Erro interno!");
+        }
+    }
 }
