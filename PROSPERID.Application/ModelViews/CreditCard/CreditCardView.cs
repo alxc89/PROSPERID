@@ -41,5 +41,4 @@ public class CreditCardView
             PaymentMethodView = null
         };
     }
-
 }

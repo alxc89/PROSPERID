@@ -16,20 +16,19 @@ public class CreditCardController(ICreditCardService creditCardService) : Contro
     private readonly ICreditCardService _creditCardService = creditCardService;
 
     /// <summary>
-    /// Criação de um Cartão de Crédito.
+    /// Retorna uma lista de Cartões de Crédito.
     /// </summary>
-    /// <param name="createCreditCardDTO"></param>
-    /// <returns></returns>
-    [HttpPost]
+    [HttpGet]
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(ServiceResponse<CreditCardView>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ServiceResponse<IEnumerable<CreditCardView>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post(CreateCreditCardDTO createCreditCardDTO)
+    public async Task<IActionResult> Get()
     {
-        var newCreditCard = await _creditCardService.CreateCreditCardAsync(createCreditCardDTO);
-        if (!newCreditCard.IsSuccess)
-            return BadRequest(newCreditCard.Message);
-        return CreatedAtAction("Get", new { id = newCreditCard.Data?.Id }, newCreditCard);
+        var listCreditsCard = await _creditCardService.GetCreditCardsAsync();
+        if (listCreditsCard.Data == null)
+            return NotFound(listCreditsCard.Message);
+        return Ok(listCreditsCard);
     }
 
     /// <summary>
@@ -47,5 +46,22 @@ public class CreditCardController(ICreditCardService creditCardService) : Contro
         if (creditCard.Data == null)
             return NotFound(creditCard.Message);
         return Ok(creditCard);
+    }
+
+    /// <summary>
+    /// Criação de um Cartão de Crédito.
+    /// </summary>
+    /// <param name="createCreditCardDTO"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(ServiceResponse<CreditCardView>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Post(CreateCreditCardDTO createCreditCardDTO)
+    {
+        var newCreditCard = await _creditCardService.CreateCreditCardAsync(createCreditCardDTO);
+        if (!newCreditCard.IsSuccess)
+            return BadRequest(newCreditCard.Message);
+        return CreatedAtAction("Get", new { id = newCreditCard.Data?.Id }, newCreditCard);
     }
 }

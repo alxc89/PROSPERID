@@ -21,7 +21,7 @@ public class CreditCardService(ICreditCardRepository creditCardRepository) : ICr
         if (await _repository.AnyCartCredit(createCreditCardDTO.Number))
             return ServiceResponseHelper.Error<CreditCardView>(400, "Requisição inválida, Cartão já existente");
 
-        var creditCard = new Core.Entities.CreditCard(new CardNumber(createCreditCardDTO.Number), 
+        var creditCard = new Core.Entities.CreditCard(new CardNumber(createCreditCardDTO.Number),
             createCreditCardDTO.HolderName, createCreditCardDTO.ExpirationDate,
             new Money(createCreditCardDTO.CreditLimit), createCreditCardDTO.DueDate);
 
@@ -52,9 +52,23 @@ public class CreditCardService(ICreditCardRepository creditCardRepository) : ICr
         }
     }
 
-    public Task<ServiceResponse<IEnumerable<CreditCardView>>> GetCreditCardsAsync()
+    public async Task<ServiceResponse<IEnumerable<CreditCardView>>> GetCreditCardsAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var listCreditCards = await _repository.GetCreditCardsAsync();
+
+            if (!listCreditCards.Any())
+                return ServiceResponseHelper.Error<IEnumerable<CreditCardView>>(404, "Nenhum Cartão de Crédito localizado!");
+            List<CreditCardView> creditCards = [];
+            foreach (var creditCard in listCreditCards)
+                creditCards.Add(creditCard);
+            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", (IEnumerable<CreditCardView>)creditCards);
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<IEnumerable<CreditCardView>>(500, "Erro interno!");
+        }
     }
 
     public Task<ServiceResponse<CreditCardView>> UpdateCreditCardAsync(long id, UpdateCreditCardDTO updateCreditCardDTO)
