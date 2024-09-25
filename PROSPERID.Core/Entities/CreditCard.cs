@@ -32,6 +32,17 @@ public class CreditCard : Entity
         CreditCardBill = [];
     }
 
+    public void Update(string number, string holderName, DateTime expirationDate,
+        decimal creditLimit, decimal currentBalance, DateTime dueDate)
+    {
+        Number = new CardNumber(number);
+        HolderName = holderName;
+        ExpirationDate = expirationDate;
+        CreditLimit = new Money(creditLimit);
+        CurrentBalance = new Money(currentBalance);
+        DueDate = dueDate;
+    }
+
     public void AddBalance(decimal amount)
     {
         if (amount <= 0)
