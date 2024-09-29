@@ -47,8 +47,9 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
         {
             var query = _context.CreditCards.AsQueryable();
             foreach (var include in includes)
-                query.Include(include);
+                query = query.Include(include);
             return await query
+                //.Include(x => x.CreditCardBills)
                 .SingleOrDefaultAsync(c => c.Id == id);
         }
         catch
@@ -57,15 +58,12 @@ public class CreditCardRepository(DataContext context) : ICreditCardRepository
         }
     }
 
-    public async Task DeleteCreditCardAsync(long id)
+    public async Task DeleteCreditCardAsync(CreditCard creditCard)
     {
-        var creditCardDeleted = await _context
-            .CreditCards
-            .SingleOrDefaultAsync(b => b.Id == id);
-        if (creditCardDeleted == null) return;
+        if (creditCard == null) return;
         try
         {
-            _context.CreditCards.Remove(creditCardDeleted);
+            _context.CreditCards.Remove(creditCard);
             await _context.SaveChangesAsync();
         }
         catch

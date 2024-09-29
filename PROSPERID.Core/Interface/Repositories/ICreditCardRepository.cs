@@ -10,6 +10,6 @@ public interface ICreditCardRepository
     Task<CreditCard?> GetCreditCardByIdAsync(long id);
     Task<CreditCard?> GetCreditCardByIdAsync(long id, params Expression<Func<CreditCard, object>>[] includes);
     Task<CreditCard> UpdateCreditCardAsync(CreditCard creditCard);
-    Task DeleteCreditCardAsync(long id);
+    Task DeleteCreditCardAsync(CreditCard creditCard);
     Task<bool> AnyCartCredit(string cartNumber);
 }
