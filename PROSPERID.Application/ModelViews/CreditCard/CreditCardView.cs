@@ -24,8 +24,8 @@ public class CreditCardView
     {
         ICollection<CreditCardBillDTO> _creditCardBillDTO = [];
 
-        if (creditCard.CreditCardBill != null)
-            foreach (var bill in creditCard.CreditCardBill)
+        if (creditCard.CreditCardBills != null)
+            foreach (var bill in creditCard.CreditCardBills)
                 _creditCardBillDTO.Add(bill);
 
         return new()

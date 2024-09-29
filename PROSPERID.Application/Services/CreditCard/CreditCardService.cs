@@ -6,9 +6,9 @@ using PROSPERID.Core.ValueObjects;
 
 namespace PROSPERID.Application.Services.CreditCard;
 
-public class CreditCardService(ICreditCardRepository creditCardRepository) : ICreditCardService
+public class CreditCardService(ICreditCardRepository repository) : ICreditCardService
 {
-    private readonly ICreditCardRepository _repository = creditCardRepository;
+    private readonly ICreditCardRepository _repository = repository;
 
     public async Task<ServiceResponse<CreditCardView>> GetCreditCardByIdAsync(long id)
     {
@@ -55,7 +55,7 @@ public class CreditCardService(ICreditCardRepository creditCardRepository) : ICr
         if (await _repository.AnyCartCredit(createCreditCardDTO.Number))
             return ServiceResponseHelper.Error<CreditCardView>(400, "Requisição inválida, Cartão já existente");
 
-        var creditCard = new Core.Entities.CreditCard(new CardNumber(createCreditCardDTO.Number),
+        var creditCard = new Core.Entities.CreditCard(createCreditCardDTO.Number,
             createCreditCardDTO.HolderName, createCreditCardDTO.ExpirationDate,
             new Money(createCreditCardDTO.CreditLimit), createCreditCardDTO.DueDate);
 
@@ -91,8 +91,27 @@ public class CreditCardService(ICreditCardRepository creditCardRepository) : ICr
         }
     }
 
-    public Task<ServiceResponse<CreditCardView>> DeleteCreditCardAsync(long id)
+    public async Task<ServiceResponse<CreditCardView>> DeleteCreditCardAsync(long id)
     {
-        throw new NotImplementedException();
+        var creditCard = await _repository.GetCreditCardByIdAsync(id, c => c.CreditCardBills, c => c.PaymentMethod);
+
+        if (creditCard is null)
+            return ServiceResponseHelper.Error<CreditCardView>(404, "Requisição inválida, Cartão de Crédito não encontrado");
+
+        if (creditCard.HasCreditCardBill())
+            return ServiceResponseHelper.Error<CreditCardView>(404, "Requisição inválida, Existe Faturas para esse Cartão de Crédito!");
+
+        if (creditCard.HasLinkedPaymentMethod())
+            return ServiceResponseHelper.Error<CreditCardView>(404, "Requisição inválida, O Cartão de Crédito está vínculado a um Metódo de Pagamento!");
+
+        try
+        {
+            await _repository.DeleteCreditCardAsync(creditCard);
+            return ServiceResponseHelper.Success<CreditCardView>(200, "Cartão de Crédito deletado");
+        }
+        catch
+        {
+            return ServiceResponseHelper.Error<CreditCardView>(500, "Erro interno!");
+        }
     }
 }

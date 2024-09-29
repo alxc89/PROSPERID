@@ -47,7 +47,7 @@ public class CreditCardDTO
     public static implicit operator CreditCardDTO(Core.Entities.CreditCard creditCard)
     {
         ICollection<CreditCardBillDTO> creditCardBillDTOs = [];
-        foreach (var item in creditCard.CreditCardBill)
+        foreach (var item in creditCard.CreditCardBills)
             creditCardBillDTOs.Add(item);
 
         CreditCardDTO CreditCardDTO = new()

@@ -1,5 +1,6 @@
 ﻿using PROSPERID.Application.DTOs.CreditCardBill;
 using PROSPERID.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace PROSPERID.Application.DTOs.CreditCard;
 
@@ -7,14 +8,14 @@ public class UpdateCreditCardDTO : CreditCardDTO
 {
     public long Id { get; set; }
 
-    public virtual ICollection<CreditCardBillDTO>? CreditCardBillDTO { get; set; }
+    public ICollection<CreditCardBillDTO>? CreditCardBillDTO { get; set; }
 
-    public PaymentMethod? PaymentMethod { get; set; }
+    //public PaymentMethod? PaymentMethod { get; set; }
 
     public static implicit operator UpdateCreditCardDTO(Core.Entities.CreditCard creditCard)
     {
         ICollection<CreditCardBillDTO> creditCardBillDTOs = [];
-        foreach (var item in creditCard.CreditCardBill)
+        foreach (var item in creditCard.CreditCardBills)
             creditCardBillDTOs.Add(item);
 
         UpdateCreditCardDTO updateCreditCardDTO = new()
