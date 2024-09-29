@@ -56,9 +56,17 @@ public class CategoryRepository(DataContext context) : ICategoryRepository
     {
         var categoryDeleted = await _context.Categories.SingleOrDefaultAsync(c => c.Id == id);
         if (categoryDeleted == null) return;
+        
+        try
+        {
             _context.Categories.Remove(categoryDeleted);
             await _context.SaveChangesAsync();
         }
+        catch
+        {
+            throw new Exception("Erro interno!");
+        }
+    }
 
     public async Task<bool> AnyCategoryAsync(string name)
     {
