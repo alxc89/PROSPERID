@@ -75,7 +75,7 @@ public class CreditCardBillConfiguration : IEntityTypeConfiguration<CreditCardBi
             .IsRequired(false);
 
         builder.HasOne(c => c.CreditCard)
-            .WithMany(c => c.CreditCardBill)
+            .WithMany(c => c.CreditCardBills)
             .HasForeignKey(c => c.CreditCardId)
             .OnDelete(DeleteBehavior.SetNull);
 

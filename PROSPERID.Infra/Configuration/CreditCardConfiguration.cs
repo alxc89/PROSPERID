@@ -56,7 +56,7 @@ public class CreditCardConfiguration : IEntityTypeConfiguration<CreditCard>
             .HasColumnType("date")
             .IsRequired();
 
-        builder.HasMany(c => c.CreditCardBill)
+        builder.HasMany(c => c.CreditCardBills)
             .WithOne(c => c.CreditCard)
             .HasForeignKey(c => c.CreditCardId)
             .OnDelete(DeleteBehavior.SetNull)
