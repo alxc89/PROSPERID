@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROSPERID.Application.DTOs.CreditCard;
-using PROSPERID.Application.DTOs.Transaction;
 using PROSPERID.Application.ModelViews.CreditCard;
-using PROSPERID.Application.ModelViews.Transaction;
 using PROSPERID.Application.Services.CreditCard;
 using PROSPERID.Application.Services.Shared;
 using System.Net.Mime;
@@ -63,5 +61,42 @@ public class CreditCardController(ICreditCardService creditCardService) : Contro
         if (!newCreditCard.IsSuccess)
             return BadRequest(newCreditCard.Message);
         return CreatedAtAction("Get", new { id = newCreditCard.Data?.Id }, newCreditCard);
+    }
+
+    /// <summary>
+    /// Alteração de um Cartão de Crédito.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="updateCreditCardDTO"></param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(ServiceResponse<CreditCardView>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Put(long id, UpdateCreditCardDTO updateCreditCardDTO)
+    {
+        var updateCreditCard = await _creditCardService.UpdateCreditCardAsync(id, updateCreditCardDTO);
+        if (!updateCreditCard.IsSuccess)
+            return BadRequest(updateCreditCard.Message);
+        return Ok(updateCreditCard);
+    }
+
+    /// <summary>
+    /// Deletar um Cartão de Crédito.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(typeof(ServiceResponse<CreditCardView>), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var deleteCreditCard = await _creditCardService.DeleteCreditCardAsync(id);
+        if (!deleteCreditCard.IsSuccess)
+            return BadRequest(deleteCreditCard.Message);
+        return NoContent();
     }
 }
