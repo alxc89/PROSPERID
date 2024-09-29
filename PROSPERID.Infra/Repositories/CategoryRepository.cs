@@ -5,11 +5,9 @@ using PROSPERID.Infra.Context;
 
 namespace PROSPERID.Infra.Repositories;
 
-public class CategoryRepository : ICategoryRepository
+public class CategoryRepository(DataContext context) : ICategoryRepository
 {
-    private readonly DataContext _context;
-    public CategoryRepository(DataContext context)
-        => _context = context;
+    private readonly DataContext _context = context;
 
     public async Task<Category?> GetCategoryByIdAsync(long id)
     {
@@ -58,9 +56,9 @@ public class CategoryRepository : ICategoryRepository
     {
         var categoryDeleted = await _context.Categories.SingleOrDefaultAsync(c => c.Id == id);
         if (categoryDeleted == null) return;
-        _context.Categories.Remove(categoryDeleted);
-        await _context.SaveChangesAsync();
-    }
+            _context.Categories.Remove(categoryDeleted);
+            await _context.SaveChangesAsync();
+        }
 
     public async Task<bool> AnyCategoryAsync(string name)
     {
