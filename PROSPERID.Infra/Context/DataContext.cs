@@ -16,7 +16,7 @@ public class DataContext : DbContext
     public DbSet<BankAccount> BankAccounts { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<CreditCard> CreditCards { get; set; }
-    public DbSet<CreditCardBill> CreditCartBills { get; set; }
+    public DbSet<CreditCardBill> CreditCardBills { get; set; }
     public DbSet<PaymentMethod> PaymentMethods { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
