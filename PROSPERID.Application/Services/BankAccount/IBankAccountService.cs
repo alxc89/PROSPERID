@@ -6,9 +6,9 @@ namespace PROSPERID.Application.Services.BankAccount;
 
 public interface IBankAccountService
 {
-    Task<ServiceResponse<BankAccountView>> CreateBankAccountAsync(CreateBankAccountDTO createCategoryDTO);
-    Task<ServiceResponse<BankAccountView>> UpdateBankAccountAsync(UpdateBankAccountDTO updateBankAccountDTO);
     Task<ServiceResponse<BankAccountView>> GetBankAccountByIdAsync(long id);
     Task<ServiceResponse<IEnumerable<BankAccountView>>> GetBankAccountsAsync();
+    Task<ServiceResponse<BankAccountView>> CreateBankAccountAsync(CreateBankAccountDTO createCategoryDTO);
+    Task<ServiceResponse<BankAccountView>> UpdateBankAccountAsync(UpdateBankAccountDTO updateBankAccountDTO);
     Task<ServiceResponse<BankAccountView>> DeleteBankAccountAsync(long id);
 }
