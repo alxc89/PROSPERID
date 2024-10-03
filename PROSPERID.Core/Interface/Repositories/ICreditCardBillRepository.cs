@@ -11,5 +11,4 @@ public interface ICreditCardBillRepository
     Task<CreditCardBill?> GetCreditCardBillByIdAsync(long id, params Expression<Func<CreditCardBill, object>>[] includes);
     Task<CreditCardBill> UpdateCreditCardBillAsync(CreditCardBill CreditCardBill);
     Task DeleteCreditCardBillAsync(CreditCardBill CreditCardBill);
-    Task<bool> AnyCartCredit(string cartNumber);
 }
