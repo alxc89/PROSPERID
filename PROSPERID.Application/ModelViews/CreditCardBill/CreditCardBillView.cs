@@ -15,7 +15,7 @@ public class CreditCardBillView
     public Money PaidAmount { get; set; } = new Money(0);
     public EPaymentStatus PaymentStatus { get; set; }
 
-    public long? CreditCardId { get; set; }
+    public long CreditCardId { get; set; }
     public virtual ICollection<TransactionView>? Transactions { get; set; }
 
     public static implicit operator CreditCardBillView(Core.Entities.CreditCardBill creditCardBill)

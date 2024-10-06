@@ -81,7 +81,7 @@ public class CreditCardBillConfiguration : IEntityTypeConfiguration<CreditCardBi
 
         builder.HasMany(c => c.Transactions)
             .WithOne(c => c.CreditCardBill)
-            .OnDelete(DeleteBehavior.SetNull)
+            .OnDelete(DeleteBehavior.Cascade)
             .HasForeignKey(c => c.CreditCardBillId);
         #endregion
 

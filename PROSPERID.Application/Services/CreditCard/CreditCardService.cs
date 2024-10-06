@@ -14,11 +14,11 @@ public class CreditCardService(ICreditCardRepository repository) : ICreditCardSe
     {
         try
         {
-            var creditCardView = await _repository.GetCreditCardByIdAsync(id)!;
+            var creditCard = await _repository.GetCreditCardByIdAsync(id)!;
 
-            if (creditCardView == null)
+            if (creditCard == null)
                 return ServiceResponseHelper.Error<CreditCardView>(404, "Cartão de Crédito não foi localizado");
-            return ServiceResponseHelper.Success<CreditCardView>(200, "Busca realizada com sucesso!", creditCardView);
+            return ServiceResponseHelper.Success<CreditCardView>(200, "Busca realizada com sucesso!", creditCard);
         }
         catch
         {

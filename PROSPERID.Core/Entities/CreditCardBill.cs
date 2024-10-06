@@ -14,24 +14,34 @@ public class CreditCardBill : Entity
     public Money PaidAmount { get; set; }
     public EPaymentStatus PaymentStatus { get; set; }
 
-    public long? CreditCardId { get; set; }
+    public long CreditCardId { get; set; }
     public CreditCard CreditCard { get; set; }
-    public virtual ICollection<Transaction> Transactions { get; set; }
+    public virtual ICollection<Transaction> Transactions { get; private set; }
 
     private CreditCardBill()
     {
 
     }
 
-    public CreditCardBill(int creditCardId, DateTime billDate, DateTime dueDate,
-        Money totalAmount, Money paidAmount, EPaymentStatus paymentStatus)
+    public CreditCardBill(long creditCardId, DateTime billDate, DateTime dueDate,
+        decimal totalAmount, decimal paidAmount, EPaymentStatus paymentStatus)
     {
         CreditCardId = creditCardId;
         BillDate = billDate;
         DueDate = dueDate;
-        TotalAmount = totalAmount;
-        PaidAmount = paidAmount;
+        TotalAmount = new(totalAmount);
+        PaidAmount = new(paidAmount);
         PaymentStatus = paymentStatus;
+        Status = EStatus.Open;
+    }
+
+    public void Update(DateTime billDate, DateTime dueDate,
+        decimal totalAmount, decimal paidAmount)
+    {
+        BillDate = billDate;
+        DueDate = dueDate;
+        TotalAmount = new(totalAmount);
+        PaidAmount = new(paidAmount);
         Status = EStatus.Open;
     }
 
@@ -54,6 +64,10 @@ public class CreditCardBill : Entity
 
     public decimal GetRemainingAmount() => TotalAmount - PaidAmount;
 
+    public void AddTransaction(Transaction transaction) => Transactions.Add(transaction);
+
+    public bool IsPaid() => PaymentStatus.Equals(EPaymentStatus.Paid);
+
     private void FinalizeBill(CreditCardBill bill)
     {
         bill.Status = EStatus.Close;
@@ -65,6 +79,4 @@ public class CreditCardBill : Entity
         Status = EStatus.Close;
         CloseDate = DateTime.Now;
     }
-
-    private void AddTransaction(Transaction transaction) => Transactions.Add(transaction);
 }

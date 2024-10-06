@@ -104,4 +104,19 @@ public class CreditCardBillRepository(DataContext context) : ICreditCardBillRepo
             throw new Exception("Erro interno!");
         }
     }
+
+    public async Task<bool> GetBillByCompetenceMonth(DateTime billingPeriod, long creditCardId)
+    {
+        try
+        {
+            return await _context
+                 .CreditCardBills
+                 .AnyAsync(cb => cb.BillingPeriod == billingPeriod && cb.CreditCardId == creditCardId);
+        }
+        catch (Exception)
+        {
+            throw new Exception("Erro interno!");
+        }
+    }
+
 }
