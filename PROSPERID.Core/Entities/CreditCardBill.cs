@@ -14,7 +14,7 @@ public class CreditCardBill : Entity
     public Money PaidAmount { get; set; }
     public EPaymentStatus PaymentStatus { get; set; }
 
-    public long CreditCardId { get; set; }
+    public long? CreditCardId { get; set; }
     public CreditCard CreditCard { get; set; }
     public virtual ICollection<Transaction> Transactions { get; private set; }
 
@@ -23,7 +23,7 @@ public class CreditCardBill : Entity
 
     }
 
-    public CreditCardBill(long creditCardId, DateTime billDate, DateTime dueDate,
+    public CreditCardBill(long? creditCardId, DateTime billDate, DateTime dueDate,
         decimal totalAmount, decimal paidAmount, EPaymentStatus paymentStatus)
     {
         CreditCardId = creditCardId;
@@ -64,7 +64,15 @@ public class CreditCardBill : Entity
 
     public decimal GetRemainingAmount() => TotalAmount - PaidAmount;
 
-    public void AddTransaction(Transaction transaction) => Transactions.Add(transaction);
+    public bool AddTransaction(Transaction transaction)
+    {
+        if (CreditCard.IsCreditLimitSufficient(transaction.Amount))
+        {
+            Transactions.Add(transaction);
+            return true;
+        }
+        return false;
+    }
 
     public bool IsPaid() => PaymentStatus.Equals(EPaymentStatus.Paid);
 

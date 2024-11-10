@@ -1,4 +1,5 @@
 ﻿using PROSPERID.Core.Enums;
+using PROSPERID.Core.ValueObjects;
 
 namespace PROSPERID.Core.Entities;
 
@@ -6,7 +7,7 @@ public class Transaction : Entity
 {
     public string Description { get; set; } = null!;
     public ETransactionType Type { get; set; }
-    public decimal Amount { get; set; }
+    public Money Amount { get; set; }
     public DateTime TransactionDate { get; set; }
     public DateTime DueDate { get; set; }
     public DateTime? PaymentDate { get; set; }
@@ -54,6 +55,17 @@ public class Transaction : Entity
     public bool ExecutePayment(BankAccount account, DateTime datePayment)
     {
         if (account.MakePayment(Amount * -1))
+        {
+            PaymentDate = datePayment;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public bool ExecutePayment(CreditCardBill creditCardBill, DateTime datePayment)
+    {
+        if (creditCardBill.AddTransaction(this))
         {
             PaymentDate = datePayment;
             return true;

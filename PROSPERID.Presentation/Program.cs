@@ -8,6 +8,8 @@ builder.AddDataContexts();
 builder.AddDependecyInjectionConfiguration();
 builder.AddDocumentation();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

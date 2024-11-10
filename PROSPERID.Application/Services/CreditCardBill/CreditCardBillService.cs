@@ -55,7 +55,7 @@ public class CreditCardBillService(ICreditCardBillRepository repository, ICatego
         if (validate != null)
             return ServiceResponseHelper.Error<CreditCardBillView>(validate.Status, validate.Message);
 
-        if (await _repository.GetBillByCompetenceMonth(createCreditCardBillDTO.BillingPeriod, createCreditCardBillDTO.CreditCardId))
+        if (await _repository.GetBillByCompetenceMonth(createCreditCardBillDTO.BillingPeriod, (long)createCreditCardBillDTO.CreditCardId!))
             return ServiceResponseHelper.Error<CreditCardBillView>(400, "Requisição inválida, Já existe Fatura no criada para esse mês de competência!");
 
         var creditCardBill = new Core.Entities.CreditCardBill(createCreditCardBillDTO.CreditCardId, createCreditCardBillDTO.BillDate, createCreditCardBillDTO.DueDate,
@@ -93,7 +93,7 @@ public class CreditCardBillService(ICreditCardBillRepository repository, ICatego
             return ServiceResponseHelper.Error<CreditCardBillView>(404, "Requisição inválida, Fatura do não encontrada!");
 
         creditCardBill.Update(updateCreditCardBillDTO.BillDate, updateCreditCardBillDTO.DueDate, updateCreditCardBillDTO.TotalAmount, updateCreditCardBillDTO.PaidAmount);
-        
+
         try
         {
             CreditCardBillView result = await _repository.UpdateCreditCardBillAsync(creditCardBill);

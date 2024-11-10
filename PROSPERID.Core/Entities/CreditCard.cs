@@ -57,6 +57,8 @@ public class CreditCard : Entity
 
     public decimal GetAvailableBalance() => (CreditLimit - CurrentBalance);
 
+    public bool IsCreditLimitSufficient(Money amount) => (CurrentBalance + amount) <= CreditLimit;
+
     public bool HasCreditCardBill()
         => CreditCardBills.Count > 0;
 

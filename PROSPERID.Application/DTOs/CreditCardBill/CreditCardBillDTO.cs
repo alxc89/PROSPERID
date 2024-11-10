@@ -20,7 +20,7 @@ public class CreditCardBillDTO
     public decimal PaidAmount { get; set; }
     public EPaymentStatus PaymentStatus { get; set; }
 
-    public long CreditCardId { get; set; }
+    public long? CreditCardId { get; set; }
     //public CreditCardDTO CreditCard { get; set; }
     public virtual ICollection<TransactionDTO>? Transactions { get; set; }
 
