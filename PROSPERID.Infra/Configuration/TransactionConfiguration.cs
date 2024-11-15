@@ -29,9 +29,18 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
             .HasColumnType("SMALLINT");
 
         //fazer o check desse e de outras propriedades
-        builder.Property(t => t.Amount)
-            .HasColumnType("decimal(10, 2)")
-            .IsRequired();
+        builder.OwnsOne(t => t.Amount, a =>
+        {
+            a.Property(m => m.Amount)
+                .HasColumnName("Amount")
+                .HasColumnType("decimal(10, 2)")
+                .IsRequired();
+
+            a.Property(m => m.Amount)
+                .HasColumnName("Amount")
+                .HasMaxLength(3)
+                .IsRequired(); // Define um tamanho máximo e exige a presença do valor
+        });
 
         builder.Property(t => t.TransactionDate)
             .HasColumnType("datetime")

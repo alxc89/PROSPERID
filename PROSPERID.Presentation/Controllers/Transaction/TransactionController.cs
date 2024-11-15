@@ -87,7 +87,7 @@ public class TransactionController(ITransactionService transactionService) : Con
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpDelete("pay{id}")]
+    [HttpDelete("{id}")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ServiceResponse<TransactionView>), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]

@@ -42,12 +42,6 @@ public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
             .HasColumnName("Balance")
             .HasColumnType("decimal(10,2)")
             .IsRequired();
-
-        builder.HasOne(p => p.PaymentMethod)
-            .WithOne(p => p.BankAccount)
-            .HasForeignKey<PaymentMethod>(p => p.BankAccountId)
-            .OnDelete(DeleteBehavior.SetNull)
-            .IsRequired(false);
         #endregion
 
         #region check constraint

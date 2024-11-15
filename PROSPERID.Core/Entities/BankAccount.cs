@@ -7,7 +7,7 @@ public class BankAccount : Entity
     public string AccountNumber { get; set; } = null!; // Número da conta bancária
     public string AccountHolder { get; set; } = null!; // Nome do titular da conta
     public decimal Balance { get; set; } // Saldo da conta
-    public PaymentMethod PaymentMethod { get; set; }
+    public ICollection<PaymentMethod> PaymentMethods { get; set; } = [];
     public List<Transaction>? Transactions { get; set; } // Lista de transações relacionadas à conta bancária
 
     // Construtor

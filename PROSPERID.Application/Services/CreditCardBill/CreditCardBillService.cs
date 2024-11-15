@@ -1,12 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using PROSPERID.Application.DTOs.CreditCard;
-using PROSPERID.Application.DTOs.CreditCardBill;
-using PROSPERID.Application.ModelViews.CreditCard;
+﻿using PROSPERID.Application.DTOs.CreditCardBill;
 using PROSPERID.Application.ModelViews.CreditCardBill;
-using PROSPERID.Application.Services.CreditCard;
 using PROSPERID.Application.Services.Shared;
-using PROSPERID.Core.Entities;
-using PROSPERID.Core.Enums;
 using PROSPERID.Core.Interface.Repositories;
 
 namespace PROSPERID.Application.Services.CreditCardBill;
@@ -66,7 +60,7 @@ public class CreditCardBillService(ICreditCardBillRepository repository, ICatego
             foreach (var transactionDTO in createCreditCardBillDTO.Transactions)
             {
                 var category = await _categoryRepository.GetCategoryByIdAsync(transactionDTO.CategoryId);
-                Core.Entities.Transaction transaction = new(transactionDTO.Description, category!, transactionDTO.Type,
+                Core.Entities.Transaction transaction = new(transactionDTO.Description, category!.Id, transactionDTO.Type,
                     transactionDTO.Amount, transactionDTO.TransactionDate, transactionDTO.DueDate);
                 creditCardBill.AddTransaction(transaction);
             }

@@ -4,6 +4,7 @@ using PROSPERID.Application.Services.BankAccount;
 using PROSPERID.Application.Services.Category;
 using PROSPERID.Application.Services.CreditCard;
 using PROSPERID.Application.Services.Payment;
+using PROSPERID.Application.Services.PaymentMethod;
 using PROSPERID.Application.Services.Transaction;
 using PROSPERID.Core.Interface.Repositories;
 using PROSPERID.Infra.Context;
@@ -49,7 +50,10 @@ public static class BuilderExtension
         builder.Services.AddTransient<ITransactionService, TransactionService>();
         builder.Services.AddTransient<ICreditCardService, CreditCardService>();
         builder.Services.AddTransient<ICreditCardRepository, CreditCardRepository>();
+        builder.Services.AddTransient<IPaymentMethodService, PaymentMethodService>();
+        builder.Services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
         builder.Services.AddTransient<IPaymentService, PaymentService>();
+
     }
 
     //public static void AddCroosOringin(this WebApplicationBuilder builder)

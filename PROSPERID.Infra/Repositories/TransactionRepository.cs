@@ -5,11 +5,9 @@ using PROSPERID.Infra.Context;
 
 namespace PROSPERID.Infra.Repositories;
 
-public class TransactionRepository : ITransactionRepository
+public class TransactionRepository(DataContext context) : ITransactionRepository
 {
-    private readonly DataContext _context;
-    public TransactionRepository(DataContext context)
-        => _context = context;
+    private readonly DataContext _context = context;
     public async Task<Transaction> CreateTransactionAsync(Transaction transaction)
     {
         try
@@ -38,7 +36,7 @@ public class TransactionRepository : ITransactionRepository
             return await _context
                 .Transactions
                 .AnyAsync(t => t.Description == transaction.Description &&
-                          t.Amount == transaction.Amount &&
+                          t.Amount.Amount == transaction.Amount.Amount &&
                           t.CategoryId == transaction.CategoryId);
         }
         catch

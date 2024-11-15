@@ -20,8 +20,4 @@
     <ProjectReference Include="..\PROSPERID.Infra\PROSPERID.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\PaymentMethod\" />
-  </ItemGroup>
-
 </Project>

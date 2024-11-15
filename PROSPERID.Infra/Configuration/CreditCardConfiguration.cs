@@ -61,12 +61,6 @@ public class CreditCardConfiguration : IEntityTypeConfiguration<CreditCard>
             .HasForeignKey(c => c.CreditCardId)
             .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
-
-        builder.HasOne(c => c.PaymentMethod)
-            .WithOne(c => c.CreditCard)
-            .HasForeignKey<PaymentMethod>(c => c.CreditCardId)
-            .OnDelete(DeleteBehavior.SetNull)
-            .IsRequired(false);
         #endregion
 
         #region check constraint

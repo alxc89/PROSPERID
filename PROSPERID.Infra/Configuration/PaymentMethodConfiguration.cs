@@ -38,13 +38,15 @@ public class PaymentMethodConfiguration : IEntityTypeConfiguration<PaymentMethod
             .HasDefaultValue(true);
 
         builder.HasOne(p => p.BankAccount)
-            .WithOne(p => p.PaymentMethod)
-            .HasForeignKey<PaymentMethod>(p => p.BankAccountId)
+            .WithMany(p => p.PaymentMethods)
+            .HasForeignKey(p => p.BankAccountId)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         builder.HasOne(p => p.CreditCard)
-            .WithOne(p => p.PaymentMethod)
-            .HasForeignKey<PaymentMethod>(p => p.CreditCardId)
+            .WithMany(p => p.PaymentMethods)
+            .HasForeignKey(p => p.CreditCardId)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         builder.HasMany(p => p.Transactions)

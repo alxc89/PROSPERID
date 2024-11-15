@@ -13,7 +13,7 @@ public class CreditCard : Entity
 
     public ICollection<CreditCardBill> CreditCardBills { get; set; }
 
-    public PaymentMethod PaymentMethod { get; set; }
+    public ICollection<PaymentMethod> PaymentMethods { get; set; } = [];
 
     private CreditCard()
     {
@@ -63,5 +63,5 @@ public class CreditCard : Entity
         => CreditCardBills.Count > 0;
 
     public bool HasLinkedPaymentMethod()
-        => PaymentMethod is not null;
+        => PaymentMethods.Any();
 }

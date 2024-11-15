@@ -5,7 +5,7 @@
 /// 0 para pagamento.
 /// 1 para recebimento.
 /// </summary>
-/// <example>["1", "2"]</example>
+/// <example>["0", "1"]</example>
 public enum ETransactionType 
 {
     /// <summary>

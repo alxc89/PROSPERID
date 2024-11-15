@@ -22,13 +22,13 @@ public class Transaction : Entity
     public long? PaymentMethodId { get; set; }
 
 
-    public Transaction(string description, Category category, ETransactionType type,
+    public Transaction(string description, long categoryId, ETransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
         Description = description;
-        Category = category;
+        CategoryId = categoryId;
         Type = type;
-        Amount = amount;
+        Amount = new Money(amount);
         TransactionDate = transactionDateDate;
         DueDate = dueDate;
     }
@@ -46,7 +46,7 @@ public class Transaction : Entity
         Description = description;
         CategoryId = idCategory;
         Type = type;
-        Amount = amount;
+        Amount = new Money(amount);
         TransactionDate = transactionDateDate;
         DueDate = dueDate;
         UpdatedAt = DateTime.Now;
@@ -86,7 +86,7 @@ public class Transaction : Entity
         if (Type == ETransactionType.Receipt)
             return false;
         decimal reverseAmount = Amount * -1;
-        Transaction reverseTransaction = new("Estorno de Pagemento", this.Category,
+        Transaction reverseTransaction = new("Estorno de Pagemento", this.Category.Id,
             ETransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions?.Add(reverseTransaction);
         account.Deposit(reverseAmount);
@@ -99,7 +99,7 @@ public class Transaction : Entity
         if (Type == ETransactionType.Payment)
             return false;
         decimal reverseAmount = Amount * -1;
-        Transaction reverseTransaction = new("Estorno de Recebimento", Category,
+        Transaction reverseTransaction = new("Estorno de Recebimento", Category.Id,
             ETransactionType.Receipt, reverseAmount, TransactionDate, DueDate);
         account.Transactions?.Add(reverseTransaction);
         account.Withdraw(Amount);

@@ -93,17 +93,15 @@ public class CreditCardService(ICreditCardRepository repository) : ICreditCardSe
 
     public async Task<ServiceResponse<CreditCardView>> DeleteCreditCardAsync(long id)
     {
-        var creditCard = await _repository.GetCreditCardByIdAsync(id, c => c.CreditCardBills, c => c.PaymentMethod);
+        var creditCard = await _repository.GetCreditCardByIdAsync(id, c => c.CreditCardBills, c => c.PaymentMethods);
 
         if (creditCard is null)
             return ServiceResponseHelper.Error<CreditCardView>(404, "Requisição inválida, Cartão de Crédito não encontrado");
 
         if (creditCard.HasCreditCardBill())
             return ServiceResponseHelper.Error<CreditCardView>(404, "Requisição inválida, Existe Faturas para esse Cartão de Crédito!");
-
         if (creditCard.HasLinkedPaymentMethod())
             return ServiceResponseHelper.Error<CreditCardView>(404, "Requisição inválida, O Cartão de Crédito está vínculado a um Metódo de Pagamento!");
-
         try
         {
             await _repository.DeleteCreditCardAsync(creditCard);

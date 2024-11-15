@@ -10,7 +10,7 @@ public class PaymentMethod : Entity
     public EPaymentMethodType PaymentMethodType { get; set; }
     public bool? IsActive { get; set; }
 
-    public ICollection<Transaction> Transactions { get; set; }
+    public ICollection<Transaction> Transactions { get; set; } = [];
 
     public BankAccount BankAccount { get; set; }
     public CreditCard CreditCard { get; set; }
@@ -23,11 +23,18 @@ public class PaymentMethod : Entity
 
     }
 
-    public PaymentMethod(string name, EPaymentMethodType paymentMethodType)
+    public PaymentMethod(string name, EPaymentMethodType paymentMethodType, long bankAccountId = 0, long creditCardId = 0)
     {
         Name = name;
         PaymentMethodType = paymentMethodType;
+        _bankAccountId = bankAccountId == 0 ? null : bankAccountId;
+        _creditCardId = creditCardId == 0 ? null : creditCardId;
         ValidatePaymentMethodType();
+    }
+
+    public void Update(string name)
+    {
+        Name = name;
     }
 
     public void SetBankAccount(int? bankAccountId)

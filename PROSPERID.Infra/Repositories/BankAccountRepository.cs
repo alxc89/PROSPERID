@@ -99,6 +99,7 @@ public class BankAccountRepository(DataContext context) : IBankAccountRepository
     {
         return await _context
             .BankAccounts
+            .AsNoTracking()
             .AnyAsync(b => b.AccountNumber == accountNumber);
     }
 }

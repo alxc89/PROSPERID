@@ -54,7 +54,7 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         if (category == null)
             return ServiceResponseHelper.Error<TransactionView>(400, "Não foi Encontrado a Categoria Vinculada a Transação!");
         var transaction = new Core.Entities.Transaction(createTransaction.Description,
-            category, createTransaction.Type, createTransaction.Amount,
+            category.Id, createTransaction.Type, createTransaction.Amount,
             createTransaction.TransactionDate, createTransaction.DueDate);
         if (await _repository.ExistsTransaction(transaction))
             return ServiceResponseHelper.Error<TransactionView>(400, "Já existe Movimento cadastrado com as mesmas informações!");
