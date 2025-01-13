@@ -31,7 +31,7 @@ public class BankAccountService(IBankAccountRepository bankAccountRepository) : 
             var bankAccounts = await _bankAccountRepository.GetBankAccountsAsync();
             List<BankAccountView> bankAccountsDTO = [];
             if (!bankAccounts.Any())
-                return ServiceResponseHelper.Error<IEnumerable<BankAccountView>>(404, "Conta Bancária Não foi localizada!");
+                return ServiceResponseHelper.Error<IEnumerable<BankAccountView>>(404, "Nenhuma conta bancária localizada!");
             foreach (var bankAccount in bankAccounts)
                 bankAccountsDTO.Add(bankAccount);
             return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", (IEnumerable<BankAccountView>)bankAccountsDTO);

@@ -5,7 +5,7 @@ namespace PROSPERID.Application.Services.Transaction;
 
 public static class ValidateTransaction<T>
 {
-    public static ServiceResponse<T> Validate(TransactionDTO input)
+    public static ServiceResponse<T> Validate(CreateTransactionDTO input)
     {
         if (string.IsNullOrEmpty(input.Description))
             return new ServiceResponse<T>("Requisição inválida, Descrição é obrigatória!", 400);

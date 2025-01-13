@@ -55,16 +55,4 @@ public static class BuilderExtension
         builder.Services.AddTransient<IPaymentService, PaymentService>();
 
     }
-
-    //public static void AddCroosOringin(this WebApplicationBuilder builder)
-    //{
-    //    builder.Services.AddCors(opt
-    //        => opt.AddPolicy(ApiConfiguration.CorsPolicyName,
-    //        policy => policy
-    //            .WithOrigins([Configuration.BackendUrl, Configuration.FrontendUrl])
-    //            .AllowAnyMethod()
-    //            .AllowAnyHeader()
-    //            .AllowCredentials()
-    //        ));
-    //}
 }

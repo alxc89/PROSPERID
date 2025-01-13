@@ -1,7 +1,6 @@
-﻿namespace PROSPERID.Presentation
+﻿namespace PROSPERID.Presentation;
+
+public static class Configuration
 {
-    public class Configuration
-    {
-        public static string ConnectionString { get; set; } = string.Empty;
-    }
+    public static string ConnectionString { get; set; } = string.Empty;
 }

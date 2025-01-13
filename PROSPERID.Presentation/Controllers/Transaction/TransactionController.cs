@@ -21,9 +21,9 @@ public class TransactionController(ITransactionService transactionService) : Con
     [ProducesResponseType(typeof(ServiceResponse<TransactionView>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ServiceResponse<>), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
-        var transactions = await _transactionService.GetTransactionsAsync();
+        var transactions = await _transactionService.GetTransactionsAsync(pageNumber, pageSize);
         if (transactions.Data == null)
             return NotFound(transactions.Message);
         return Ok(transactions);

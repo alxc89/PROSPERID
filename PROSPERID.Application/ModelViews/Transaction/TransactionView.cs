@@ -38,10 +38,16 @@ public class TransactionView
     public DateTime TransactionDate { get; set; }
 
     /// <summary>
-    /// Data de pagamento da transação.
+    /// Data de vencimento da transação.
     /// </summary>
     /// <example>2024-09-07</example>
     public DateTime DueDate { get; set; }
+
+    /// <summary>
+    /// Data de pagamento da transação.
+    /// </summary>
+    /// <example>2024-09-07</example>
+    public DateTime PaymentDate { get; set; }
 
     /// <summary>
     /// Id da Categoria.

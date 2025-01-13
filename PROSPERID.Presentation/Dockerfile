@@ -7,6 +7,8 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# Adicione variáveis de ambiente diretamente aqui, se necessário
+ENV ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=PROSPERID;Password=Joca1907;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true;"
 
 # Esta fase é usada para compilar o projeto de serviço
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

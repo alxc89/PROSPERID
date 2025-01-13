@@ -3,7 +3,7 @@ using PROSPERID.Core.ValueObjects;
 
 namespace PROSPERID.Core.Entities;
 
-public class Transaction : Entity
+public class Transaction : Entity 
 {
     public string Description { get; set; } = null!;
     public ETransactionType Type { get; set; }
@@ -41,8 +41,6 @@ public class Transaction : Entity
     public void Update(string description, long idCategory, ETransactionType type,
         decimal amount, DateTime transactionDateDate, DateTime dueDate)
     {
-        //if (PaymentDate.HasValue)
-        //    throw new Exception("Transação paga, não é possível alterar!");
         Description = description;
         CategoryId = idCategory;
         Type = type;
@@ -52,10 +50,13 @@ public class Transaction : Entity
         UpdatedAt = DateTime.Now;
     }
 
-    public bool ExecutePayment(BankAccount account, DateTime datePayment)
+    public bool ExecutePayment(BankAccount account, DateTime datePayment, long paymentMethodId)
     {
-        if (account.MakePayment(Amount * -1))
+        if (!IsPaid() && account.MakePayment(Amount))
         {
+            UpdatedAt = DateTime.Now;
+            PaymentMethodId = paymentMethodId;
+            BankAccountId = account.Id;
             PaymentDate = datePayment;
             return true;
         }
@@ -106,4 +107,7 @@ public class Transaction : Entity
         PaymentDate = null;
         return true;
     }
+
+    private bool IsPaid()
+        => PaymentDate is not null && PaymentMethodId > 0;
 }

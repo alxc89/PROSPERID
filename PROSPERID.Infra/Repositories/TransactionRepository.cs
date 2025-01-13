@@ -61,12 +61,17 @@ public class TransactionRepository(DataContext context) : ITransactionRepository
         }
     }
 
-    public async Task<IEnumerable<Transaction>> GetTransactionsAsync()
+    public async Task<IEnumerable<Transaction>> GetTransactionsAsync(
+        int pageNumber = ConfigurationInfra.PageNumber,
+        int pageSize = ConfigurationInfra.PageSize)
     {
         try
         {
             var transactions = await _context
                 .Transactions
+                .AsNoTracking()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .Include(c => c.Category)
                 .ToListAsync();
             return transactions;
@@ -77,8 +82,20 @@ public class TransactionRepository(DataContext context) : ITransactionRepository
         }
     }
 
-    public Task<Transaction> UpdateTransactionAsync(Transaction transaction)
+    public async Task<Transaction> UpdateTransactionAsync(Transaction transaction)
     {
-        throw new NotImplementedException();
+        var transactionUpdate = await _context.Transactions.SingleOrDefaultAsync(x => x.Id == transaction.Id);
+        if (transactionUpdate == null)
+            return null!;
+        try
+        {
+            _context.Entry(transactionUpdate).CurrentValues.SetValues(transaction);
+            await _context.SaveChangesAsync();
+            return transactionUpdate;
+        }
+        catch
+        {
+            throw new Exception("Erro interno!");
+        }
     }
 }

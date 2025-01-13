@@ -26,21 +26,25 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
         }
     }
 
-    public async Task<ServiceResponse<IEnumerable<TransactionView>>> GetTransactionsAsync()
+    public async Task<ServiceResponse<IEnumerable<TransactionView>>> GetTransactionsAsync(int pageNumber, int pageSize)
     {
         try
         {
-            var transaction = await _repository.GetTransactionsAsync();
+            var transaction = await _repository.GetTransactionsAsync(pageNumber, pageSize);
             if (!transaction.Any())
-                return ServiceResponseHelper.Error<IEnumerable<TransactionView>>(404, "Nenhuma Transação localizada");
+                return ServiceResponseHelper
+                    .Error<IEnumerable<TransactionView>>(404, "Nenhuma Transação localizada");
             List<TransactionView> transactionViews = [];
             foreach (var item in transaction)
                 transactionViews.Add(item);
-            return ServiceResponseHelper.Success(200, "Busca realizada com sucesso!", (IEnumerable<TransactionView>)transactionViews);
+            return ServiceResponseHelper
+                .Success(200, "Busca realizada com sucesso!", 
+                (IEnumerable<TransactionView>)transactionViews);
         }
         catch
         {
-            return ServiceResponseHelper.Error<IEnumerable<TransactionView>>(500, "Erro interno!");
+            return ServiceResponseHelper
+                .Error<IEnumerable<TransactionView>>(500, "Erro interno!");
         }
     }
 
@@ -73,10 +77,10 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
 
     public async Task<ServiceResponse<TransactionView>> UpdateTransactionAsync(long id, UpdateTransactionDTO updateTransactionDTO)
     {
-        var validate = ValidateTransaction<UpdateTransactionDTO>
-             .Validate(updateTransactionDTO);
-        if (validate != null)
-            return ServiceResponseHelper.Error<TransactionView>(validate.Status, validate.Message);
+        //var validate = ValidateTransaction<UpdateTransactionDTO>
+        //     .Validate(updateTransactionDTO);
+        //if (validate != null)
+        //    return ServiceResponseHelper.Error<TransactionView>(validate.Status, validate.Message);
         var transaction = await _repository.GetTransactionByIdAsync(id);
         if (transaction == null)
             return ServiceResponseHelper.Error<TransactionView>(404, "Requisição inválida, Transação não encontrada");
